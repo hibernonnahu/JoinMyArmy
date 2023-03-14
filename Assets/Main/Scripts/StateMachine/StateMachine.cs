@@ -1,44 +1,45 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿
 using System.Collections.Generic;
 using System;
 
-public class StateMachine<S> where S:State<S>
+public class StateMachine<S> where S : State<S>
 {
-	private Dictionary<String,S> stateDictionary;
-	private S currentState;
+    private Dictionary<String, S> stateDictionary;
+    private S currentState;
     public S CurrentState
     {
         get
         {
-           return currentState;
+            return currentState;
         }
     }
-	private Type lastState;
+    private Type lastState;
     public Type GetLastState()
     {
         return lastState;
     }
 
-	public StateMachine ()
-	{
-			stateDictionary = new Dictionary<String, S> ();
-	}
+    public StateMachine()
+    {
+        stateDictionary = new Dictionary<String, S>();
+    }
 
-	public void AddState (S state,String customName="")
-	{
-        if(customName=="")
+    public void AddState(S state, String customName = "")
+    {
+        if (customName == "")
         {
             customName = state.GetType().Name;
         }
-			if (state != null) {
-					stateDictionary.Add (customName,state);
-					if (stateDictionary.Count == 1) {
-							currentState = state;
-							state.Awake ();
-					}
-			}
-	}
+        if (state != null)
+        {
+            stateDictionary.Add(customName, state);
+            if (stateDictionary.Count == 1)
+            {
+                currentState = state;
+                state.Awake();
+            }
+        }
+    }
 
     public S ChangeState(String type)
     {
@@ -55,21 +56,21 @@ public class StateMachine<S> where S:State<S>
 
         return currentState;
     }
-    public S ChangeState (Type type)
-	{
+    public S ChangeState(Type type)
+    {
         return ChangeState(type.Name);
-	}
+    }
     public void ChangeState<T>() where T : S
     {
         ChangeState(typeof(T));
     }
 
 
-    public void Update ()
-		{
-				currentState.Update ();
+    public void Update()
+    {
+        currentState.Update();
 
-		}
+    }
     public void FixedUpdate()
     {
         currentState.FixedUpdate();

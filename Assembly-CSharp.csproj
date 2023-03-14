@@ -58,85 +58,76 @@
   <ItemGroup>
     <Compile Include="Assets\Epic Toon FX\Scripts\ETFXPitchRandomizer.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXFireProjectile.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Character\StateCharacterMainInGame.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightIntensityFade.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
+    <Compile Include="Assets\Main\Scripts\Game\CharacterManager.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXButtonScript.cs" />
     <Compile Include="Assets\Epic Toon FX\Scripts\ETFXLightFade.cs" />
     <Compile Include="Assets\DynamicBone\Scripts\DynamicBonePlaneCollider.cs" />
-    <Compile Include="Assets\Epic Toon FX\Demo\Scripts\VFX Library\ParticleEffectsLibrary.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\State.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoRotate.cs" />
+    <Compile Include="Assets\Epic Toon FX\Demo\Scripts\VFX Library\ParticleEffectsLibrary.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXMouseOrbit.cs" />
+    <Compile Include="Assets\Malbers Animations\Common\Scripts\Readme\Readme.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_AutoStopLoopedEffect.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXTarget.cs" />
     <Compile Include="Assets\Epic Toon FX\Scripts\ETFXRotation.cs" />
     <Compile Include="Assets\UETools\Magic_Particle_Effects\Scripts\CameraMovement.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Character\StateCharacter.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Game\StateInGame.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDir.cs" />
+    <Compile Include="Assets\Main\Scripts\Characters\Character.cs" />
     <Compile Include="Assets\Hovl Studio\Fantastic cartoon VFX\Demo scenes\CameraHolder.cs" />
     <Compile Include="Assets\DynamicBone\Demo\DynamicBoneDemo1.cs" />
+    <Compile Include="Assets\Main\Scripts\Handler\ChatIconHandler.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXEffectController.cs" />
+    <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXSceneManager.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_AutoDestructShuriken.cs" />
+    <Compile Include="Assets\Main\Scripts\Game\Game.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\VFX Library\PEButtonScript.cs" />
+    <Compile Include="Assets\Main\Scripts\Utils\Utils.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXLoopScript.cs" />
+    <Compile Include="Assets\UMotionExamples\Miscellaneous\Scripts\ResetPosition.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RotateCamera.cs" />
+    <Compile Include="Assets\Main\Scripts\Characters\CharacterMain.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
+    <Compile Include="Assets\Main\Scripts\Events\EventManager.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXEffectCycler.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\VFX Library\UICanvasManager.cs" />
+    <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXEffectControllerPooled.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Game\StateGame.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_RandomDirectionTranslate.cs" />
     <Compile Include="Assets\DynamicBone\Scripts\DynamicBone.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
     <Compile Include="Assets\DynamicBone\Scripts\DynamicBoneCollider.cs" />
+    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_Translate.cs" />
+    <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
     <Compile Include="Assets\DynamicBone\Scripts\DynamicBoneColliderBase.cs" />
     <Compile Include="Assets\Hovl Studio\Fantastic cartoon VFX\Scripts\Rotator.cs" />
     <Compile Include="Assets\Epic Toon FX\Demo\Scripts\ETFXProjectileScript.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Demo\Assets\CFX_Demo_New.cs" />
     <Compile Include="Assets\JMO Assets\Cartoon FX (legacy)\Scripts\CFX_LightFlicker.cs" />
-    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\DynamicJoystick.cs" />
-    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
-    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
-    <Compile Include="Assets\Joystick Pack\Scripts\Base\Joystick.cs" />
-    <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
-    <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />
-    <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplineTrack.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LeanTest.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralAdvancedTechniques.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LeanAudio.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LTDescrOptional.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LeanTween.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Archived\OldGUIExamplesCS.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEasingTypes.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSimpleUI.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSpline2d.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\LogoCinematic.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralCameraShake.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplines.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Archived\TestingRigidbodyCS.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasic.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathBezier2d.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralEventsListeners.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\Following.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralSequencer.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacyExt.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LeanSmooth.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\TestingUnitTests.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Archived\TestingPunch.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\TestingZLegacy.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathBezier.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LTDescr.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LTSeq.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplinePerformance.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralUISpace.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\PathSplineEndless.cs" />
-    <Compile Include="Assets\LeanTween\Framework\LeanTweenExt.cs" />
-    <Compile Include="Assets\LeanTween\Examples\Scripts\GeneralBasics2d.cs" />
-    <Compile Include="Assets\Malbers Animations\Common\Scripts\Readme\Readme.cs" />
-    <Compile Include="Assets\UMotionExamples\Miscellaneous\Scripts\ResetPosition.cs" />
-    <Compile Include="Assets\Main\Scripts\StateMachine\Game\StateInGame.cs" />
     <Compile Include="Assets\Main\Scripts\StateMachine\StateMachine.cs" />
-    <Compile Include="Assets\Main\Scripts\StateMachine\State.cs" />
-    <Compile Include="Assets\Main\Scripts\StateMachine\Game\StateGame.cs" />
-    <Compile Include="Assets\Main\Scripts\Events\EventManager.cs" />
+    <Compile Include="Assets\Main\Scripts\Handler\RecluitIconHandler.cs" />
+    <Compile Include="Assets\Main\Scripts\Characters\CharacterEnemy.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Enemy\StateCharacterEnemy.cs" />
+    <Compile Include="Assets\Main\Scripts\Utils\CustomMath.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Enemy\StateCharacterEnemyIdle.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Enemy\StateCharacterEnemyFollowLeader.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Enemy\StateCharacterEnemyDead.cs" />
+    <Compile Include="Assets\Main\Scripts\StateMachine\Enemy\StateCharacterEnemyKnocked.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\BitGem\Micro_Monsters_N_Heroes_Pack\Micro_Demon\Animations\micro-demon-animation-list.txt" />
@@ -201,7 +192,6 @@
     <None Include="Assets\BitGem\Micro_Monsters_N_Heroes_Pack\Micro_Mummy\Animations\_micro_mummy_animations.txt" />
     <None Include="Assets\Universal Sound FX\#Game Genre References\Physics.txt" />
     <None Include="Assets\UMotionEditor\Shaders\VertexColorUnlit.shader" />
-    <None Include="Assets\LeanTween\Examples\Archived\2dUnlitWithFade.shader" />
     <None Include="Assets\Universal Sound FX\#Game Genre References\8bit and Retro.txt" />
     <None Include="Assets\JMO Assets\Cartoon FX (legacy)\Shaders\CFXM_MobileParticleAdd_Alpha8.shader" />
     <None Include="Assets\Hovl Studio\Fantastic cartoon VFX\Shaders\Blood.shader" />
@@ -462,11 +452,23 @@
     <Reference Include="UnityEditor.UnityConnectModule">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.19f1\Editor\Data\Managed\UnityEngine\UnityEditor.UnityConnectModule.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
-      <HintPath>Library\PackageCache\com.unity.visualscripting@1.8.0\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Library\PackageCache\com.unity.nuget.newtonsoft-json@3.0.2\Runtime\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="UMotionApplication">
       <HintPath>Assets\UMotionEditor\Plugins\Application\UMotionApplication.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.StandardEvents">
+      <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\AnalyticsStandardEvents\Unity.Analytics.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Editor">
+      <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Antlr3.Runtime">
+      <HintPath>Library\PackageCache\com.unity.visualscripting@1.8.0\Runtime\VisualScripting.Flow\Dependencies\NCalc\Unity.VisualScripting.Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.Tracker">
+      <HintPath>Library\PackageCache\com.unity.analytics@3.6.12\Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Android.Types">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.19f1\Editor\Data\PlaybackEngines\AndroidPlayer\Unity.Android.Types.dll</HintPath>
@@ -840,23 +842,65 @@
     <Reference Include="System.Xml.Serialization">
       <HintPath>C:\Program Files\Unity\Hub\Editor\2021.3.19f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Flow.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    <Reference Include="Purchasing.Common">
+      <HintPath>Library\ScriptAssemblies\Purchasing.Common.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.Shared.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.VisualScripting.State.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing.SecurityStub">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityStub.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Rider.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Analytics">
+      <HintPath>Library\ScriptAssemblies\Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.SpatialTracking">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Analytics.DataPrivacy">
+      <HintPath>Library\ScriptAssemblies\Unity.Analytics.DataPrivacy.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing.Codeless">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.Codeless.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Monetization">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Monetization.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Flow.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.2D.Tilemap.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Tilemap.Editor.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.VisualStudio.Editor">
       <HintPath>Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Timeline.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+    <Reference Include="Unity.Services.Analytics.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
       <HintPath>Library\ScriptAssemblies\Unity.Timeline.dll</HintPath>
@@ -867,35 +911,74 @@
     <Reference Include="Unity.TextMeshPro">
       <HintPath>Library\ScriptAssemblies\Unity.TextMeshPro.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.Editor.dll</HintPath>
+    <Reference Include="Unity.Services.Analytics">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Analytics.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.SettingsProvider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.SettingsProvider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.PlasticSCM.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Rider.Editor">
-      <HintPath>Library\ScriptAssemblies\Unity.Rider.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngine.UI">
-      <HintPath>Library\ScriptAssemblies\UnityEngine.UI.dll</HintPath>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Flow">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Flow.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.VisualScripting.State">
-      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+    <Reference Include="Unity.PlasticSCM.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.PlasticSCM.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Services.Core">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualScripting.Core">
       <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Core.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.Services.Core.Analytics">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Analytics.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing.SecurityCore">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.SecurityCore.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.XR.LegacyInputHelpers">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.Shared.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Services.Core.Environments">
+      <HintPath>Library\ScriptAssemblies\Unity.Services.Core.Environments.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.Timeline.Editor">
+      <HintPath>Library\ScriptAssemblies\Unity.Timeline.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing.Stores">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Purchasing.Stores.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.XR.LegacyInputHelpers">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.XR.LegacyInputHelpers.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.Purchasing">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.Purchasing.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.SpatialTracking">
+      <HintPath>Library\ScriptAssemblies\UnityEditor.SpatialTracking.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Advertisements.Editor">
+      <HintPath>Library\ScriptAssemblies\UnityEngine.Advertisements.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.VisualScripting.State">
+      <HintPath>Library\ScriptAssemblies\Unity.VisualScripting.State.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="Febucci.TextAnimator.Editor.csproj">
+      <Project>{CF40E023-6D68-171E-F0F1-3E87AD5D5272}</Project>
+      <Name>Febucci.TextAnimator.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lofelt.NiceVibrations.Editor.csproj">
+      <Project>{D53B9ED2-E026-A3E4-92B6-B46628DC770A}</Project>
+      <Name>Lofelt.NiceVibrations.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="MoreMountains.Tools.Editor.csproj">
+      <Project>{F941B241-10AD-E4E5-4149-7D9E22C1B793}</Project>
+      <Name>MoreMountains.Tools.Editor</Name>
+    </ProjectReference>
     <ProjectReference Include="ToonyColorsPro.Demo.Editor.csproj">
       <Project>{6C5CC984-6D03-673F-29C4-10C56CC215A4}</Project>
       <Name>ToonyColorsPro.Demo.Editor</Name>
@@ -903,58 +986,6 @@
     <ProjectReference Include="CFXREditor.csproj">
       <Project>{3CCD7E57-6F93-F7D1-5E99-2F601B51FCD0}</Project>
       <Name>CFXREditor</Name>
-    </ProjectReference>
-    <ProjectReference Include="CFXR.WelcomeScreen.csproj">
-      <Project>{199B4A00-DD16-1A42-7E7B-ED4A705618BF}</Project>
-      <Name>CFXR.WelcomeScreen</Name>
-    </ProjectReference>
-    <ProjectReference Include="KinoBloom.Runtime.csproj">
-      <Project>{8F690722-76C9-6FE9-4FE3-3C226F788130}</Project>
-      <Name>KinoBloom.Runtime</Name>
-    </ProjectReference>
-    <ProjectReference Include="CFXRDemo.csproj">
-      <Project>{F860102A-A211-3D63-BB2A-560265F2BD07}</Project>
-      <Name>CFXRDemo</Name>
-    </ProjectReference>
-    <ProjectReference Include="CFXRRuntime.csproj">
-      <Project>{D5ED4DBB-F421-112A-2C76-82D1FF198DFC}</Project>
-      <Name>CFXRRuntime</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Feedbacks.TextMeshPro.csproj">
-      <Project>{B125D409-2468-B532-0E5F-E581AE95224E}</Project>
-      <Name>MoreMountains.Feedbacks.TextMeshPro</Name>
-    </ProjectReference>
-    <ProjectReference Include="Lofelt.NiceVibrations.Demo.csproj">
-      <Project>{2EC0BB84-632F-0C47-3C73-D2AEC2FC303A}</Project>
-      <Name>Lofelt.NiceVibrations.Demo</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Feedbacks.csproj">
-      <Project>{5B0F62CF-F74C-1A76-F99F-7990B5196041}</Project>
-      <Name>MoreMountains.Feedbacks</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Feedbacks.Cinemachine.csproj">
-      <Project>{5BD333E4-A0E2-C313-9DB2-17AB61851312}</Project>
-      <Name>MoreMountains.Feedbacks.Cinemachine</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Feedbacks.Authorizations.csproj">
-      <Project>{99C3F215-E354-D60F-35E1-0C51226E1044}</Project>
-      <Name>MoreMountains.Feedbacks.Authorizations</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Tools.Editor.csproj">
-      <Project>{F941B241-10AD-E4E5-4149-7D9E22C1B793}</Project>
-      <Name>MoreMountains.Tools.Editor</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Feedbacks.MMTools.csproj">
-      <Project>{0D90DC87-2785-FF58-0261-973B7416F8B6}</Project>
-      <Name>MoreMountains.Feedbacks.MMTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="MoreMountains.Tools.csproj">
-      <Project>{592D8322-BFD0-E59C-EE23-B82FA4F842C6}</Project>
-      <Name>MoreMountains.Tools</Name>
-    </ProjectReference>
-    <ProjectReference Include="Lofelt.NiceVibrations.Editor.csproj">
-      <Project>{D53B9ED2-E026-A3E4-92B6-B46628DC770A}</Project>
-      <Name>Lofelt.NiceVibrations.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="MoreMountains.Feedbacks.URP.csproj">
       <Project>{03E57112-BC57-2030-1842-D23673459D8E}</Project>
@@ -964,45 +995,85 @@
       <Project>{F4D1F0BB-20E5-F77F-1904-B9313EFEC138}</Project>
       <Name>MoreMountains.Feedbacks.PostProcessing</Name>
     </ProjectReference>
+    <ProjectReference Include="MoreMountains.Feedbacks.NiceVibrations.csproj">
+      <Project>{D99CA6FB-725E-6AE6-0A47-34E3E6B2615F}</Project>
+      <Name>MoreMountains.Feedbacks.NiceVibrations</Name>
+    </ProjectReference>
     <ProjectReference Include="MoreMountains.Feedbacks.Editor.csproj">
       <Project>{681AE124-D32C-99AB-68B8-25673904ECB1}</Project>
       <Name>MoreMountains.Feedbacks.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="MoreMountains.Feedbacks.NiceVibrations.csproj">
-      <Project>{D99CA6FB-725E-6AE6-0A47-34E3E6B2615F}</Project>
-      <Name>MoreMountains.Feedbacks.NiceVibrations</Name>
+    <ProjectReference Include="MoreMountains.Feedbacks.TextMeshPro.csproj">
+      <Project>{B125D409-2468-B532-0E5F-E581AE95224E}</Project>
+      <Name>MoreMountains.Feedbacks.TextMeshPro</Name>
+    </ProjectReference>
+    <ProjectReference Include="UMotionSourceEditor.csproj">
+      <Project>{C7F5D759-FE4D-0953-2BC5-26AEB3497726}</Project>
+      <Name>UMotionSourceEditor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CFXR.WelcomeScreen.csproj">
+      <Project>{199B4A00-DD16-1A42-7E7B-ED4A705618BF}</Project>
+      <Name>CFXR.WelcomeScreen</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lofelt.NiceVibrations.Demo.csproj">
+      <Project>{2EC0BB84-632F-0C47-3C73-D2AEC2FC303A}</Project>
+      <Name>Lofelt.NiceVibrations.Demo</Name>
+    </ProjectReference>
+    <ProjectReference Include="CFXRRuntime.csproj">
+      <Project>{D5ED4DBB-F421-112A-2C76-82D1FF198DFC}</Project>
+      <Name>CFXRRuntime</Name>
+    </ProjectReference>
+    <ProjectReference Include="MoreMountains.Feedbacks.Cinemachine.csproj">
+      <Project>{5BD333E4-A0E2-C313-9DB2-17AB61851312}</Project>
+      <Name>MoreMountains.Feedbacks.Cinemachine</Name>
     </ProjectReference>
     <ProjectReference Include="MoreMountains.Feedbacks.HDRP.csproj">
       <Project>{9CB81E03-76BB-46D5-1136-BD02841E015F}</Project>
       <Name>MoreMountains.Feedbacks.HDRP</Name>
     </ProjectReference>
-    <ProjectReference Include="Lofelt.NiceVibrations.csproj">
-      <Project>{AB2D66C3-5548-8510-DB9E-ABBD20CEDDFF}</Project>
-      <Name>Lofelt.NiceVibrations</Name>
-    </ProjectReference>
-    <ProjectReference Include="Febucci.TextAnimator.Editor.csproj">
-      <Project>{CF40E023-6D68-171E-F0F1-3E87AD5D5272}</Project>
-      <Name>Febucci.TextAnimator.Editor</Name>
+    <ProjectReference Include="UMotionSourceApplication.csproj">
+      <Project>{FF728E32-2E3F-D7BA-04C9-F0A42EC78304}</Project>
+      <Name>UMotionSourceApplication</Name>
     </ProjectReference>
     <ProjectReference Include="Febucci.TextAnimator.Demo.Runtime.csproj">
       <Project>{8A8A9C3A-A90B-08BA-3A96-F07AA8F6A515}</Project>
       <Name>Febucci.TextAnimator.Demo.Runtime</Name>
     </ProjectReference>
+    <ProjectReference Include="MoreMountains.Feedbacks.Authorizations.csproj">
+      <Project>{99C3F215-E354-D60F-35E1-0C51226E1044}</Project>
+      <Name>MoreMountains.Feedbacks.Authorizations</Name>
+    </ProjectReference>
+    <ProjectReference Include="KinoBloom.Runtime.csproj">
+      <Project>{8F690722-76C9-6FE9-4FE3-3C226F788130}</Project>
+      <Name>KinoBloom.Runtime</Name>
+    </ProjectReference>
     <ProjectReference Include="Febucci.TextAnimator.Demo.Editor.csproj">
       <Project>{E0F1E17A-8694-1972-3D40-E17CB3BC9934}</Project>
       <Name>Febucci.TextAnimator.Demo.Editor</Name>
+    </ProjectReference>
+    <ProjectReference Include="CFXRDemo.csproj">
+      <Project>{F860102A-A211-3D63-BB2A-560265F2BD07}</Project>
+      <Name>CFXRDemo</Name>
     </ProjectReference>
     <ProjectReference Include="Febucci.TextAnimator.Runtime.csproj">
       <Project>{FF42E519-49D3-3D51-A036-7113D34B3C17}</Project>
       <Name>Febucci.TextAnimator.Runtime</Name>
     </ProjectReference>
-    <ProjectReference Include="UMotionSourceApplication.csproj">
-      <Project>{FF728E32-2E3F-D7BA-04C9-F0A42EC78304}</Project>
-      <Name>UMotionSourceApplication</Name>
+    <ProjectReference Include="MoreMountains.Feedbacks.MMTools.csproj">
+      <Project>{0D90DC87-2785-FF58-0261-973B7416F8B6}</Project>
+      <Name>MoreMountains.Feedbacks.MMTools</Name>
     </ProjectReference>
-    <ProjectReference Include="UMotionSourceEditor.csproj">
-      <Project>{C7F5D759-FE4D-0953-2BC5-26AEB3497726}</Project>
-      <Name>UMotionSourceEditor</Name>
+    <ProjectReference Include="MoreMountains.Feedbacks.csproj">
+      <Project>{5B0F62CF-F74C-1A76-F99F-7990B5196041}</Project>
+      <Name>MoreMountains.Feedbacks</Name>
+    </ProjectReference>
+    <ProjectReference Include="Lofelt.NiceVibrations.csproj">
+      <Project>{AB2D66C3-5548-8510-DB9E-ABBD20CEDDFF}</Project>
+      <Name>Lofelt.NiceVibrations</Name>
+    </ProjectReference>
+    <ProjectReference Include="MoreMountains.Tools.csproj">
+      <Project>{592D8322-BFD0-E59C-EE23-B82FA4F842C6}</Project>
+      <Name>MoreMountains.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
