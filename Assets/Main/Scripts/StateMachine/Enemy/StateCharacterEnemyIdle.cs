@@ -18,14 +18,8 @@ public class StateCharacterEnemyIdle : StateCharacterEnemy
         
     }
 
-    float tick = 1;
     public override void Update()
     {
-        tick -= Time.deltaTime;
-        if (tick < 0)
-        {
-            GetHit(40.2f);
-            tick = 1;
-        }
+        
     }
 }

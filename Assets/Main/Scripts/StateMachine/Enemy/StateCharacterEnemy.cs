@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System;
+
 
 public class StateCharacterEnemy : StateCharacter
 {
@@ -12,7 +11,8 @@ public class StateCharacterEnemy : StateCharacter
 
     public override void UpdateMovement(float x, float y)
     {
-        character.Rigidbody.velocity = character.speed * CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y);
+        character.model.transform.forward = CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y);
+        character.Rigidbody.velocity = character.speed * character.model.transform.forward;
     }
     public override void GetHit(float damage)
     {
@@ -20,8 +20,17 @@ public class StateCharacterEnemy : StateCharacter
         if (enemy.CurrentHealth <= 0)
         {
             enemy.CurrentHealth = 0;
-            ChangeState(typeof(StateCharacterEnemyKnocked));
+            if (enemy.canBeRecluit && enemy.CharacterMain.recluitHandler.CanRecluit())
+            {
+                enemy.RecluitIconHandler.KnockOut();
+                ChangeState(typeof(StateCharacterEnemyKnocked));
+            }
+            else
+            {
+                enemy.CharacterManager.RemoveCharacter(enemy);
+                enemy.Kill();
+            }
         }
-        enemy.UpdateBar();
+        enemy.HealthBarHandler.UpdateBar();
     }
 }

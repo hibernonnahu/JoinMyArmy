@@ -10,16 +10,20 @@ public class StateCharacterEnemyKnocked : StateCharacterEnemy
     }
     public override void Awake()
     {
-        enemy.recluitIconHandler.KnockOut();
+        enemy.Rigidbody.velocity = Vector3.zero;
+        enemy.CharacterManager.RemoveCharacter(enemy);
+        enemy.SetAnimation("knocked");
+        enemy.RecluitIconHandler.KnockOut();
+        enemy.DisableCollider();
     }
 
     public override void Sleep()
     {
-        
+
     }
 
     public override void Update()
     {
-       
+
     }
 }

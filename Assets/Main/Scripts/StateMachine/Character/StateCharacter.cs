@@ -13,7 +13,15 @@ public class StateCharacter : State<StateCharacter>
     public virtual void UpdateMovement(float x, float y) { }
     //public virtual void Spawn() { }
     //public virtual void OnDestroy() { }
-    public virtual void GetHit(float damage) {   
+    public virtual void GetHit(float damage)
+    {
+        character.CurrentHealth -= damage;
+        if (character.CurrentHealth <= 0)
+        {
+            character.CurrentHealth = 0;
+            ChangeState(typeof(StateCharacterMainDead));
+        }
+        character.HealthBarHandler.UpdateBar();
     }
 
 }

@@ -10,7 +10,10 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
     }
     public override void Awake()
     {
-        enemy.model.transform.localScale = Vector3.one * 0.1f;
+        enemy.SetAnimation("dead",0.1f);
+        enemy.DisableCollider();
+        enemy.Rigidbody.isKinematic = true;
+
     }
 
     public override void Sleep()
@@ -21,5 +24,9 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
     public override void Update()
     {
        
+    }
+    public override void ChangeState(Type type)
+    {
+
     }
 }
