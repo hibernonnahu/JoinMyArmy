@@ -6,7 +6,7 @@ public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
 {
     private const float TICK_TIME=1;
     private float counter;
-    public StateCharacterEnemyHelpAttack(StateMachine<StateCharacter> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+    public StateCharacterEnemyHelpAttack(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
 
     }

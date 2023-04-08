@@ -1,26 +1,26 @@
 ﻿using UnityEngine;
 
 
-public class StateCharacterEnemy : StateCharacter
+public class StateCharacterEnemy : State<StateCharacterEnemy>
 {
     protected CharacterEnemy enemy;
-    public StateCharacterEnemy(StateMachine<StateCharacter> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+    public StateCharacterEnemy(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine)
     {
         this.enemy = characterEnemy;
     }
 
-    public override void UpdateMovement(float x, float y)
+    public virtual void UpdateMovement(float x, float y)
     {
-        character.model.transform.forward = CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y);
-        character.Rigidbody.velocity = character.speed * character.model.transform.forward;
+        enemy.model.transform.forward = CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y);
+        enemy.Rigidbody.velocity = enemy.speed * enemy.model.transform.forward;
     }
-    public override void GetHit(float damage)
+    public virtual void GetHit(float damage)
     {
         enemy.CurrentHealth -= damage;
         if (enemy.CurrentHealth <= 0)
         {
             enemy.CurrentHealth = 0;
-            if (enemy.canBeRecluit && enemy.CharacterMain.recluitHandler.CanRecluit())
+            if (enemy.CanBeRecluit && enemy.CharacterMain.recluitHandler.CanRecluit() && !enemy.CharacterMain.IsDead)
             {
                 enemy.RecluitIconHandler.KnockOut();
                 ChangeState(typeof(StateCharacterEnemyKnocked));
@@ -31,6 +31,10 @@ public class StateCharacterEnemy : StateCharacter
                 enemy.Kill();
             }
         }
-        enemy.HealthBarHandler.UpdateBar();
+        enemy.HealthBarController.UpdateBar();
+    }
+    public virtual float OnCastMainPower()
+    {
+        return enemy.OnCastMainPower();
     }
 }

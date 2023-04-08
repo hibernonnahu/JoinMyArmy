@@ -30,7 +30,7 @@ public class StateMachine<S> where S : State<S>
         {
             customName = state.GetType().Name;
         }
-        if (state != null)
+        if (state != null&&!stateDictionary.ContainsKey(customName))
         {
             stateDictionary.Add(customName, state);
             if (stateDictionary.Count == 1)

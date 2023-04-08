@@ -21,7 +21,7 @@ public class StateCharacter : State<StateCharacter>
             character.CurrentHealth = 0;
             ChangeState(typeof(StateCharacterMainDead));
         }
-        character.HealthBarHandler.UpdateBar();
+        character.HealthBarController.UpdateBar();
     }
 
 }

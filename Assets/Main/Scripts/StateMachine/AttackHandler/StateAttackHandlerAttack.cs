@@ -6,10 +6,11 @@ public class StateAttackHandlerAttack : StateAttackHandler
 {
     private float counter;
     private bool hit;
-    
-   
+    private HitEffectController hitEffectController;
+
     public StateAttackHandlerAttack(StateMachine<StateAttackHandler> stateMachine, CharacterMain characterMain, Animator animator) : base(stateMachine, characterMain, animator)
     {
+        hitEffectController = new HitEffectController();
     }
     public override void Awake()
     {
@@ -21,15 +22,15 @@ public class StateAttackHandlerAttack : StateAttackHandler
         var main = characterMain.FxHandler.slash.main;
         main.simulationSpeed = characterMain.attackSpeed;
         PlaySlashFx();
-        counter = (1/characterMain.attackSpeed) * 0.35f;
+        counter = (1 / characterMain.attackSpeed) * 0.35f;
         hit = false;
-       
+
         EventManager.TriggerEvent("playfx", EventManager.Instance.GetEventData().SetString("slash"));
     }
     public override void Sleep()
     {
         animator.SetLayerWeight(1, 0);
-        
+
     }
     private void PlaySlashFx()
     {
@@ -46,11 +47,10 @@ public class StateAttackHandlerAttack : StateAttackHandler
                 {
                     characterMain.FxHandler.swordHit.transform.position = characterMain.lastEnemyTarget.transform.position + Vector3.up * 2;
                     characterMain.FxHandler.swordHit.Play();
-                    characterMain.lastEnemyTarget.GetHit(characterMain);
-                    EventManager.TriggerEvent("playfx", EventManager.Instance.GetEventData().SetString("hit"+ UnityEngine.Random.Range(1,3)));
+                    hitEffectController.CreateEffect(characterMain,characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain));
                 }
                 hit = true;
-               
+
             }
         }
         else

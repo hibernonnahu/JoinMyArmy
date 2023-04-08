@@ -6,14 +6,17 @@ public class StateCharacterEnemyAlert : StateCharacterEnemy
 {
     private const float TICK_TIME = 1;
     private float counter;
-    public StateCharacterEnemyAlert(StateMachine<StateCharacter> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+    private EnemyStateAttackModeHandler enemyStateAttackModeHandler;
+    public StateCharacterEnemyAlert(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy,EnemyStateAttackModeHandler enemyStateAttackModeHandler) : base(stateMachine, characterEnemy)
     {
+        this.enemyStateAttackModeHandler = enemyStateAttackModeHandler;
+        enemy.animator.SetFloat("walkspeed", enemy.speed);
 
     }
     public override void Awake()
     {
-        character.Rigidbody.velocity = Vector3.zero;
-        character.SetAnimation("idle", 0.02f);
+        enemy.Rigidbody.velocity = Vector3.zero;
+        enemy.SetAnimation("idle", 0.02f);
         counter = 0;
     }
 
@@ -34,7 +37,8 @@ public class StateCharacterEnemyAlert : StateCharacterEnemy
             }
             else
             {
-                ChangeState(typeof(StateCharacterEnemyChase));
+                enemyStateAttackModeHandler.Attack();
+                
             }
         }
     }

@@ -4,7 +4,7 @@ using System;
 
 public class StateCharacterEnemyIdle : StateCharacterEnemy
 {
-    public StateCharacterEnemyIdle(StateMachine<StateCharacter> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+    public StateCharacterEnemyIdle(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
 
     }

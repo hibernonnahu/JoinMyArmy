@@ -4,18 +4,18 @@ using System;
 
 public class StateCharacterMainInGame : StateCharacter
 {
-    private CharacterMainAttackHandler attackHandler;
+    private CharacterMainAttackController attackHandler;
     private CharacterMain characterMain;
     public StateCharacterMainInGame(StateMachine<StateCharacter> stateMachine, CharacterMain character) : base(stateMachine, character)
     {
-        attackHandler = new CharacterMainAttackHandler(character, character.animator,character.CharacterManager);
+        attackHandler = new CharacterMainAttackController(character, character.animator,character.CharacterManager);
         this.characterMain = character;
         characterMain.animator.SetFloat("walkspeed", characterMain.speed);
 
     }
     public override void Awake()
     {
-        
+        character.IdleState = typeof(StateCharacterMainInGame);
         attackHandler.GoAlert();
     }
     public override void Sleep()

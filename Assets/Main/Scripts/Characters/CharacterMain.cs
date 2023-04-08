@@ -6,13 +6,21 @@ public class CharacterMain : Character
 {
     [Header("Main ExternalElements")]
     public FloatingJoystick floatingJoystick;
-    public RecluitHandler recluitHandler;
-    private FxHandler fxHandler;
-    public FxHandler FxHandler { get { return fxHandler; } }
+    public RecluitController recluitHandler;
+    public IconUIController barUI;
+    private FxManager fxHandler;
+    public FxManager FxHandler { get { return fxHandler; } }
 
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     private bool isMoving = false;
 
+    private bool isDead = false;
+    public bool IsDead { get => isDead; set => isDead = value; }
+
+    private void Awake()
+    {
+        recluitHandler.SetMaxRecluits(8);
+    }
     private void Start()
     {
         Init();
@@ -21,9 +29,10 @@ public class CharacterMain : Character
     {
         //Stats should be set it here
         base.Init();
-        HealthBarHandler.GoGreen();
-        recluitHandler.SetMaxRecluits(8);
-        fxHandler = GetComponent<FxHandler>();
+        HealthBarController.GoGreen();
+        HealthBarController.UseBarUI(barUI);
+        
+        fxHandler = GetComponent<FxManager>();
         FindObjectOfType<CameraHandler>().FollowGameObject(model);
         stateMachine.AddState(new StateCharacterMainInGame(stateMachine, this));
         stateMachine.AddState(new StateCharacterMainDead(stateMachine, this));
@@ -42,5 +51,9 @@ public class CharacterMain : Character
         SetAnimation("cast");
         NextState = typeof(StateCharacterMainInGame);
         stateMachine.CurrentState.ChangeState(typeof(StateCharacterVulnerable));
+    }
+    protected override void GoVulnerable()
+    {
+        stateMachine.ChangeState(typeof(StateCharacterVulnerable));
     }
 }

@@ -10,12 +10,13 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
     private const float DRAG_NEAR = 100;
     private const float DRAG_FAR = 0;
     private float tick = 0.25f;
-    public StateCharacterEnemyFollowLeader(StateMachine<StateCharacter> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+    public StateCharacterEnemyFollowLeader(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
 
     }
     public override void Awake()
     {
+        enemy.animator.SetFloat("walkspeed", enemy.speed);
         enemy.SetAnimation("idle");
         enemy.Rigidbody.velocity = Vector3.zero;
         enemy.lastEnemyTarget = null;
@@ -32,7 +33,7 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
         tick -= Time.deltaTime;
         if (tick < 0)
         {
-            if ((enemy.CharacterMain.transform.position - character.transform.position).sqrMagnitude <= character.attackDistanceSqr * 2)
+            if ((enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= enemy.attackDistanceSqr * 2)
             {
                 enemy.lastEnemyTarget = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, enemy.attackDistanceSqr, enemy.model.transform.position);
             }

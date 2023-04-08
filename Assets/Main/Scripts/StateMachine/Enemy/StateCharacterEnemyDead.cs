@@ -4,12 +4,13 @@ using System;
 
 public class StateCharacterEnemyDead : StateCharacterEnemy
 {
-    public StateCharacterEnemyDead(StateMachine<StateCharacter> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+    public StateCharacterEnemyDead(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
 
     }
     public override void Awake()
     {
+        enemy.IdleState = typeof(StateCharacterEnemyDead);
         enemy.SetAnimation("dead",0.1f);
         enemy.DisableCollider();
         enemy.Rigidbody.isKinematic = true;
