@@ -5,14 +5,14 @@ using UnityEngine;
 
 public abstract class EnemyStateAddDefaultInit : MonoBehaviour
 {
-    protected EnemyStateAttackModeHandler enemyStateAttackModeHandler;
+    protected EnemyStateAttackModeController enemyStateAttackModeHandler;
     virtual internal void Init(CharacterEnemy characterEnemy)
     {
        
     }
     protected void InitAttackHandler(CharacterEnemy characterEnemy)
     {
-        enemyStateAttackModeHandler = new EnemyStateAttackModeHandler(characterEnemy);
+        enemyStateAttackModeHandler = new EnemyStateAttackModeController(characterEnemy);
     }
     public void OnRecluit()
     {

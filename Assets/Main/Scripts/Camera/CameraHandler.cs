@@ -1,21 +1,29 @@
+using MoreMountains.Feedbacks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class CameraHandler : MonoBehaviour
 {
     private const float ARRIVE_DIST_SQR = 2;
     public float OFFSET_Z = 6;
     public float speed = 0.5f;
+    public MMWiggle mMWiggle;
 
     private new Rigidbody rigidbody;
     private Action onUpdate = () => { };
     private Transform toFollow;
+
     // Start is called before the first frame update
     void Start()
     {
         rigidbody = GetComponentInChildren<Rigidbody>();
+        EventManager.StartListening(EventName.SHAKE_CAM_POS, OnShakeCam);
+    }
+
+    private void OnShakeCam(EventData arg0)
+    {
+        mMWiggle.WigglePosition(arg0.floatData);
     }
 
     // Update is called once per frame
@@ -39,6 +47,11 @@ public class CameraHandler : MonoBehaviour
                 rigidbody.drag = 5;
             }
         };
+
+    }
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EventName.SHAKE_CAM_POS, OnShakeCam);
 
     }
 }

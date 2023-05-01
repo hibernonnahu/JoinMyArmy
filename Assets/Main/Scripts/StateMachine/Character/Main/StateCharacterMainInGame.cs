@@ -35,7 +35,7 @@ public class StateCharacterMainInGame : StateCharacter
         {
             characterMain.IsMoving = true;
 
-            Vector3 direction = Utils.Normalize(Vector3.right * x + Vector3.forward * y);
+            Vector3 direction = CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y);
             if (direction != Vector3.zero)
             {
                 character.Rigidbody.velocity = character.speed * direction;

@@ -1,20 +1,43 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 
 public class StateCharacterEnemy : State<StateCharacterEnemy>
 {
+    private const float STEARING_SPEED = 500;
     protected CharacterEnemy enemy;
+    private int stearingMask;
+  
+    Vector3 stearing;
+    Vector3 forward;
     public StateCharacterEnemy(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine)
     {
         this.enemy = characterEnemy;
+        stearingMask = LayerMask.GetMask(new string[] { "Wall", "Water", "Bound", "Enemy" });
     }
 
     public virtual void UpdateMovement(float x, float y)
     {
-        enemy.model.transform.forward = CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y);
+        forward =Vector3.Slerp( CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y),enemy.model.transform.forward,0.65f);
+        stearing = Utils.StearingVector(enemy.transform.position + Vector3.up, forward, stearingMask);
+       
+        if (stearing != Vector3.zero)
+        {
+            
+            stearing = CustomMath.XZNormalize(( stearing ));
+           // Debug.DrawRay(enemy.transform.position, stearing *3, Color.magenta, 1);
+            enemy.model.transform.forward = stearing;
+        }
+        else
+        {
+            
+            enemy.model.transform.forward = forward;
+         
+        }
+       
         enemy.Rigidbody.velocity = enemy.speed * enemy.model.transform.forward;
     }
-    public virtual void GetHit(float damage)
+    public virtual bool GetHit(float damage)//returns if character die
     {
         enemy.CurrentHealth -= damage;
         if (enemy.CurrentHealth <= 0)
@@ -30,11 +53,19 @@ public class StateCharacterEnemy : State<StateCharacterEnemy>
                 enemy.CharacterManager.RemoveCharacter(enemy);
                 enemy.Kill();
             }
+            enemy.HealthBarController.UpdateBar();
+            return true;
         }
         enemy.HealthBarController.UpdateBar();
+        return false;
     }
     public virtual float OnCastMainPower()
     {
         return enemy.OnCastMainPower();
+    }
+
+    internal virtual void OnCollisionEnter(Collision collision)
+    {
+        
     }
 }

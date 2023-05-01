@@ -9,6 +9,7 @@ public class ExitController : MonoBehaviour
     public GameObject triggerExit;
     public ParticleSystem particles;
     private AudioSource audioSource;
+    private bool open = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,16 +22,34 @@ public class ExitController : MonoBehaviour
         {
             throw new Exception("exit already enabled ");
         }
-        
+        EventManager.StartListening(EventName.EXIT_OPEN, OnExitOpen);
+
     }
 
-   public void OnOpen()
+    private void OnExitOpen(EventData arg0)
     {
-        audioSource.Play();
-        particles.Play();
-        triggerExit.SetActive(true);
-        LeanTween.rotate(doorRotation.gameObject, Vector3.up * -120,1);
+        OnOpen();
     }
 
-   
+    public void OnOpen()
+    {
+        if (!open)
+        {
+            open = true;
+            EventManager.TriggerEvent(EventName.EXIT_OPEN);
+            audioSource.Play();
+            particles.Play();
+            LeanTween.rotate(doorRotation.gameObject, Vector3.up * -120, 1).setOnComplete(OnComplete);
+        }
+    }
+
+    private void OnComplete()
+    {
+        triggerExit.SetActive(true);
+    }
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EventName.EXIT_OPEN, OnExitOpen);
+
+    }
 }

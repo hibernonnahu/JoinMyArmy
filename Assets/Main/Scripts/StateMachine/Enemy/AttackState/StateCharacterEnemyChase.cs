@@ -4,8 +4,9 @@ using System;
 
 public class StateCharacterEnemyChase : StateCharacterEnemy
 {
-    private const float TICK_TIME=1;
-    private float counter;
+    private const float TICK_TIME = 0.2f;
+    protected float counter;
+
     public StateCharacterEnemyChase(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
 
@@ -18,7 +19,7 @@ public class StateCharacterEnemyChase : StateCharacterEnemy
 
     public override void Sleep()
     {
-        
+
     }
 
     public override void Update()
@@ -28,15 +29,35 @@ public class StateCharacterEnemyChase : StateCharacterEnemy
         {
             counter = TICK_TIME;
             Vector3 difVector = enemy.lastEnemyTarget.transform.position - enemy.transform.position;
+
             if (difVector.sqrMagnitude < enemy.attackDistanceSqr)
             {
                 ChangeState(enemy.NextState);
             }
             else
             {
-                enemy.model.transform.forward = CustomMath.XZNormalize(difVector);
-                enemy.Rigidbody.velocity = enemy.model.transform.forward * enemy.speed;
+                UpdateMovement(difVector.x, difVector.z);
             }
+        }
+    }
+    internal override void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 8)
+        {
+            var colCharacter = collision.gameObject.GetComponent<Character>();
+            if (colCharacter && colCharacter.team != enemy.team)
+                if (colCharacter == enemy.lastEnemyTarget)
+                {
+                    counter = -1;
+                }
+                else
+                {
+                    if ((colCharacter.transform.position - enemy.transform.position).sqrMagnitude <
+                        (enemy.lastEnemyTarget.transform.position - enemy.transform.position).sqrMagnitude)
+                    {
+                        enemy.lastEnemyTarget = colCharacter;
+                    }
+                }
         }
     }
 }

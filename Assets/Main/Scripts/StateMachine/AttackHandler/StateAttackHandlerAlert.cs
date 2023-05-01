@@ -26,7 +26,7 @@ public class StateAttackHandlerAlert : StateAttackHandler
         if (tick < 0)
         {
             tick = TICK_TIME;
-            if (characterMain.lastEnemyTarget == null || characterMain.lastEnemyTarget.CurrentHealth <= 0 ||
+            if (characterMain.lastEnemyTarget == null || characterMain.lastEnemyTarget.CurrentHealth <= 0 || characterMain.team == characterMain.lastEnemyTarget.team ||
                 ((characterMain.transform.position - characterMain.lastEnemyTarget.transform.position).sqrMagnitude) > characterMain.attackDistanceSqr)
             {
                 crossHairHandler.UnFollow();

@@ -6,12 +6,13 @@ public class StateCharacterEnemyAlert : StateCharacterEnemy
 {
     private const float TICK_TIME = 1;
     private float counter;
-    private EnemyStateAttackModeHandler enemyStateAttackModeHandler;
-    public StateCharacterEnemyAlert(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy,EnemyStateAttackModeHandler enemyStateAttackModeHandler) : base(stateMachine, characterEnemy)
+    private float alertDistanceSqr;
+    private EnemyStateAttackModeController enemyStateAttackModeHandler;
+    public StateCharacterEnemyAlert(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy,EnemyStateAttackModeController enemyStateAttackModeHandler,float alertDistanceSqr) : base(stateMachine, characterEnemy)
     {
         this.enemyStateAttackModeHandler = enemyStateAttackModeHandler;
         enemy.animator.SetFloat("walkspeed", enemy.speed);
-
+        this.alertDistanceSqr = alertDistanceSqr;
     }
     public override void Awake()
     {
@@ -30,10 +31,12 @@ public class StateCharacterEnemyAlert : StateCharacterEnemy
         counter -= Time.deltaTime;
         if (counter < 0)
         {
-            enemy.lastEnemyTarget = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, enemy.alertDistanceSqr, enemy.model.transform.position);
+            enemy.lastEnemyTarget = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, alertDistanceSqr + enemy.extraAlertRange, enemy.model.transform.position);
             if (enemy.lastEnemyTarget == null)
             {
                 counter = TICK_TIME;
+                if(UnityEngine.Random.value<0.2f)
+                ChangeState(typeof(StateCharacterEnemyGoBack));
             }
             else
             {

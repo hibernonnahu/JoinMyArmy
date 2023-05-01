@@ -3,13 +3,13 @@
 using System;
 using System.Collections.Generic;
 
-public class EnemyStateAttackModeHandler 
+public class EnemyStateAttackModeController
 {
     private IEnemyStateAddAttack[] typeAttack;
-    private float[] weight;
-    float sumWeight = 0;
+    List<float> weights = new List<float>();
+  
     private CharacterEnemy enemy;
-    public  EnemyStateAttackModeHandler(CharacterEnemy enemy)
+    public  EnemyStateAttackModeController(CharacterEnemy enemy)
     {
         this.enemy = enemy;
     }
@@ -18,29 +18,25 @@ public class EnemyStateAttackModeHandler
         //find IEnemyStateAddAttack
         var enemyStateAttack = enemy.gameObject.GetComponents<IEnemyStateAddAttack>();
         List<IEnemyStateAddAttack> types=new List<IEnemyStateAddAttack>();
-        List<float> weights = new List<float>();
+       
         if(enemyStateAttack.Length==0) throw new Exception("No EnemyStateAddAttack " +enemy.gameObject.name);
         foreach (var component in enemyStateAttack)
         {
             types.Add(component.InitStates(enemy));
-            weights.Add(component.GetWeight());
-            sumWeight += component.GetWeight();
         }
         typeAttack = types.ToArray();
-        weight = weights.ToArray();
+        
     }
     public void OnRecluit()
     {
         List<IEnemyStateAddAttack> types = new List<IEnemyStateAddAttack>();
-        List<float> weights = new List<float>();
-        sumWeight = 0;
+       
         foreach (var component in typeAttack)
         {
             if (!component.RemoveWhenRecluted())
             {
                 types.Add(component);
-                weights.Add(component.GetWeight());
-                sumWeight += component.GetWeight();
+               
             }
             if (component.IsCastMainPower())
             {
@@ -49,15 +45,23 @@ public class EnemyStateAttackModeHandler
         }
 
         typeAttack = types.ToArray();
-        weight = weights.ToArray();
+       
     }
     internal void Attack()
     {
+        float sumWeight = 0;
         int count = 0;
-        float random = UnityEngine.Random.Range(0, sumWeight);
-        while (random > weight[count])
+        weights.Clear();
+        foreach (var component in typeAttack)
         {
-            random -= weight[count];
+         
+            weights.Add(component.GetWeight());
+            sumWeight += component.GetWeight();
+        }
+        float random = UnityEngine.Random.Range(0, sumWeight);
+        while (random > weights[count])
+        {
+            random -= weights[count];
             count++;
         }
         typeAttack[count].Execute();

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
@@ -7,9 +8,22 @@ public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
     [Range(0, 10)]
     public float weight = 1;
     public bool removeWhenRecluted = false;
+    private Action onUpdate = () => { };
+    private float counter;
+    private int weightMultiplier = 1;
     public virtual float Execute()
     {
-        throw new System.NotImplementedException();
+        counter = uIColdDown;
+        weightMultiplier = 0;
+        onUpdate = () => {
+            counter -= Time.deltaTime;
+            if (counter < 0)
+            {
+                weightMultiplier = 1;
+                onUpdate = () => { };
+            }
+        };
+        return uIColdDown;
     }
 
     public virtual IEnemyStateAddAttack InitStates(CharacterEnemy characterEnemy)
@@ -19,7 +33,7 @@ public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
 
     public float GetWeight()
     {
-        return weight;
+        return weight*weightMultiplier;
     }
     public bool IsCastMainPower()
     {
@@ -29,5 +43,9 @@ public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
     public bool RemoveWhenRecluted()
     {
         return removeWhenRecluted;
+    }
+    private void Update()
+    {
+        onUpdate();
     }
 }

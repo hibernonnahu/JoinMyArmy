@@ -26,6 +26,13 @@ public class RecluitIconController : MonoBehaviour
         transform.localScale = Vector3.zero;
         enemy = GetComponentInParent<CharacterEnemy>();
     }
+    public void ForceKnocked()
+    {
+        if (knocked&&!disabled)
+        {
+            OnTimeOut();
+        }
+    }
     public void KnockOut()
     {
         if (!knocked)
@@ -81,6 +88,7 @@ public class RecluitIconController : MonoBehaviour
             mask.gameObject.SetActive(false);
             if (enemy.CharacterMain.recluitHandler.CanRecluit() && !enemy.CharacterMain.IsDead)
             {
+                enemy.CharacterMain.recluitHandler.UpdateFreeSpace();
                 enemy.CharacterMain.recluitHandler.MakeUIAnimation(transform.position);
                 enemy.CharacterMain.CastRecluit(enemy);
                 gameObject.SetActive(false);

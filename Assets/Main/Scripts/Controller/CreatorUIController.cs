@@ -29,7 +29,7 @@ public class CreatorUIController : MonoBehaviour
                 selected = null;
             }
         }
-        else if (Input.GetMouseButtonDown(0)&&Input.mousePosition.y>200)
+        else if (Input.GetMouseButtonDown(0) && Input.mousePosition.y > 200)
         {
             Ray ray = camera.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -46,7 +46,7 @@ public class CreatorUIController : MonoBehaviour
                     {
                         selected = selected.transform.parent.gameObject;
                     }
-                    while (selected.transform.parent != null);
+                    while (selected.transform.parent != null && selected.GetComponent<Character>() == null);
                 }
             }
         }

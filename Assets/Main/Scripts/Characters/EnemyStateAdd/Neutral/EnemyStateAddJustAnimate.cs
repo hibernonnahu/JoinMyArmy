@@ -39,10 +39,10 @@ public class EnemyStateAddJustAnimate : EnemyStateAddAttack
         characterEnemy.SetAnimation(animationName, 0.02f);
         characterEnemy.VulnerableTime = lenght / animationSpeed;
 
-        EventManager.TriggerEvent("playfx", EventManager.Instance.GetEventData().SetString(soundName));
+        EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString(soundName));
         characterEnemy.NextState = characterEnemy.IdleState;
         characterEnemy.StateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemyVulnerable));
-        return uIColdDown;
+        return base.Execute();
     }
 
 }

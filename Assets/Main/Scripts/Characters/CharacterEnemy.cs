@@ -1,5 +1,6 @@
 ﻿
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CharacterEnemy : Character
@@ -8,16 +9,23 @@ public class CharacterEnemy : Character
     public StateMachine<StateCharacterEnemy> StateMachine { get => stateMachine; }
     public enum EnemyType
     {
-        human, beast
+        human, beast, dead
     }
     [Header("Enemy Attributes")]
     public EnemyType enemyType;
+    public int xp = 1;
+    public int coins = 1;
+    public int extraAlertRange = 0;
+    public int belongToWave = 0;
+
+    private Vector3 returnPosition ;
+    public Vector3 ReturnPosition { get { return returnPosition; } set { returnPosition = value; } }
+    private bool helpAttack = false;
+    public bool HelpAttack { get { return helpAttack; } set { helpAttack = value; } }
     private bool canBeRecluit = false;
     public bool CanBeRecluit { get { return canBeRecluit; } set { canBeRecluit = value; } }
-
-    [Header("Enemy Stats")]
-    public float alertDistanceSqr = 100;
-
+    private List<Action> onDeadActionList = new List<Action>();
+    public List<Action> OnDeadActionList { get { return onDeadActionList; } }
     private RecluitIconController recluitIconHandler;
     public RecluitIconController RecluitIconHandler { get { return recluitIconHandler; } }
 
@@ -39,22 +47,26 @@ public class CharacterEnemy : Character
     private EnemyStateAddDefaultInit enemyStateAddInit;
 
     private SkinnedMeshRenderer meshRenderer;
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Init();
-        
+
     }
     public override void Init()
     {
         model.transform.forward = Vector3.back;
 
         base.Init();
+        returnPosition = transform.position;
         stateMachine = new StateMachine<StateCharacterEnemy>();
         enemyStateAddInit = GetComponent<EnemyStateAddDefaultInit>();
         if (enemyStateAddInit != null) { enemyStateAddInit.Init(this); } else { throw new Exception("No initial Default state found in " + gameObject.name); }
 
-        EnemyStateAddCanBeRecluit ESACBR = GetComponent<EnemyStateAddCanBeRecluit>();
-        ESACBR?.Init(this);
+        foreach (var item in GetComponents<IEnemySimpleAdd>())
+        {
+            item.Init(this);
+        }
 
         stateMachine.AddState(new StateCharacterEnemyDead(stateMachine, this));
         StateMachine.AddState(new StateCharacterEnemyVulnerable(StateMachine, this));
@@ -71,24 +83,26 @@ public class CharacterEnemy : Character
         stateMachine.Update();
     }
 
-    protected override void CurrentStateGetHit(float damage)
+    protected override bool CurrentStateGetHit(float damage)
     {
-        stateMachine.CurrentState.GetHit(damage);
+        return stateMachine.CurrentState.GetHit(damage);
+
     }
 
     internal void SetLevel(int level)
     {
-        this.level = level;
+        UpdateStatsOnLevel(level, false, false);
     }
 
     internal void ChangeTeam()
     {
         lastEnemyTarget = null;
-        currentHealth = health;
-        HealthBarController.UpdateBar();
+        currentHealth = Health;
         characterManager.GoMainTeam(this);
+        currentHealth = Health;
+        HealthBarController.UpdateBar();
         SetAnimation("getup", 0.1f);
-        UpdateStatesToFollow();   
+        UpdateStatesToFollow();
     }
 
     public void UpdateStatesToFollow()
@@ -129,6 +143,14 @@ public class CharacterEnemy : Character
     {
         return stateMachine.CurrentState.OnCastMainPower();
     }
+    public int GetXp()
+    {
+        return xp;
+    }
+    public int GetCoins()
+    {
+        return (coins * level);
+    }
 
     public void DisableCollider()
     {
@@ -138,5 +160,9 @@ public class CharacterEnemy : Character
     protected override void GoVulnerable()
     {
         stateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
+    }
+    protected override void OnCollisionEnter(Collision collision)
+    {
+        stateMachine.CurrentState.OnCollisionEnter(collision);
     }
 }

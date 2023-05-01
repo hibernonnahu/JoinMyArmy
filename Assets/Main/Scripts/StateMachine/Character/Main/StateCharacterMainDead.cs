@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class StateCharacterMainDead : StateCharacter
 {
+    private const float DELAY_LOSE_POPUP = 2.5f;
     private CharacterMain characterMain;
     public StateCharacterMainDead(StateMachine<StateCharacter> stateMachine, CharacterMain character) : base(stateMachine, character)
     {
@@ -18,13 +19,20 @@ public class StateCharacterMainDead : StateCharacter
         character.SetAnimation("dead");
         characterMain.IsDead = true;
         characterMain.lastEnemyTarget = null;
+       
+        LeanTween.delayedCall(DELAY_LOSE_POPUP, DisplayLosePopup);
     }
     public override void ChangeState(Type type)
     {
 
     }
-    public override void GetHit(float damage)
+    public override bool GetHit(float damage)
     {
-
+        return false;
+    }
+    private void DisplayLosePopup()
+    {
+        SaveData.GetInstance().SaveRam();
+        EventManager.TriggerEvent(EventName.POPUP_OPEN, EventManager.Instance.GetEventData().SetString(PopupName.LOSE));
     }
 }

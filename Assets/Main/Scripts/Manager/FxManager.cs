@@ -9,5 +9,6 @@ public class FxManager : MonoBehaviour
     public ParticleSystem swordHit;
     public ParticleSystem enemyRecluit;
     public ParticleSystem startEnemyRecluit;
+    public ParticleSystem levelUp;
     
 }

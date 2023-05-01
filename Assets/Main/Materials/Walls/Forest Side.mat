@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: SIde Brick
+  m_Name: Forest Side
   m_Shader: {fileID: 10703, guid: 0000000000000000f000000000000000, type: 0}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -41,9 +41,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 879f113900f11684ab9309a164f3ca42, type: 3}
-        m_Scale: {x: 50.77, y: 1}
-        m_Offset: {x: 0.046, y: 1}
+        m_Texture: {fileID: 2800000, guid: 8dd8f8329c2258b4b8befcb6e4a7963e, type: 3}
+        m_Scale: {x: -14.8, y: 0.64}
+        m_Offset: {x: 0.046, y: 1.1}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}

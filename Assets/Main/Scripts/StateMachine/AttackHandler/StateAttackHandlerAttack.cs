@@ -17,7 +17,8 @@ public class StateAttackHandlerAttack : StateAttackHandler
         characterMain.animator.SetFloat("attackspeed", characterMain.attackSpeed);
 
         animator.SetLayerWeight(1, 1);
-        characterMain.SetAnimation("attack", 0.01f, 1);
+       
+        characterMain.SetAnimation("attack", 0, 1);
 
         var main = characterMain.FxHandler.slash.main;
         main.simulationSpeed = characterMain.attackSpeed;
@@ -25,7 +26,7 @@ public class StateAttackHandlerAttack : StateAttackHandler
         counter = (1 / characterMain.attackSpeed) * 0.35f;
         hit = false;
 
-        EventManager.TriggerEvent("playfx", EventManager.Instance.GetEventData().SetString("slash"));
+        EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("slash"));
     }
     public override void Sleep()
     {

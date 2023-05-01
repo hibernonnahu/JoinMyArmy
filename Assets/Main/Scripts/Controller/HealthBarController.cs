@@ -6,8 +6,10 @@ public class HealthBarController : MonoBehaviour
 {
     const float HEALTHBAR_FADEOUT_TIME = 0.5f;
     public TMPro.TextMeshPro text;
+    public TMPro.TextMeshPro levelText;
     public Material green;
     private GameObject currentHealthBar;
+    public GameObject currentXpBar;
     private Action<float> updateBar = (x) => { };
     private Character character;
     private Vector3 initScale;
@@ -18,14 +20,15 @@ public class HealthBarController : MonoBehaviour
         this.character = character;
         currentHealthBar = transform.GetChild(0).gameObject;
         transform.localScale *= character.barScale;
+        transform.position += Vector3.up * character.barOffset;
         initScale = transform.localScale;
         if (character.useBarText)
         {
             onUpdateText = () =>
             {
-                text.text = character.CurrentHealth.ToString();
+                text.text = ((int)(character.CurrentHealth)).ToString();
             };
-            text.text = character.health.ToString();
+            text.text = character.Health.ToString();
         }
     }
     public void GoGreen()
@@ -35,7 +38,7 @@ public class HealthBarController : MonoBehaviour
     }
     internal void UpdateBar()
     {
-        float result = (character.CurrentHealth / character.health);
+        float result = (character.CurrentHealth / character.Health);
         currentHealthBar.transform.localScale = Vector3.forward + Vector3.up + Vector3.right * result;
         if (result <= 0)
         {
@@ -58,5 +61,10 @@ public class HealthBarController : MonoBehaviour
                 barUI.currentBar.localScale = Vector3.forward + Vector3.up + Vector3.right * x;
             }
         };
+    }
+
+    internal void UpdateXpBar(float result)
+    {
+        currentXpBar.transform.localScale = Vector3.forward + Vector3.up + Vector3.right * result;
     }
 }

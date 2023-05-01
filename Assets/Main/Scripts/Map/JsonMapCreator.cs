@@ -14,10 +14,14 @@ public class JsonMapCreator : MonoBehaviour
     public int chapter = 1;
     public int level = 1;
     public int variation = 1;
-
+    public int floor = 0;
+    public int time = -1;
+    public int waveTime = -1;
+    public GameObject[] wavesFolders;
     // Use this for initialization
     private void Awake()
     {
+
         //PREPARE MAP
         lvl = new Level();
 
@@ -44,6 +48,10 @@ public class JsonMapCreator : MonoBehaviour
             auxList.Add(enemy.level);
             auxList.Add(enemy.team);
             auxList.Add(enemy.behaviour);
+            auxList.Add(enemy.extraAlertRange);
+            auxList.Add(enemy.belongToWave);
+            auxList.Add(0);
+            auxList.Add(0);
 
         }
         lvl.enemies = auxList.ToArray();
@@ -72,17 +80,20 @@ public class JsonMapCreator : MonoBehaviour
             if (item.gameObject.tag != "UI" && item.transform.parent == null)
             {
                 var pos = item.position;
-                item.position = Vector3.right * (Mathf.Floor(pos.x)) + Vector3.forward * (Mathf.Floor(pos.z));
+                item.position = Vector3.right * (Mathf.Round(pos.x)) + Vector3.forward * (Mathf.Round(pos.z));
             }
         }
     }
 
     public void SaveLocal()
     {
+        CheckWavesFolder();
         RemoveExtraDecimals();
         FindCharacters();
         FindObstacles();
-
+        lvl.floor = floor;
+        lvl.time = time;
+        lvl.waveTime = waveTime;
         mapJson = JsonMapper.ToJson(lvl);
 
         string fullPath = Application.dataPath + "/Resources/Maps/Campaign/Book" + book + "/Chapter" + chapter + "/Level" + level + "/" + variation + ".json";
@@ -96,5 +107,19 @@ public class JsonMapCreator : MonoBehaviour
         writer.Close();
     }
 
-
+    private void CheckWavesFolder()
+    {
+        for (int i = 0; i < wavesFolders.Length; i++)
+        {
+            wavesFolders[i].SetActive(true);
+            foreach (Transform t in wavesFolders[i].transform)
+            {
+                CharacterEnemy ce = t.GetComponent<CharacterEnemy>();
+                if (ce != null)
+                {
+                    ce.belongToWave = i;
+                }
+            }
+        }
+    }
 }

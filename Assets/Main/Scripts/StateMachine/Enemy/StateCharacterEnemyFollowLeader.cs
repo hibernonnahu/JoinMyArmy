@@ -4,7 +4,7 @@ using System;
 public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
 {
     private const float FOLLOW_DISTANCE = 5.5F;
-    private const float TICK_UPDATE = 0.5f;
+    private const float TICK_UPDATE = 0.2f;
     private const float TICK_UPDATE_RANGE = 1f;
     private const float DRAG_DISTANCE = 8;
     private const float DRAG_NEAR = 100;
@@ -33,7 +33,7 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
         tick -= Time.deltaTime;
         if (tick < 0)
         {
-            if ((enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= enemy.attackDistanceSqr * 2)
+            if (enemy.HelpAttack && (enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= enemy.attackDistanceSqr * 3)
             {
                 enemy.lastEnemyTarget = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, enemy.attackDistanceSqr, enemy.model.transform.position);
             }
@@ -45,7 +45,7 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
 
                 if (CustomMath.SqrDistance2(x, z) < DRAG_DISTANCE && !enemy.CharacterMain.IsMoving)
                 {
-                    if (enemy.CharacterMain.lastEnemyTarget == null)
+                    if (!enemy.HelpAttack || enemy.CharacterMain.lastEnemyTarget == null)
                     {
                         enemy.SetAnimation("idle");
                         enemy.Rigidbody.drag = DRAG_NEAR;
@@ -54,19 +54,41 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
                     else
                     {
                         ChangeState(typeof(StateCharacterEnemyHelpAttack));
-                    }                  
+                    }
                 }
                 else
                 {
                     enemy.SetAnimation("walk");
                     enemy.Rigidbody.drag = DRAG_FAR;
                     tick = TICK_UPDATE;
+                    enemy.ReturnPosition = Vector3.right * x + Vector3.forward * z;
                     UpdateMovement(x, z);
                 }
             }
             else
             {
                 ChangeState(typeof(StateCharacterEnemyMelee));
+            }
+        }
+    }
+    internal override void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.layer == 8)
+        {
+            var colCharacter = collision.gameObject.GetComponent<Character>();
+            if (colCharacter && colCharacter.team != enemy.team)
+            {
+                if (colCharacter != enemy.lastEnemyTarget)
+                {
+
+
+                    if ((colCharacter.transform.position - enemy.transform.position).sqrMagnitude <
+                        (enemy.lastEnemyTarget.transform.position - enemy.transform.position).sqrMagnitude)
+                    {
+                        enemy.lastEnemyTarget = colCharacter;
+                    }
+                }
+                tick = -1;
             }
         }
     }

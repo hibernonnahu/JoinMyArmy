@@ -18,7 +18,7 @@ public class Utils
     {
         return 60000f;
     }
-   
+
 
     internal static string ParseTimeToString(int v)
     {
@@ -28,10 +28,27 @@ public class Utils
         int m = v / 60;
         return m + ":" + s + ":" + ms;
     }
-
-    internal static Vector3 Normalize(Vector3 vector3)
+    public static Vector3 StearingVector(Vector3 position, Vector3 normalizedDirection, int mask)
     {
-        return vector3.normalized;
+        Vector3 offset = Vector3.left * normalizedDirection.z + Vector3.forward * normalizedDirection.x;
+       
+
+        float dl = 3, dr = 3;
+        RaycastHit hit;
+        if (Physics.Raycast(position - offset, normalizedDirection, out hit, 3, mask))
+        {
+            dl = hit.distance;
+        }
+        if (Physics.Raycast(position + offset, normalizedDirection, out hit, 3, mask))
+        {
+            dr = hit.distance;
+        }
+       
+        Debug.DrawRay(position + offset, CustomMath.XZNormalize(normalizedDirection) * dr, Color.green, 1);
+        Debug.DrawRay(position - offset, CustomMath.XZNormalize(normalizedDirection) * dl, Color.green, 1);
+       
+
+        return  offset * (dr - dl);
     }
 
     internal static int GetBinaryCount(int v)
@@ -76,5 +93,5 @@ public class Utils
     {
         return r * vr + g * vg + b * vb + va * a;
     }
-    
+
 }

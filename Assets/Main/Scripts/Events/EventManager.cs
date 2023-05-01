@@ -141,4 +141,9 @@ public class EventManager  {
             thisEvent.Invoke (eventData);
         }
     }
+
+    internal static void StartListening(object sHUFFLE_SKILL, object onShuffleSkill)
+    {
+        throw new System.NotImplementedException();
+    }
 }

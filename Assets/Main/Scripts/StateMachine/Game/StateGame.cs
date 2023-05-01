@@ -4,9 +4,10 @@ using System;
 
 public class StateGame : State<StateGame>
 {
-    public StateGame(StateMachine<StateGame> stateMachine) :base (stateMachine)
+    protected Game game;
+    public StateGame(StateMachine<StateGame> stateMachine,Game game) :base (stateMachine)
     {
-       
+        this.game = game;
     }
 
 

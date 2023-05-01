@@ -8,36 +8,51 @@ public class CharacterMain : Character
     public FloatingJoystick floatingJoystick;
     public RecluitController recluitHandler;
     public IconUIController barUI;
-    private FxManager fxHandler;
-    public FxManager FxHandler { get { return fxHandler; } }
+    private FxManager fxController;
+    public FxManager FxHandler { get { return fxController; } }
+    public CoinsUIController coinsUIController;
+
+    private XpController xpController;
+    public XpController XpController { get { return xpController; } }
 
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     private bool isMoving = false;
 
-    private bool isDead = false;
-    public bool IsDead { get => isDead; set => isDead = value; }
+    public int maxRecluits = 5;
 
-    private void Awake()
+    protected override void Awake()
     {
-        recluitHandler.SetMaxRecluits(8);
+        base.Awake();
+        xpController = new XpController();
     }
     private void Start()
     {
         Init();
+        recluitHandler.SetMaxRecluits(maxRecluits + skillController.ExtraRecluit);
+
     }
+
     public override void Init()
     {
-        //Stats should be set it here
+        model.transform.forward = Vector3.forward;
         base.Init();
         HealthBarController.GoGreen();
         HealthBarController.UseBarUI(barUI);
-        
-        fxHandler = GetComponent<FxManager>();
+
+        fxController = GetComponent<FxManager>();
         FindObjectOfType<CameraHandler>().FollowGameObject(model);
         stateMachine.AddState(new StateCharacterMainInGame(stateMachine, this));
         stateMachine.AddState(new StateCharacterMainDead(stateMachine, this));
         stateMachine.AddState(new StateCharacterVulnerable(stateMachine, this));
+
+        CurrentPlaySingleton.GetInstance().LoadGamePlay(this);
+
+        UpdateStatsOnLevel(level, currentHealth != 0, false);
+
+        HealthBarController.UpdateXpBar(XpController.GetXpPercent(level));
     }
+
+
     protected override void Update()
     {
         stateMachine.CurrentState.UpdateMovement(floatingJoystick.Horizontal, floatingJoystick.Vertical);
@@ -55,5 +70,27 @@ public class CharacterMain : Character
     protected override void GoVulnerable()
     {
         stateMachine.ChangeState(typeof(StateCharacterVulnerable));
+    }
+    internal void OnLevelEnd()
+    {
+        collider.enabled = false;
+        Rigidbody.velocity = Vector3.forward;
+        model.transform.forward = Vector3.forward;
+        VulnerableTime = 5;
+        stateMachine.ChangeState<StateCharacterVulnerable>();
+    }
+
+    public void AddXP(int xp)
+    {
+        if (xpController.AddXp(xp, level) > level)//level up
+        {
+            level++;
+            textShortHandler.SetDialog(transform.position, "LEVEL UP!", Color.white);
+            EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("level up"));
+            fxController.levelUp.Play();
+            UpdateStatsOnLevel(level);
+        }
+
+        HealthBarController.UpdateXpBar(xpController.GetXpPercent(level));
     }
 }

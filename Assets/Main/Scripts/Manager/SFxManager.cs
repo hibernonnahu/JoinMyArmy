@@ -23,7 +23,7 @@ public class SFxManager: MonoBehaviour {
             dictionary.Add(item.key, item.audio);
             dictionaryVol.Add(item.key, item.volume);
         }
-        EventManager.StartListening("playfx", PlayFx);
+        EventManager.StartListening(EventName.PLAY_FX, PlayFx);
 	}
 	public void PlayFx(string n)
     {
@@ -52,6 +52,6 @@ public class SFxManager: MonoBehaviour {
     }
     private void OnDestroy()
     {
-        EventManager.StopListening("playfx", PlayFx);
+        EventManager.StopListening(EventName.PLAY_FX, PlayFx);
     }
 }
