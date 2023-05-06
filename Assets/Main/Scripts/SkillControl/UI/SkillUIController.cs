@@ -11,7 +11,7 @@ public class SkillUIController : MonoBehaviour
     void Start()
     {
         EventManager.StartListening(EventName.SHUFFLE_SKILL, OnShuffleSkill);
-     
+
     }
 
     private void OnShuffleSkill(EventData arg0)
@@ -23,7 +23,7 @@ public class SkillUIController : MonoBehaviour
         }
         for (int i = 0; i < arg0.intData; i++)
         {
-            SkillUIButton skill =Instantiate<SkillUIButton>(prefab, mainContainer) ;
+            SkillUIButton skill = Instantiate<SkillUIButton>(prefab, mainContainer);
             skill.skillClassName = GetRandomSkill(skillNames);
             var rect = skill.GetComponent<RectTransform>();
             LeanTween.scale(rect, Vector3.one, 1).setDelay(0.5f).setEaseInOutElastic().setIgnoreTimeScale(true);
@@ -43,11 +43,16 @@ public class SkillUIController : MonoBehaviour
     {
         var list = new List<string>();
         //var info = new DirectoryInfo(Application.dataPath + "/Main/Scripts/SkillControl/Skill");
-        var info= Resources.LoadAll<TextAsset>("Scripts/ChestSkills");
+        var info = Resources.LoadAll<TextAsset>("Scripts/ChestSkills");
+        CharacterMain character = FindAnyObjectByType<CharacterMain>();
         //var fileInfo = info.GetFiles();
-        foreach (var item in info)
+        foreach (var skillClassName in info)
         {
-            list.Add(item.name);
+            var type = Type.GetType(skillClassName.name);
+
+            ISkill skill = (ISkill)Activator.CreateInstance(type);
+            if (skill.IsAvailable())
+                list.Add(skillClassName.name);
         }
         return list;
     }

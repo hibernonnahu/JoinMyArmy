@@ -15,6 +15,10 @@ public class RecluitController : MonoBehaviour
     private CharacterEnemy[] enemies = new CharacterEnemy[8];
     public CharacterEnemy[] Enemies { get { return enemies; } }
     private int max;
+    public int Max
+    {
+        get { return max; }
+    }
     private int freeSpace = 0;//-1 means no room
 
     private void Awake()
@@ -110,7 +114,7 @@ public class RecluitController : MonoBehaviour
                 {
                     LeanTween.scale(trash.gameObject, Vector3.zero, 0.5f).setEaseOutElastic().setOnComplete(() =>
                     {
-                        enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth);
+                        enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
                         Remove(enemies[iconUIController.IndexPosition]);
                         iconUIController.ReturnToOriginalPosition(false, false);
                     });
@@ -211,6 +215,10 @@ public class RecluitController : MonoBehaviour
                 iconUITemp.container.gameObject.SetActive(true);
                 iconUITemp.currentBar.localScale = Vector3.one;
                 iconUITemp.EnableButton();
+                if (iconUITemp.CharacterEnemy.id == 0)
+                {
+                    EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(2).SetFloat(iconUITemp.transform.position.x).SetFloat2(iconUITemp.transform.position.y));
+                }
                 LeanTween.scale(image.rectTransform, Vector3.one, 0.3f).setEaseOutBounce();
             }
             );

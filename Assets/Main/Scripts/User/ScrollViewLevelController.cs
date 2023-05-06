@@ -12,7 +12,7 @@ public class ScrollViewLevelController : MonoBehaviour
         var prefabs = Resources.LoadAll<CharacterEnemy>(resourcesFolder);
         foreach (var enemy in prefabs)
         {
-            if (enemy.GetComponent<EnemyStateAddCanBeRecluit>() != null)
+            if (enemy.GetComponent<EnemyStateAddCanBeRecluit>() != null&&SaveData.instance.GetValue("recluit_"+enemy.id)==1)
             {
                 var buttonResourcesCreator = Instantiate<ButtonEnemyLocalLevel>(buttonPrefab);
                 buttonResourcesCreator.asset = enemy.name;

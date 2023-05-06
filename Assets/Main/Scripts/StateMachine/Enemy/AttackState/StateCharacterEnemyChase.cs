@@ -40,6 +40,15 @@ public class StateCharacterEnemyChase : StateCharacterEnemy
             }
         }
     }
+    public override bool GetHit(float damage, Character attacker)
+    {
+        if (attacker!=null&&(attacker.transform.position - enemy.transform.position).sqrMagnitude < (enemy.lastEnemyTarget.transform.position - enemy.transform.position).sqrMagnitude)
+        {
+            enemy.lastEnemyTarget = attacker;
+        }
+            return base.GetHit(damage, attacker);
+        
+    }
     internal override void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 8)

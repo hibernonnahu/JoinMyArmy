@@ -8,6 +8,8 @@ public class EnemyStateAddAttackEscape : EnemyStateAddAttack
     {
         this.characterEnemy = characterEnemy;
         characterEnemy.HelpAttack = false;
+        characterEnemy.AttackState = characterEnemy.IdleState;
+
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyEscape(characterEnemy.StateMachine, characterEnemy));
 
         return this;

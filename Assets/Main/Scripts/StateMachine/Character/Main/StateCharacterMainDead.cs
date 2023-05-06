@@ -19,14 +19,14 @@ public class StateCharacterMainDead : StateCharacter
         character.SetAnimation("dead");
         characterMain.IsDead = true;
         characterMain.lastEnemyTarget = null;
-       
+        character.Rigidbody.drag = 100;
         LeanTween.delayedCall(DELAY_LOSE_POPUP, DisplayLosePopup);
     }
     public override void ChangeState(Type type)
     {
 
     }
-    public override bool GetHit(float damage)
+    public override bool GetHit(float damage, Character attacker)
     {
         return false;
     }

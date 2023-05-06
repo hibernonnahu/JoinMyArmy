@@ -13,6 +13,7 @@ public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
     public override void Awake()
     {
         counter = 0;
+        enemy.Rigidbody.drag = 0;
         enemy.SetAnimation("walk");
     }
 
@@ -37,7 +38,7 @@ public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
                 if (difVector.sqrMagnitude < enemy.attackDistanceSqr)
                 {
                     enemy.lastEnemyTarget = enemy.CharacterMain.lastEnemyTarget;
-                    ChangeState(typeof(StateCharacterEnemyMelee));
+                    ChangeState(enemy.AttackState);
                 }
                 else
                 {

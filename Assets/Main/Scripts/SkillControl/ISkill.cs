@@ -10,4 +10,5 @@ public interface ISkill
     void ExecuteOnKill(Character character,Character characterKill);
     void ExecuteOnGrab(Character character);
     void ExecuteAura();
+    bool IsAvailable();
 }

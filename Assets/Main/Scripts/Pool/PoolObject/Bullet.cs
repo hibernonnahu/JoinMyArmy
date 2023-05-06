@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
         collider.enabled = false;
         impactParticle.transform.position = projectileParticle.transform.position;
         impactParticle.Play();
-        muzzleParticle.Stop();
+        muzzleParticle?.Stop();
         projectileParticle.Stop();
         impactAudio?.Play();
         LeanTween.delayedCall(1, Disable);
@@ -50,7 +50,7 @@ public class Bullet : MonoBehaviour
     {
         
         collider.enabled = true;
-        muzzleParticle.Play();
+        muzzleParticle?.Play();
         projectileParticle.Play();
         projectileAudio?.Play();
         projectileParticle.transform.forward = character.model.transform.forward;

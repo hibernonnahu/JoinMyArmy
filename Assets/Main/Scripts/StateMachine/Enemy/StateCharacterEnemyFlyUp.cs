@@ -47,7 +47,7 @@ public class StateCharacterEnemyFlyUp : StateCharacterEnemy
         }
        
     }
-    public override bool GetHit(float damage)
+    public override bool GetHit(float damage,Character attacker)
     {
         return false;
     }

@@ -13,7 +13,7 @@ public class StateCharacter : State<StateCharacter>
     public virtual void UpdateMovement(float x, float y) { }
     //public virtual void Spawn() { }
     //public virtual void OnDestroy() { }
-    public virtual bool GetHit(float damage)
+    public virtual bool GetHit(float damage, Character attacker)
     {
         character.CurrentHealth -= damage;
         if (character.CurrentHealth <= 0)

@@ -14,6 +14,8 @@ public class EventName
     public static string SHAKE_CAM_POS = "shakeCamPos";
     public static string SHUFFLE_SKILL = "shuffleSkill";
     public static string SPAWN_WAVE = "spawnWave";
+    public static string TUTORIAL_START = "tutorialStart";
+    public static string TUTORIAL_END = "tutorialEnd";
     public static string UPDATE_COINS_TEXT = "updateCostText";
     public static string UPDATE_GAME_COINS_TEXT = "updateGameCostText";
 }

@@ -10,6 +10,8 @@ public class EnemyStateAddAttackRange : EnemyStateAddAttack
     public override IEnemyStateAddAttack InitStates(CharacterEnemy characterEnemy) //where Type : StateCharacter
     {
         this.characterEnemy = characterEnemy;
+        characterEnemy.AttackState = typeof(StateCharacterEnemyRange);
+
         characterEnemy.HelpAttack = true;
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyRange(characterEnemy.StateMachine, characterEnemy, bulletPool, hideOnShot, bulletSpeed));
 

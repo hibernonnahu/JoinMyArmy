@@ -34,6 +34,7 @@ public class Character : MonoBehaviour
     public float attackSpeed = 1.5f;
     public float criticalChance = 0; // 0 to 1
     public float criticalMultiplier = 1.2f;
+    public float healWhenKill = 0;
 
     [Header("Temps")]
     public Character lastEnemyTarget;
@@ -140,13 +141,19 @@ public class Character : MonoBehaviour
             }
             textShortHandler.SetDialog(transform.position, damage.ToString(), color);
             float percent = damage / health;
-            if (CurrentStateGetHit(damage))
+            if (CurrentStateGetHit(damage,attacker))
             {
+                attacker.Heal(GetHealWhenKillValue());
                 attacker.skillController.OnKill(attacker, this);
             }
             return percent;
         }
         return 0;
+    }
+
+    private float GetHealWhenKillValue()
+    {
+        return healWhenKill + healWhenKill * level;
     }
 
     internal void Spawn(float spawnTime)
@@ -211,9 +218,9 @@ public class Character : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    protected virtual bool CurrentStateGetHit(float damage)
+    protected virtual bool CurrentStateGetHit(float damage,Character attacker)
     {
-        return stateMachine.CurrentState.GetHit(damage);
+        return stateMachine.CurrentState.GetHit(damage,attacker);
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {

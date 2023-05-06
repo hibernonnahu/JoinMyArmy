@@ -4,6 +4,7 @@ using System;
 public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
 {
     private const float FOLLOW_DISTANCE = 5.5F;
+    private const float HELP_SQR_DISTANCE = 300F;
     private const float TICK_UPDATE = 0.2f;
     private const float TICK_UPDATE_RANGE = 1f;
     private const float DRAG_DISTANCE = 8;
@@ -33,7 +34,7 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
         tick -= Time.deltaTime;
         if (tick < 0)
         {
-            if (enemy.HelpAttack && (enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= enemy.attackDistanceSqr * 3)
+            if (enemy.HelpAttack && (enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= HELP_SQR_DISTANCE)
             {
                 enemy.lastEnemyTarget = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, enemy.attackDistanceSqr, enemy.model.transform.position);
             }
@@ -67,9 +68,18 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
             }
             else
             {
-                ChangeState(typeof(StateCharacterEnemyMelee));
+                ChangeState(enemy.AttackState);
             }
         }
+    }
+    public override bool GetHit(float damage, Character attacker)
+    {
+        if (enemy.lastEnemyTarget==null||(attacker != null && (attacker.transform.position - enemy.transform.position).sqrMagnitude < (enemy.lastEnemyTarget.transform.position - enemy.transform.position).sqrMagnitude))
+        {
+            enemy.lastEnemyTarget = attacker;
+        }
+        return base.GetHit(damage, attacker);
+
     }
     internal override void OnCollisionEnter(Collision collision)
     {

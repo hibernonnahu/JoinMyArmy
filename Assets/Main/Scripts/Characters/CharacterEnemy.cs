@@ -18,10 +18,12 @@ public class CharacterEnemy : Character
     public int extraAlertRange = 0;
     public int belongToWave = 0;
 
-    private Vector3 returnPosition ;
+    private Vector3 returnPosition;
     public Vector3 ReturnPosition { get { return returnPosition; } set { returnPosition = value; } }
     private bool helpAttack = false;
     public bool HelpAttack { get { return helpAttack; } set { helpAttack = value; } }
+    private Type attackState;
+    public Type AttackState { get => attackState; set => attackState = value; }
     private bool canBeRecluit = false;
     public bool CanBeRecluit { get { return canBeRecluit; } set { canBeRecluit = value; } }
     private List<Action> onDeadActionList = new List<Action>();
@@ -83,9 +85,9 @@ public class CharacterEnemy : Character
         stateMachine.Update();
     }
 
-    protected override bool CurrentStateGetHit(float damage)
+    protected override bool CurrentStateGetHit(float damage, Character attacker)
     {
-        return stateMachine.CurrentState.GetHit(damage);
+        return stateMachine.CurrentState.GetHit(damage, attacker);
 
     }
 

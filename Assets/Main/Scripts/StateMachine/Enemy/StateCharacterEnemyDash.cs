@@ -8,7 +8,7 @@ public class StateCharacterEnemyDash : StateCharacterEnemy
     private ParticleSystem collisionParticle;
     private float initialMass;
     private float initialDrag;
-    private const float DAMAGE_MULTIPLIER = 2.2f;
+    private const float DAMAGE_MULTIPLIER = 1.5f;
     private const float DASH_SPEED = 20;
     private const float PREPARE_TIME = 0.5f;
     private const float DURATION = 2;
@@ -28,7 +28,11 @@ public class StateCharacterEnemyDash : StateCharacterEnemy
         initialDrag = enemy.Rigidbody.drag;
         enemy.Rigidbody.velocity = Vector3.zero;
         enemy.SetAnimation("prepare", 0);
-
+        var closest = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, 00000, enemy.transform.position);
+        if (closest != null)
+        {
+            enemy.model.transform.forward = closest.transform.position - enemy.transform.position;
+        }
         counter = 0;
         prepare = true;
     }

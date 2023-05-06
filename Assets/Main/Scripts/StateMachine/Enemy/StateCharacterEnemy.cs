@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StateCharacterEnemy : State<StateCharacterEnemy>
 {
-    private const float STEARING_SPEED = 500;
     protected CharacterEnemy enemy;
     private int stearingMask;
   
@@ -18,8 +17,8 @@ public class StateCharacterEnemy : State<StateCharacterEnemy>
 
     public virtual void UpdateMovement(float x, float y)
     {
-        forward =Vector3.Slerp( CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y),enemy.model.transform.forward,0.65f);
-        stearing = Utils.StearingVector(enemy.transform.position + Vector3.up, forward, stearingMask);
+        forward =Vector3.Slerp( CustomMath.XZNormalize(Vector3.right * x + Vector3.forward * y),enemy.model.transform.forward,5f*Time.deltaTime);
+        stearing = Utils.StearingVector(enemy.transform.position + Vector3.up*2, forward, stearingMask);
        
         if (stearing != Vector3.zero)
         {
@@ -37,7 +36,7 @@ public class StateCharacterEnemy : State<StateCharacterEnemy>
        
         enemy.Rigidbody.velocity = enemy.speed * enemy.model.transform.forward;
     }
-    public virtual bool GetHit(float damage)//returns if character die
+    public virtual bool GetHit(float damage, Character attacker)//returns if character die
     {
         enemy.CurrentHealth -= damage;
         if (enemy.CurrentHealth <= 0)

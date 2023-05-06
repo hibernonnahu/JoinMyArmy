@@ -17,6 +17,18 @@ public class EventData
         floatData = f;
         return this;
     }
+    public float floatData2 = -1;
+    public EventData SetFloat2(float f)
+    {
+        floatData2 = f;
+        return this;
+    }
+    public float floatData3 = -1;
+    public EventData SetFloat3(float f)
+    {
+        floatData3 = f;
+        return this;
+    }
     public int intData=-1;
     public EventData SetInt(int i)
     {

@@ -10,7 +10,7 @@ public class IconUIController : MonoBehaviour
     public RectTransform currentBar;
     public Image coldDown;
     private CharacterEnemy characterEnemy;
-    public CharacterEnemy CharacterEnemy { set => characterEnemy = value; }
+    public CharacterEnemy CharacterEnemy { set => characterEnemy = value; get { return characterEnemy; } }
     private RecluitController recluitController;
     public RecluitController RecluitController { set { recluitController = value; } }
 
@@ -62,6 +62,8 @@ public class IconUIController : MonoBehaviour
     {
         if (currentTime <= 0)
         {
+            EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(2));
+
             currentTime = totalTime = characterEnemy.UseMainSkill();
             if (currentTime > 0)
             {

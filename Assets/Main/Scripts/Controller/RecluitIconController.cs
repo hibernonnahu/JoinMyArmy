@@ -45,6 +45,7 @@ public class RecluitIconController : MonoBehaviour
     void FadeIn()
     {
         Reset();
+
         LeanTween.scale(this.gameObject, Vector3.one * ICON_SIZE, FADE_TIME).setEaseInExpo().setOnComplete(Pulse);
     }
 
@@ -76,6 +77,10 @@ public class RecluitIconController : MonoBehaviour
     void Pulse()
     {
         transform.SetParent(null);
+       
+      
+        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetInt(1));
+
         LeanTween.scale(gameObject, gameObject.transform.localScale * 1.1f, 0.6f).setEaseLinear().setLoopPingPong();
     }
 
@@ -83,6 +88,7 @@ public class RecluitIconController : MonoBehaviour
     {
         if (!disabled)
         {
+            EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(1));
             Disable();
 
             mask.gameObject.SetActive(false);
