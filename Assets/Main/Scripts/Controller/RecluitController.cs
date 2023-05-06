@@ -8,6 +8,7 @@ public class RecluitController : MonoBehaviour
 {
     private const float SWAP_SQR_DISTANCE = 6000;
     public Image trash;
+    public RectTransform textContainer;
     public Text text;
     public Image[] images;
     public IconUIController[] iconUI;
@@ -33,6 +34,7 @@ public class RecluitController : MonoBehaviour
             images[i].transform.SetParent(transform.parent);
         }
         trash.transform.localScale = Vector3.zero;
+        EventManager.StartListening(EventName.BOUNCE_RECLUIT_TEXT, BounceText);
     }
     public void SetMaxRecluits(int max)
     {
@@ -59,7 +61,24 @@ public class RecluitController : MonoBehaviour
                 count++;
             }
         }
-        text.text = count + "/" + max;
+        if (count != max)
+        {
+            text.text = count + "/" + max;
+        }
+        else
+        {
+            text.text = "MAX";
+        }
+    }
+    private void BounceText(EventData arg0 = null)
+    {
+        LeanTween.cancel(textContainer);
+        LeanTween.scale(textContainer, Vector3.one * 1.5f, 0.7f).setEaseInBounce().setOnComplete(
+            () =>
+            {
+                LeanTween.scale(textContainer, Vector3.one, 0.7f).setEaseOutBounce();
+            }
+            );
     }
 
     public void Recluit(CharacterEnemy enemy, bool direct = false, int forcePosition = -1)
@@ -230,5 +249,9 @@ public class RecluitController : MonoBehaviour
     public bool CanRecluit()
     {
         return freeSpace != -1;
+    }
+    private void OnDestroy()
+    {
+        EventManager.StopListening(EventName.BOUNCE_RECLUIT_TEXT, BounceText);
     }
 }

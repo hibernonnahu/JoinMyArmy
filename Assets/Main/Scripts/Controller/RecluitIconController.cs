@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class RecluitIconController : MonoBehaviour
 {
@@ -28,7 +24,7 @@ public class RecluitIconController : MonoBehaviour
     }
     public void ForceKnocked()
     {
-        if (knocked&&!disabled)
+        if (knocked && !disabled)
         {
             OnTimeOut();
         }
@@ -77,8 +73,8 @@ public class RecluitIconController : MonoBehaviour
     void Pulse()
     {
         transform.SetParent(null);
-       
-      
+
+
         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetInt(1));
 
         LeanTween.scale(gameObject, gameObject.transform.localScale * 1.1f, 0.6f).setEaseLinear().setLoopPingPong();
@@ -101,6 +97,7 @@ public class RecluitIconController : MonoBehaviour
             }
             else
             {
+                EventManager.TriggerEvent(EventName.BOUNCE_RECLUIT_TEXT);
                 enemy.Kill();
                 FadeOut();
             }
