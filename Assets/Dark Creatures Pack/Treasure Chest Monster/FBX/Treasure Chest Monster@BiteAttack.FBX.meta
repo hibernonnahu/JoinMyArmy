@@ -1,69 +1,176 @@
 fileFormatVersion: 2
 guid: d930bf3ff0587584d9ff8be15b0081e7
 ModelImporter:
-  serializedVersion: 21
-  fileIDToRecycleName:
-    100000: Rig
-    100002: RigBottom
-    100004: RigBottomGizmo
-    100006: RigCover
-    100008: RigCoverGizmo
-    100010: RigLHandle
-    100012: RigLHandleGizmo
-    100014: RigRHandle
-    100016: RigRHandleGizmo
-    100018: RigSpine
-    100020: RigTongue1
-    100022: RigTongue1Gizmo
-    100024: RigTongue2
-    100026: RigTongue2Gizmo
-    100028: RigTongue3
-    100030: RigTongue3Gizmo
-    100032: RigTongue4
-    100034: RigTongue4Gizmo
-    100036: RigTongue5
-    100038: RigTongue5Gizmo
-    100040: RigTop
-    100042: RigTopGizmo
-    100044: Treasure Chest Monster
-    100046: //RootNode
-    400000: Rig
-    400002: RigBottom
-    400004: RigBottomGizmo
-    400006: RigCover
-    400008: RigCoverGizmo
-    400010: RigLHandle
-    400012: RigLHandleGizmo
-    400014: RigRHandle
-    400016: RigRHandleGizmo
-    400018: RigSpine
-    400020: RigTongue1
-    400022: RigTongue1Gizmo
-    400024: RigTongue2
-    400026: RigTongue2Gizmo
-    400028: RigTongue3
-    400030: RigTongue3Gizmo
-    400032: RigTongue4
-    400034: RigTongue4Gizmo
-    400036: RigTongue5
-    400038: RigTongue5Gizmo
-    400040: RigTop
-    400042: RigTopGizmo
-    400044: Treasure Chest Monster
-    400046: //RootNode
-    4300000: Treasure Chest Monster
-    7400000: Take 001
-    9500000: //RootNode
-    13700000: Treasure Chest Monster
+  serializedVersion: 21300
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Rig
+  - first:
+      1: 100002
+    second: RigBottom
+  - first:
+      1: 100004
+    second: RigBottomGizmo
+  - first:
+      1: 100006
+    second: RigCover
+  - first:
+      1: 100008
+    second: RigCoverGizmo
+  - first:
+      1: 100010
+    second: RigLHandle
+  - first:
+      1: 100012
+    second: RigLHandleGizmo
+  - first:
+      1: 100014
+    second: RigRHandle
+  - first:
+      1: 100016
+    second: RigRHandleGizmo
+  - first:
+      1: 100018
+    second: RigSpine
+  - first:
+      1: 100020
+    second: RigTongue1
+  - first:
+      1: 100022
+    second: RigTongue1Gizmo
+  - first:
+      1: 100024
+    second: RigTongue2
+  - first:
+      1: 100026
+    second: RigTongue2Gizmo
+  - first:
+      1: 100028
+    second: RigTongue3
+  - first:
+      1: 100030
+    second: RigTongue3Gizmo
+  - first:
+      1: 100032
+    second: RigTongue4
+  - first:
+      1: 100034
+    second: RigTongue4Gizmo
+  - first:
+      1: 100036
+    second: RigTongue5
+  - first:
+      1: 100038
+    second: RigTongue5Gizmo
+  - first:
+      1: 100040
+    second: RigTop
+  - first:
+      1: 100042
+    second: RigTopGizmo
+  - first:
+      1: 100044
+    second: Treasure Chest Monster
+  - first:
+      1: 100046
+    second: //RootNode
+  - first:
+      4: 400000
+    second: Rig
+  - first:
+      4: 400002
+    second: RigBottom
+  - first:
+      4: 400004
+    second: RigBottomGizmo
+  - first:
+      4: 400006
+    second: RigCover
+  - first:
+      4: 400008
+    second: RigCoverGizmo
+  - first:
+      4: 400010
+    second: RigLHandle
+  - first:
+      4: 400012
+    second: RigLHandleGizmo
+  - first:
+      4: 400014
+    second: RigRHandle
+  - first:
+      4: 400016
+    second: RigRHandleGizmo
+  - first:
+      4: 400018
+    second: RigSpine
+  - first:
+      4: 400020
+    second: RigTongue1
+  - first:
+      4: 400022
+    second: RigTongue1Gizmo
+  - first:
+      4: 400024
+    second: RigTongue2
+  - first:
+      4: 400026
+    second: RigTongue2Gizmo
+  - first:
+      4: 400028
+    second: RigTongue3
+  - first:
+      4: 400030
+    second: RigTongue3Gizmo
+  - first:
+      4: 400032
+    second: RigTongue4
+  - first:
+      4: 400034
+    second: RigTongue4Gizmo
+  - first:
+      4: 400036
+    second: RigTongue5
+  - first:
+      4: 400038
+    second: RigTongue5Gizmo
+  - first:
+      4: 400040
+    second: RigTop
+  - first:
+      4: 400042
+    second: RigTopGizmo
+  - first:
+      4: 400044
+    second: Treasure Chest Monster
+  - first:
+      4: 400046
+    second: //RootNode
+  - first:
+      43: 4300000
+    second: Treasure Chest Monster
+  - first:
+      74: 7400000
+    second: attack
+  - first:
+      95: 9500000
+    second: //RootNode
+  - first:
+      137: 13700000
+    second: Treasure Chest Monster
+  externalObjects: {}
   materials:
-    importMaterials: 0
+    materialImportMode: 0
     materialName: 0
     materialSearch: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -71,6 +178,8 @@ ModelImporter:
     animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
     animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -78,26 +187,98 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations: []
+    clipAnimations:
+    - serializedVersion: 16
+      name: attack
+      takeName: Take 001
+      internalID: 7400000
+      firstFrame: 18.3
+      lastFrame: 22.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: attack end
+      takeName: Take 001
+      internalID: -8927621060956812419
+      firstFrame: 22.2
+      lastFrame: 30.1
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
     isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 0.01
     meshCompression: 0
     addColliders: 0
+    useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
     importVisibility: 0
     importBlendShapes: 1
     importCameras: 0
     importLights: 0
+    nodeNameCollisionStrategy: 0
+    fileIdsGeneration: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
+    preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    meshOptimizationFlags: -1
+    indexFormat: 1
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 0
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 0
   tangentSpace:
@@ -105,10 +286,13 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 3
     normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -118,14 +302,18 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 0.01
     rootMotionBoneName: Treasure Chest Monster
-    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 1
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 0
+  remapMaterialsIfMaterialImportModeIsNone: 1
   additionalBone: 1
   userData: 
   assetBundleName: 
