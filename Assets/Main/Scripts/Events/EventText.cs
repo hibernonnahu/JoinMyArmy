@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class EventText : MonoBehaviour
 {
-    private const float TEXT_DELAY = 3f;
+    private const float TEXT_DELAY = 5f;
     private Text text;
     private List<string> queue = new List<string>();
     // Start is called before the first frame update

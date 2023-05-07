@@ -14,5 +14,9 @@ public class TutorialManager : MonoBehaviour
         {
             gameObject.AddComponent<HintSinglePressUI>();
         }
+        if (SaveData.GetInstance().GetValue("tutorial3") == 0)
+        {
+            gameObject.AddComponent<HintDragUI>();
+        }
     }
 }

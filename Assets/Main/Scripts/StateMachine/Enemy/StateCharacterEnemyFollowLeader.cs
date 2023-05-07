@@ -4,7 +4,7 @@ using System;
 public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
 {
     private const float FOLLOW_DISTANCE = 5.5F;
-    private const float HELP_SQR_DISTANCE = 300F;
+    private const float HELP_SQR_DISTANCE = 400f;
     private const float TICK_UPDATE = 0.2f;
     private const float TICK_UPDATE_RANGE = 1f;
     private const float DRAG_DISTANCE = 8;

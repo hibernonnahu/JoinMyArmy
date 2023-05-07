@@ -48,6 +48,7 @@ public class RecluitController : MonoBehaviour
         {
             max++;
             UpdateText();
+            UpdateFreeSpace();
         }
     }
 
@@ -64,11 +65,15 @@ public class RecluitController : MonoBehaviour
         if (count != max)
         {
             text.text = count + "/" + max;
+            text.color = Color.white;
+
         }
         else
         {
             text.text = "MAX";
+            text.color = Color.yellow;
         }
+        BounceText();
     }
     private void BounceText(EventData arg0 = null)
     {
@@ -222,6 +227,7 @@ public class RecluitController : MonoBehaviour
 
         Image image = images[freeSpace];
         IconUIController iconUITemp = iconUI[freeSpace];
+        iconUITemp.ReturnToOriginalPosition(false, false);
         LeanTween.cancel(image.gameObject);
         LeanTween.scale(image.rectTransform, Vector3.one * 1.7f, 0.8f).setEaseOutElastic();
         LeanTween.scale(image.rectTransform, Vector3.one, 0.5f).setDelay(0.8f);
@@ -234,9 +240,13 @@ public class RecluitController : MonoBehaviour
                 iconUITemp.container.gameObject.SetActive(true);
                 iconUITemp.currentBar.localScale = Vector3.one;
                 iconUITemp.EnableButton();
-                if (iconUITemp.CharacterEnemy.id == 0)
+                if (iconUITemp.CharacterEnemy.id == 0)//tree
                 {
                     EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(2).SetFloat(iconUITemp.transform.position.x).SetFloat2(iconUITemp.transform.position.y));
+                }
+                else if (iconUITemp.CharacterEnemy.id == 10 && iconUITemp.IndexPosition < 3)//spider
+                {
+                    EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(3).SetFloat(iconUITemp.transform.position.x).SetFloat2(iconUITemp.transform.position.y));
                 }
                 LeanTween.scale(image.rectTransform, Vector3.one, 0.3f).setEaseOutBounce();
             }

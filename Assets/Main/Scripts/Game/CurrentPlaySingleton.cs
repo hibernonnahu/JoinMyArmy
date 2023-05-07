@@ -63,6 +63,11 @@ public class CurrentPlaySingleton
         instance = null;
         GetInstance().level = 1;
     }
+    public void ResetStats()
+    {
+        skillController = null;
+        characterMainStats = null;
+    }
 
     public void LoadGamePlay(CharacterMain characterMain)
     {

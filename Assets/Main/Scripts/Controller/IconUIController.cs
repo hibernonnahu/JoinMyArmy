@@ -112,7 +112,8 @@ public class IconUIController : MonoBehaviour
         if (drag)
         {       
             recluitController.OnEndDrag(this);
-            
+            EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
+
         }
     }
 

@@ -42,6 +42,16 @@ public class Game : MonoBehaviour
         if (next == null || next.Length == 0)
         {
             SaveData.GetInstance().SaveRam();
+            if (stats.chapter < 2)
+            {
+                stats.chapter++;
+            }
+            else
+            {
+                stats.chapter = 1;
+            }
+            stats.level = 1;
+
             EventManager.TriggerEvent(EventName.POPUP_OPEN, EventManager.Instance.GetEventData().SetString(PopupName.WIN));
         }
         else
@@ -63,6 +73,10 @@ public class Game : MonoBehaviour
     public void Reset()
     {
         CurrentPlaySingleton.GetInstance().Reset();
+        Continue();
+    }
+    public void Continue()
+    {
         LeanTween.color(fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(ChangeScene);
         EventManager.TriggerEvent(EventName.POPUP_CLOSE_ALL);
     }

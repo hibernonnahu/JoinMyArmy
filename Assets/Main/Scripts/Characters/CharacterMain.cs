@@ -76,7 +76,7 @@ public class CharacterMain : Character
         collider.enabled = false;
         Rigidbody.velocity = Vector3.forward;
         model.transform.forward = Vector3.forward;
-        VulnerableTime = 5;
+        VulnerableTime = 99999;
         stateMachine.ChangeState<StateCharacterVulnerable>();
     }
 
