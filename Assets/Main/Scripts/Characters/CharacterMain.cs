@@ -6,7 +6,7 @@ public class CharacterMain : Character
 {
     [Header("Main ExternalElements")]
     public FloatingJoystick floatingJoystick;
-    public RecluitController recluitHandler;
+    public RecluitController recluitController;
     public IconUIController barUI;
     private FxManager fxController;
     public FxManager FxHandler { get { return fxController; } }
@@ -28,7 +28,7 @@ public class CharacterMain : Character
     private void Start()
     {
         Init();
-        recluitHandler.SetMaxRecluits(maxRecluits + skillController.ExtraRecluit);
+        recluitController.SetMaxRecluits(maxRecluits + skillController.ExtraRecluit);
 
     }
 
@@ -36,8 +36,9 @@ public class CharacterMain : Character
     {
         model.transform.forward = Vector3.forward;
         base.Init();
-        HealthBarController.GoGreen();
+        HealthBarController.UpdateBarColor(this);
         HealthBarController.UseBarUI(barUI);
+        SetLayer(8, 15, new int[] { 9 });
 
         fxController = GetComponent<FxManager>();
         FindObjectOfType<CameraHandler>().FollowGameObject(model);
@@ -61,6 +62,11 @@ public class CharacterMain : Character
 
     internal void CastRecluit(CharacterEnemy enemy)
     {
+        FxHandler.enemyRecluit.transform.position = enemy.transform.position;
+        FxHandler.enemyRecluit.Play();
+        FxHandler.startEnemyRecluit.Play();
+        EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("recluit" + UnityEngine.Random.Range(1, 4)));
+        EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("recluitmagic"));
         enemy.ChangeTeam();
         VulnerableTime = 1;
         SetAnimation("cast");
@@ -71,13 +77,14 @@ public class CharacterMain : Character
     {
         stateMachine.ChangeState(typeof(StateCharacterVulnerable));
     }
-    internal void OnLevelEnd()
+    internal void OnLevelEnd(Vector3 exitPosition)
     {
         collider.enabled = false;
-        Rigidbody.velocity = Vector3.forward;
-        model.transform.forward = Vector3.forward;
         VulnerableTime = 99999;
         stateMachine.ChangeState<StateCharacterVulnerable>();
+        Rigidbody.drag = 0;
+        model.transform.forward = (exitPosition.x * Vector3.right + exitPosition.z * Vector3.forward) - (transform.position.x * Vector3.right + transform.position.z * Vector3.forward);
+        Rigidbody.velocity = model.transform.forward;
     }
 
     public void AddXP(int xp)

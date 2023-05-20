@@ -18,6 +18,8 @@ public class JsonMapCreator : MonoBehaviour
     public int time = -1;
     public int waveTime = -1;
     public GameObject[] wavesFolders;
+    public int[] teamEnemiesID = new int[] { 1, 0 };
+
     // Use this for initialization
     private void Awake()
     {
@@ -91,6 +93,7 @@ public class JsonMapCreator : MonoBehaviour
         RemoveExtraDecimals();
         FindCharacters();
         FindObstacles();
+        lvl.teamEnemiesID = teamEnemiesID;
         lvl.floor = floor;
         lvl.time = time;
         lvl.waveTime = waveTime;

@@ -8,6 +8,7 @@ public class HealthBarController : MonoBehaviour
     public TMPro.TextMeshPro text;
     public TMPro.TextMeshPro levelText;
     public Material green;
+    private Material red;
     private GameObject currentHealthBar;
     public GameObject currentXpBar;
     private Action<float> updateBar = (x) => { };
@@ -18,6 +19,7 @@ public class HealthBarController : MonoBehaviour
     public void Init(Character character)
     {
         this.character = character;
+        red = transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material;
         currentHealthBar = transform.GetChild(0).gameObject;
         transform.localScale *= character.barScale;
         transform.position += Vector3.up * character.barOffset;
@@ -31,9 +33,20 @@ public class HealthBarController : MonoBehaviour
             text.text = character.Health.ToString();
         }
     }
-    public void GoGreen()
+    public void UpdateBarColor(Character character)
     {
-        transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material = green;
+        if (character.IsEnemy())
+        {
+            transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material = red;
+        }
+        else
+        {
+            transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material = green;
+        }
+        ShowBarAgain();
+    }
+    public void ShowBarAgain()
+    {
         LeanTween.scale(gameObject, initScale, HEALTHBAR_FADEOUT_TIME).setEaseInExpo();
     }
     internal void UpdateBar()
@@ -49,7 +62,7 @@ public class HealthBarController : MonoBehaviour
     }
     public void UseBarUI(IconUIController barUI)
     {
-       
+
         updateBar = (x) =>
         {
             if (x <= 0)

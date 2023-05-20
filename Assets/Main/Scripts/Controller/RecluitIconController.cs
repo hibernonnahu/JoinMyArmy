@@ -11,13 +11,16 @@ public class RecluitIconController : MonoBehaviour
     private Vector3 maskOriginalPosition;
     public float totalTime = 5;
     private bool disabled = false;
-
+    private Transform originalParent;
+    private Vector3 originalLocalPosition;
     private Sprite sprite;
     public Sprite Sprite { get => sprite; set => sprite = value; }
 
     private bool knocked = false;
     void Awake()
     {
+        originalParent = transform.parent;
+        originalLocalPosition = transform.localPosition;
         maskOriginalPosition = mask.transform.localPosition;
         transform.localScale = Vector3.zero;
         enemy = GetComponentInParent<CharacterEnemy>();
@@ -70,6 +73,16 @@ public class RecluitIconController : MonoBehaviour
         FadeOut();
         enemy.Kill();
     }
+    public void Restore()
+    {
+        mask.gameObject.SetActive(true);
+        gameObject.SetActive(true);
+        transform.SetParent(originalParent);
+        transform.localPosition = originalLocalPosition;
+        gameObject.transform.localScale = Vector3.zero;
+        disabled = false;
+        knocked = false;
+    }
     void Pulse()
     {
         transform.SetParent(null);
@@ -88,10 +101,10 @@ public class RecluitIconController : MonoBehaviour
             Disable();
 
             mask.gameObject.SetActive(false);
-            if (enemy.CharacterMain.recluitHandler.CanRecluit() && !enemy.CharacterMain.IsDead)
+            if (enemy.CharacterMain.recluitController.CanRecluit() && !enemy.CharacterMain.IsDead)
             {
-                enemy.CharacterMain.recluitHandler.UpdateFreeSpace();
-                enemy.CharacterMain.recluitHandler.MakeUIAnimation(transform.position);
+                enemy.CharacterMain.recluitController.UpdateFreeSpace();
+                enemy.CharacterMain.recluitController.MakeUIAnimation(transform.position);
                 enemy.CharacterMain.CastRecluit(enemy);
                 gameObject.SetActive(false);
             }

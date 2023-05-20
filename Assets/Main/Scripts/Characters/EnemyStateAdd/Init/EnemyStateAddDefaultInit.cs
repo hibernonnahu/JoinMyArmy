@@ -18,4 +18,8 @@ public abstract class EnemyStateAddDefaultInit : MonoBehaviour
     {
         enemyStateAttackModeHandler.OnRecluit();
     }
+    public virtual void SetDefaultInit()
+    {
+        
+    }
 }

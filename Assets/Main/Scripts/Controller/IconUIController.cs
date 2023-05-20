@@ -21,6 +21,8 @@ public class IconUIController : MonoBehaviour
     private Vector3 initialPosition;
     private Action onUpdateColdDown = () => { };
     private int indexPosition;
+    private bool canBeDragged = true;
+   
     public int IndexPosition { get { return indexPosition; } }
     private bool drag = false;
 
@@ -67,7 +69,7 @@ public class IconUIController : MonoBehaviour
             currentTime = totalTime = characterEnemy.UseMainSkill();
             if (currentTime > 0)
             {
-                LeanTween.delayedCall(0.3f, StartColdDown);
+                LeanTween.delayedCall(gameObject, 0.3f, StartColdDown);
             }
         }
     }
@@ -90,7 +92,7 @@ public class IconUIController : MonoBehaviour
     }
     public void BeginDrag(BaseEventData data)
     {
-        if (button.interactable)
+        if (button.interactable&& canBeDragged)
         {
             Transform parent = transform.parent;
             transform.SetParent(null, true);
@@ -112,8 +114,6 @@ public class IconUIController : MonoBehaviour
         if (drag)
         {       
             recluitController.OnEndDrag(this);
-            EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
-
         }
     }
 
@@ -127,7 +127,7 @@ public class IconUIController : MonoBehaviour
             {
                 BounceAnimation(()=> { },Vector3.one);
             }
-            LeanTween.move(rectTransform.gameObject, initialPosition, 0.5f).setEaseOutBack().setOnComplete(() => { button.interactable = true; drag = false; });
+            LeanTween.move(rectTransform.gameObject, initialPosition, 0.5f).setEaseOutBack().setIgnoreTimeScale(true).setOnComplete(() => { button.interactable = true; drag = false; });
         }
         else
         {
@@ -137,11 +137,20 @@ public class IconUIController : MonoBehaviour
 
     public void BounceAnimation(Action onComplete,Vector3 finalSize)
     {
-        LeanTween.scale(rectTransform, Vector3.one * 1.2f, 0.3f).setEaseInBounce().setOnComplete(
+        LeanTween.scale(rectTransform, Vector3.one * 1.2f, 0.3f).setEaseInBounce().setIgnoreTimeScale(true).setOnComplete(
                   () =>
                   {
-                      LeanTween.scale(rectTransform, finalSize, 0.2f).setEaseOutBounce().setOnComplete(onComplete);
+                      LeanTween.scale(rectTransform, finalSize, 0.2f).setEaseOutBounce().setIgnoreTimeScale(true).setOnComplete(onComplete);
                   }
                   );
+    }
+    internal void DisableDrag(bool v)
+    {
+        canBeDragged = !v;
+    }
+
+    private void OnDestroy()
+    {
+        LeanTween.cancel(gameObject);
     }
 }

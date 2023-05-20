@@ -7,7 +7,7 @@ public class EnemyStateAddAttackEscape : EnemyStateAddAttack
     public override IEnemyStateAddAttack InitStates(CharacterEnemy characterEnemy) //where Type : StateCharacter
     {
         this.characterEnemy = characterEnemy;
-        characterEnemy.HelpAttack = false;
+        
         characterEnemy.AttackState = characterEnemy.IdleState;
 
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyEscape(characterEnemy.StateMachine, characterEnemy));

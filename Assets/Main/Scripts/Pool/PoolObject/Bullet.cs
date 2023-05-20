@@ -32,9 +32,9 @@ public class Bullet : MonoBehaviour
         muzzleParticle?.Stop();
         projectileParticle.Stop();
         impactAudio?.Play();
-        LeanTween.delayedCall(1, Disable);
+        LeanTween.delayedCall(gameObject, 1, Disable);
         rigidbody.velocity = Vector3.zero;
-        if (collision.gameObject.layer == 8 || collision.gameObject.layer == 9)
+        if (character.HitsLayer(collision.gameObject.layer))
         {
             collision.gameObject.GetComponent<Character>().GetHit(character);
         }
@@ -55,5 +55,9 @@ public class Bullet : MonoBehaviour
         projectileAudio?.Play();
         projectileParticle.transform.forward = character.model.transform.forward;
         rigidbody.velocity = character.model.transform.forward * speed;
+    }
+    private void OnDestroy()
+    {
+        LeanTween.cancel(gameObject);
     }
 }

@@ -60,13 +60,25 @@ public class CurrentPlaySingleton
 
     internal void Reset()
     {
+        int chapter = instance.chapter;
+        int book = instance.book;
+        var party = instance.party;
         instance = null;
         GetInstance().level = 1;
+        int count = 15;
+        if (party.Count < count)
+        {
+            count = party.Count;
+        }
+        instance.party = party.GetRange(0, count);
+        instance.chapter = chapter;
+        instance.book = book;
     }
     public void ResetStats()
     {
         skillController = null;
         characterMainStats = null;
+        coins = 0;
     }
 
     public void LoadGamePlay(CharacterMain characterMain)

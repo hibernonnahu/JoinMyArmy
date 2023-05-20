@@ -17,7 +17,8 @@ public class CharacterEnemy : Character
     public int coins = 1;
     public int extraAlertRange = 0;
     public int belongToWave = 0;
-
+    [Header("Other")]
+    public float followDistance = 1;
     private Vector3 returnPosition;
     public Vector3 ReturnPosition { get { return returnPosition; } set { returnPosition = value; } }
     private bool helpAttack = false;
@@ -61,19 +62,25 @@ public class CharacterEnemy : Character
 
         base.Init();
         returnPosition = transform.position;
+        SetLayer(9, 14, new int[] { 8, 16 });//Enemy,BulletEnemy,[Player,Ally]
         stateMachine = new StateMachine<StateCharacterEnemy>();
         enemyStateAddInit = GetComponent<EnemyStateAddDefaultInit>();
         if (enemyStateAddInit != null) { enemyStateAddInit.Init(this); } else { throw new Exception("No initial Default state found in " + gameObject.name); }
 
+        stateMachine.AddState(new StateCharacterEnemyDead(stateMachine, this));
+        StateMachine.AddState(new StateCharacterEnemyVulnerable(StateMachine, this));
         foreach (var item in GetComponents<IEnemySimpleAdd>())
         {
             item.Init(this);
         }
 
-        stateMachine.AddState(new StateCharacterEnemyDead(stateMachine, this));
-        StateMachine.AddState(new StateCharacterEnemyVulnerable(StateMachine, this));
-    }
 
+    }
+    internal void ForceIdle()
+    {
+
+        stateMachine.ChangeState(IdleState);
+    }
     protected override void LoadResources()
     {
         base.LoadResources();
@@ -109,7 +116,7 @@ public class CharacterEnemy : Character
 
     public void UpdateStatesToFollow()
     {
-        HealthBarController.GoGreen();
+        HealthBarController.UpdateBarColor(this);
         NextState = typeof(StateCharacterEnemyFollowLeader);
         IdleState = typeof(StateCharacterEnemyFollowLeader);
         VulnerableTime = 1;
@@ -122,17 +129,12 @@ public class CharacterEnemy : Character
         stateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemyDead));
     }
 
-    internal void Tint()
-    {
-        meshRenderer.material.color = Utils.GetColor(0.8f, 1f, 0.9f, 1);
-    }
-
     internal void Revive()
     {
         team = 0;
+        IsDead = false;
         speed = characterMain.speed;
         canBeRecluit = false;
-        Tint();
         collider.enabled = true;
     }
 
@@ -157,6 +159,11 @@ public class CharacterEnemy : Character
     public void DisableCollider()
     {
         collider.enabled = false;
+
+    }
+    public void EnableCollider()
+    {
+        collider.enabled = true;
 
     }
     protected override void GoVulnerable()

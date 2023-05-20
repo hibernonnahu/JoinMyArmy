@@ -13,6 +13,6 @@ public class ExitTrigger : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         collider.enabled = false;
-        FindObjectOfType<Game>().OnExitTrigger();
+        FindObjectOfType<Game>().OnExitTrigger(transform.position);
     }
 }

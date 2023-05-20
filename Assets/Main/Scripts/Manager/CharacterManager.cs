@@ -7,31 +7,58 @@ public class CharacterManager : MonoBehaviour
 {
     public Character[] prefabs;
     private List<Character>[] teamList;
+    private List<Character>[] teamExtraList;
     private List<List<Character>> waveList;
     private CharacterMain characterMain;
     public GameObject[] spawnPool;
     private int currentMarkIndex = 0;
     public float spawnTime = 2;
+    private LevelJsonLoader loader;
+    public LevelJsonLoader Loader { get { return loader; } }
+    public List<int>[] teamEnemiesID;
+
     private void Start()
     {
 
     }
-    public void Init(int teamsAmount)
+    public void Init()
     {
+        loader = GetComponent<LevelJsonLoader>();
+        loader.LoadMap();
+        int teamsAmount = loader.Lvl.teamEnemiesID.Length;
+        ParseTeamEnemiesIDs(loader.Lvl.teamEnemiesID);
         teamList = new List<Character>[teamsAmount];
         for (int i = 0; i < teamList.Length; i++)
         {
             teamList[i] = new List<Character>();
         }
+        teamExtraList = new List<Character>[teamsAmount];
+        for (int i = 0; i < teamExtraList.Length; i++)
+        {
+            teamExtraList[i] = new List<Character>();
+        }
 
         InitJson();
     }
 
+    private void ParseTeamEnemiesIDs(int[] teamEnemiesID)
+    {
+        this.teamEnemiesID = new List<int>[teamEnemiesID.Length];
+        for (int i = 0; i < teamEnemiesID.Length; i++)
+        {
+            this.teamEnemiesID[i] = new List<int>();
+            int digits = CustomMath.CountDigits(teamEnemiesID[i]);
+            int code = teamEnemiesID[i];
+            for (int j = 0; j < digits; j++)
+            {
+                this.teamEnemiesID[i].Add(code % 10);
+                code = code / 10;
+            }
+        }
+    }
+
     private void InitJson()
     {
-
-        var loader = GetComponent<LevelJsonLoader>();
-        loader.LoadMap();
         characterMain = loader.CharacterMain;
         AddCharacterMain(characterMain);
         foreach (var enemy in loader.Enemies)
@@ -40,7 +67,7 @@ public class CharacterManager : MonoBehaviour
         }
         RemoveEmptyWaves();
 
-        Destroy(loader);
+
     }
 
     private void RemoveEmptyWaves()
@@ -64,7 +91,25 @@ public class CharacterManager : MonoBehaviour
     {
         return teamList[v];
     }
+    public List<Character> GetEnemiesInRange(int attackTeam, float attackDistanceSqr, Vector3 position)
+    {
+        List<Character> inRange = new List<Character>();
 
+        foreach (var enemyID in teamEnemiesID[attackTeam])
+        {
+            List<Character> enemiesList = teamList[enemyID];
+
+            foreach (var enemy in enemiesList)
+            {
+
+                if (attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
+                {
+                    inRange.Add(enemy);
+                }
+            }
+        }
+        return inRange;
+    }
     public List<Character> GetTeamMatesInRange(int attackTeam, float attackDistanceSqr, Vector3 position)
     {
         List<Character> teammatesList = teamList[attackTeam];
@@ -84,6 +129,16 @@ public class CharacterManager : MonoBehaviour
         Character current = null;
         float closest = float.MaxValue;
         List<Character> enemyList = GetEnemyListForTeam(attackTeam);
+        foreach (var enemy in enemyList)
+        {
+            float dist = (position - enemy.transform.position).sqrMagnitude;
+            if (dist < attackDistanceSqr && dist < closest)
+            {
+                closest = dist;
+                current = enemy;
+            }
+        }
+        enemyList = GetEnemyExtraListForTeam(attackTeam);
         foreach (var enemy in enemyList)
         {
             float dist = (position - enemy.transform.position).sqrMagnitude;
@@ -113,7 +168,21 @@ public class CharacterManager : MonoBehaviour
 
     private List<Character> GetEnemyListForTeam(int team)
     {
-        return teamList[(team + 1) % 2];
+        List<Character> list = new List<Character>();
+        foreach (var item in teamEnemiesID[team])
+        {
+            list.AddRange(teamList[item]);
+        }
+        return list;
+    }
+    private List<Character> GetEnemyExtraListForTeam(int team)
+    {
+        List<Character> list = new List<Character>();
+        foreach (var item in teamEnemiesID[team])
+        {
+            list.AddRange(teamExtraList[item]);
+        }
+        return list;
     }
 
     private void AddCharacterMain(CharacterMain character)
@@ -122,18 +191,22 @@ public class CharacterManager : MonoBehaviour
         teamList[0].Add(character);
         character.enabled = true;
     }
-    private CharacterEnemy AddCharacterEnemy(CharacterEnemy enemy, CharacterMain characterMain)
+    public CharacterEnemy AddCharacterEnemy(CharacterEnemy enemy, CharacterMain characterMain)
     {
         enemy.CharacterManager = this;
         enemy.CharacterMain = characterMain;
-        if (enemy.belongToWave == 0)
+
+
         {
-            teamList[enemy.team].Add(enemy);
-            enemy.enabled = true;
-        }
-        else
-        {
-            AddEnemyForWave(enemy);
+            if (enemy.belongToWave == 0)
+            {
+                AddCharacterToList(enemy);
+                enemy.enabled = true;
+            }
+            else
+            {
+                AddEnemyForWave(enemy);
+            }
         }
 
         return enemy;
@@ -162,10 +235,16 @@ public class CharacterManager : MonoBehaviour
 
     public void RemoveCharacter(Character character)
     {
+        if (character.extra)
+        {
+            teamExtraList[character.team].Remove(character);
+        }
+
         teamList[character.team].Remove(character);
+
         if (character.team == 0)
         {
-            characterMain.recluitHandler.Remove(character);
+            characterMain.recluitController.Remove(character);
         }
         else
         {
@@ -174,7 +253,8 @@ public class CharacterManager : MonoBehaviour
             {
                 if ((waveList == null || waveList.Count == 0))
                 {
-                    EventManager.TriggerEvent(EventName.EXIT_OPEN);
+                    if (loader.Lvl.time == -1)
+                        EventManager.TriggerEvent(EventName.EXIT_OPEN);
                 }
                 else
                 {
@@ -183,6 +263,7 @@ public class CharacterManager : MonoBehaviour
             }
             EventManager.TriggerEvent(EventName.ENEMY_KILL, EventManager.Instance.GetEventData().SetInt(teamList[1].Count));
         }
+
     }
 
     public void SpawnNextWave()
@@ -194,7 +275,8 @@ public class CharacterManager : MonoBehaviour
                 SpawnMarkAt(character.transform.position);
                 character.transform.position = Vector3.right * character.transform.position.x + Vector3.forward * character.transform.position.z + Vector3.down * 1000;
 
-                teamList[character.team].Add(character);
+                AddCharacterToList(character);
+
                 character.Spawn(spawnTime);
             }
             waveList.RemoveAt(0);
@@ -204,6 +286,18 @@ public class CharacterManager : MonoBehaviour
                 EventManager.TriggerEvent(EventName.SPAWN_WAVE);
         }
 
+    }
+
+    private void AddCharacterToList(Character character)
+    {
+        if (character.extra)
+        {
+            teamExtraList[character.team].Add(character);
+        }
+        else
+        {
+            teamList[character.team].Add(character);
+        }
     }
 
     private void SpawnMarkAt(Vector3 position)
@@ -219,11 +313,12 @@ public class CharacterManager : MonoBehaviour
     public void GoMainTeam(CharacterEnemy characterEnemy, bool direct = false, int forcePosition = -1)
     {
         teamList[0].Add(characterEnemy);
-        SaveData.instance.Save("recluit_" + characterEnemy.id,1);
+        SaveData.instance.Save(SaveDataKey.RECLUIT + characterEnemy.id, 1);
         characterEnemy.level = GetEnemyLevel(characterEnemy.id);
         characterEnemy.UpdateStatsOnLevel(characterEnemy.level, true, false);
         characterEnemy.Revive();
-        characterMain.recluitHandler.Recluit(characterEnemy, direct, forcePosition);
+        characterEnemy.SetLayer(16, 15, new int[] { 9 });
+        characterMain.recluitController.Recluit(characterEnemy, direct, forcePosition);
     }
 
     private int GetEnemyLevel(int id)

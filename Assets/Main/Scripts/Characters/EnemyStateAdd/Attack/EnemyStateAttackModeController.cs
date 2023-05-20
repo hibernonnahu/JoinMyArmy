@@ -58,12 +58,16 @@ public class EnemyStateAttackModeController
             weights.Add(component.GetWeight());
             sumWeight += component.GetWeight();
         }
-        float random = UnityEngine.Random.Range(0, sumWeight);
-        while (random > weights[count])
+        if (sumWeight > 0)
         {
-            random -= weights[count];
-            count++;
+
+            float random = UnityEngine.Random.Range(0, sumWeight);
+            while (random > weights[count])
+            {
+                random -= weights[count];
+                count++;
+            }
+            typeAttack[count].Execute();
         }
-        typeAttack[count].Execute();
     }
 }

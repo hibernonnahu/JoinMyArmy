@@ -44,6 +44,7 @@ public class LastEnemiesController : MonoBehaviour
     private void UpdateArrows()
     {
         int i = 0;
+       
         foreach (var item in character.CharacterManager.GetTeam(1))
         {
             arrows[i].transform.forward = item.transform.position - character.transform.position;

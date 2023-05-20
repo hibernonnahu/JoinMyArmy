@@ -56,6 +56,17 @@ public class CustomMath
         return (vec * isqr);
     }
 
+    internal static int CountDigits(int i)
+    {
+        int count = 0;
+        do
+        {
+            i = i / 10;
+            ++count;
+        } while (i != 0);
+        return count;
+    }
+
     public static Color Vector4NotNew(float v1, float v2, float v3, float v4)
     {
         return one * v1 + two * v2 + three * v3 + four * v4;

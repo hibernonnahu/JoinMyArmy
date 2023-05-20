@@ -13,14 +13,18 @@ public class SaveData
         if (instance == null)
         {
             instance = new SaveData();
+            for (int i = 1; i < 5; i++)
+            {
+                instance.AddEnemyLocalLevel(12);
+            }
         }
         return instance;
     }
-    public int GetValue(string name)
+    public int GetValue(string name, int returnValue = 0)
     {
         if (!other.ContainsKey(name))
         {
-            return 0;
+            return returnValue;
         }
         return other[name];
     }

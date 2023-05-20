@@ -29,7 +29,7 @@ public class EventData
         floatData3 = f;
         return this;
     }
-    public int intData=-1;
+    public int intData = -1;
     public EventData SetInt(int i)
     {
         intData = i;
@@ -41,7 +41,7 @@ public class EventData
         intData2 = i;
         return this;
     }
-    public Vector4 vec4 ;
+    public Vector4 vec4;
     public EventData SetVec4(Vector4 v)
     {
         vec4 = v;
@@ -59,6 +59,12 @@ public class EventData
         stringData = s;
         return this;
     }
+    public Transform transformData;
+    public EventData SetTransform(Transform t)
+    {
+        transformData = t;
+        return this;
+    }
     public GameObject[] gameObjects;
     public string eventName = "";
 }
@@ -66,15 +72,16 @@ public class EventDataConstruct : UnityEvent<EventData>
 {
 }
 
-public class EventManager  {
+public class EventManager
+{
     private EventData eventData = new EventData();
-   
+
     public EventData GetEventData()
     {
-       
+
         return eventData;
     }
-    private Dictionary <string, UnityEvent<EventData>> eventDictionary;
+    private Dictionary<string, UnityEvent<EventData>> eventDictionary;
 
     private static EventManager eventManager;
 
@@ -82,8 +89,8 @@ public class EventManager  {
     {
         get
         {
-            
-            if(eventManager==null)
+
+            if (eventManager == null)
             {
                 eventManager = new EventManager();
             }
@@ -92,7 +99,7 @@ public class EventManager  {
         }
     }
 
-   public EventManager ()
+    public EventManager()
     {
         if (eventDictionary == null)
         {
@@ -100,29 +107,29 @@ public class EventManager  {
         }
     }
 
-    public static void StartListening (string eventName, UnityAction<EventData> listener)
+    public static void StartListening(string eventName, UnityAction<EventData> listener)
     {
         UnityEvent<EventData> thisEvent = null;
-        if (Instance.eventDictionary.TryGetValue (eventName, out thisEvent))
+        if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.AddListener (listener);
-        } 
+            thisEvent.AddListener(listener);
+        }
         else
         {
             thisEvent = new EventDataConstruct();
-            thisEvent.AddListener (listener);
-            Instance.eventDictionary.Add (eventName, thisEvent);
+            thisEvent.AddListener(listener);
+            Instance.eventDictionary.Add(eventName, thisEvent);
         }
     }
 
-    public static void StopListening (string eventName, UnityAction<EventData> listener)
+    public static void StopListening(string eventName, UnityAction<EventData> listener)
     {
 
         if (eventManager == null) return;
         UnityEvent<EventData> thisEvent = null;
-        if (Instance.eventDictionary.TryGetValue (eventName, out thisEvent))
+        if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
-            thisEvent.RemoveListener (listener);
+            thisEvent.RemoveListener(listener);
         }
     }
 
@@ -139,18 +146,18 @@ public class EventManager  {
         }
     }
 
-    public static void TriggerEvent (string eventName,EventData eventData = null)
+    public static void TriggerEvent(string eventName, EventData eventData = null)
     {
         //Debug.Log("TriggerEvent");
         UnityEvent<EventData> thisEvent = null;
-        if (Instance.eventDictionary.TryGetValue (eventName, out thisEvent))
+        if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {
             if (eventData == null)
             {
                 eventData = Instance.eventData;
             }
             eventData.eventName = eventName;
-            thisEvent.Invoke (eventData);
+            thisEvent.Invoke(eventData);
         }
     }
 

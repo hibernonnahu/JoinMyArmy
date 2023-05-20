@@ -1039,6 +1039,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903ca59c8d0eaf1428c33d24d89d8a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultSize: 25
+  offsetSize: 5
+  speedSize: 5
   OFFSET_Z: 6
   speed: 0.5
   mMWiggle: {fileID: 0}
@@ -1502,8 +1505,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCreator: 1
   book: 1
-  chapter: 2
-  level: 1
+  chapter: 1
+  level: 3
   forceVariation: 0
   floor: {fileID: 1462155460}
 --- !u!4 &1321057635
@@ -2178,6 +2181,7 @@ MonoBehaviour:
   - {fileID: 1901132025}
   - {fileID: 1141356907}
   - {fileID: 1442558066}
+  teamEnemiesID: 0100000000000000
 --- !u!4 &2037763737
 Transform:
   m_ObjectHideFlags: 0

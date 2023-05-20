@@ -28,7 +28,7 @@ public class EventText : MonoBehaviour
     private void DisplayText()
     {
         text.text = queue[0];
-        LeanTween.delayedCall(TEXT_DELAY, RemoveFirst);
+        LeanTween.delayedCall(text.gameObject,TEXT_DELAY, RemoveFirst);
     }
 
     private void RemoveFirst()
@@ -45,6 +45,7 @@ public class EventText : MonoBehaviour
     }
     private void OnDestroy()
     {
+        LeanTween.cancel(text.gameObject);
         EventManager.StopListening("main text", PlayText);
     }
 }

@@ -28,7 +28,7 @@ public class GameUIController : MonoBehaviour
         }
         else
         {
-            enemiesRemain.text = "Enemies remain " + arg0.intData;
+            enemiesRemain.text = "Enemies: " + arg0.intData;
         }
     }
 
@@ -80,7 +80,7 @@ public class GameUIController : MonoBehaviour
             else
             {
                 lastWaveCounter = time;
-                nextWave.text = "Next wave in: " + time +" waves: "+characterManager.GetRemainingWaves();
+                nextWave.text = "Next wave: " + time +" waves: "+characterManager.GetRemainingWaves();
             }
         }
 

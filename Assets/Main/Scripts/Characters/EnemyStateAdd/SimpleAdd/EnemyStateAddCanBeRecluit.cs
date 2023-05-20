@@ -12,7 +12,7 @@ public class EnemyStateAddCanBeRecluit : MonoBehaviour , IEnemySimpleAdd
     }
 
   
-    public void Init(CharacterEnemy characterEnemy)
+    public virtual void Init(CharacterEnemy characterEnemy)
     {
         characterEnemy.CanBeRecluit = true;
         characterEnemy.MeshRenderer = characterEnemy.model.GetComponentInChildren<SkinnedMeshRenderer>();
@@ -20,6 +20,5 @@ public class EnemyStateAddCanBeRecluit : MonoBehaviour , IEnemySimpleAdd
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyFollowLeader(characterEnemy.StateMachine, characterEnemy));
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyKnocked(characterEnemy.StateMachine, characterEnemy));
 
-        Destroy(this);
     }
 }

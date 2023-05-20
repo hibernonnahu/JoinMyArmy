@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,5 +26,13 @@ public class BulletPool : MonoBehaviour
         bullets[currentIndex].character = character;
         bullets[currentIndex].gameObject.SetActive(true);
         return bullets[currentIndex];
+    }
+
+    internal void SetLayer(int layer)
+    {
+        foreach (var item in bullets)
+        {
+            item.gameObject.layer = layer;
+        }
     }
 }

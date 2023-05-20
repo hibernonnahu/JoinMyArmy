@@ -21,6 +21,7 @@ public class Character : MonoBehaviour
     public bool useBarText = false;
     public float generalParticleYOffset = 0;
     private GeneralParticleManager generalParticleHandler;
+    public GeneralParticleManager GeneralParticleHandler { get { return generalParticleHandler; } }
 
     [Header("Atributes")]
     public int id = 0;
@@ -28,9 +29,11 @@ public class Character : MonoBehaviour
     public int team = 0;
     public int behaviour = 0;
     public int baseCost = 50;
+    public bool extra = false;// It's not important to win. It could be kill or not.
 
     [Header("Stats")]
     public float attackDistanceSqr = 2;
+
     public float attackSpeed = 1.5f;
     public float criticalChance = 0; // 0 to 1
     public float criticalMultiplier = 1.2f;
@@ -39,6 +42,8 @@ public class Character : MonoBehaviour
     [Header("Temps")]
     public Character lastEnemyTarget;
 
+    protected int[] enemyLayer;
+    public int[] EnemyLayer { get { return enemyLayer; } }
     private float vulnerableTime;
     public float VulnerableTime { get { return vulnerableTime; } set { vulnerableTime = value; } }
     private Type nextState;
@@ -104,7 +109,7 @@ public class Character : MonoBehaviour
     public virtual void Init()
     {
         LoadResources();
-       
+
         currentHealth = health;
         stateMachine = new StateMachine<StateCharacter>();
         collider = GetComponentInChildren<Collider>();
@@ -141,7 +146,7 @@ public class Character : MonoBehaviour
             }
             textShortHandler.SetDialog(transform.position, damage.ToString(), color);
             float percent = damage / health;
-            if (CurrentStateGetHit(damage,attacker))
+            if (CurrentStateGetHit(damage, attacker))
             {
                 attacker.Heal(GetHealWhenKillValue());
                 attacker.skillController.OnKill(attacker, this);
@@ -158,7 +163,7 @@ public class Character : MonoBehaviour
 
     internal void Spawn(float spawnTime)
     {
-        LeanTween.delayedCall(spawnTime, OnSpawn);
+        LeanTween.delayedCall(gameObject, spawnTime, OnSpawn);
     }
     private void OnSpawn()
     {
@@ -206,11 +211,52 @@ public class Character : MonoBehaviour
     internal void WallHit()
     {
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("wall hit"));
+        EventManager.TriggerEvent(EventName.SHAKE_CAM_POS, EventManager.Instance.GetEventData().SetFloat(0.25f));
+
         NextState = idleState;
         VulnerableTime = 1.6f;
         SetAnimation("wall hit", 0.02f);
         generalParticleHandler.wallHit.Play();
         GoVulnerable();
+    }
+    public void SetLayer(int layer, int bulletLayer, int[] enemyLayer)
+    {
+        collider.gameObject.layer = layer;
+        Transform parent = collider.transform.parent;
+        while (parent != null)
+        {
+            parent.gameObject.layer = layer;
+            parent = parent.parent;
+        }
+        this.enemyLayer = enemyLayer;
+        var bulletPool = GetComponentInChildren<BulletPool>();
+        bulletPool?.SetLayer(bulletLayer);
+    }
+    public bool HitsLayer(int layer)
+    {
+        foreach (var item in enemyLayer)
+        {
+            if (item == layer)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    internal bool IsEnemy()
+    {
+        if (team == 0)
+        {
+            return false;
+        }
+        foreach (var enemyId in characterManager.teamEnemiesID[0])
+        {
+            if (enemyId == team)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected virtual void GoVulnerable()
@@ -218,12 +264,16 @@ public class Character : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    protected virtual bool CurrentStateGetHit(float damage,Character attacker)
+    protected virtual bool CurrentStateGetHit(float damage, Character attacker)
     {
-        return stateMachine.CurrentState.GetHit(damage,attacker);
+        return stateMachine.CurrentState.GetHit(damage, attacker);
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
         stateMachine.CurrentState.OnCollisionEnter(collision);
+    }
+    private void OnDestroy()
+    {
+        LeanTween.cancel(gameObject);
     }
 }

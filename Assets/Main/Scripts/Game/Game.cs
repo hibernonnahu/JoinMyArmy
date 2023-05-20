@@ -22,7 +22,7 @@ public class Game : MonoBehaviour
         loader.chapter = CurrentPlaySingleton.GetInstance().chapter;
         loader.level = CurrentPlaySingleton.GetInstance().level;
         characterManager = GetComponent<CharacterManager>();
-        characterManager.Init(2);
+        characterManager.Init();
         stateMachine = new StateMachine<StateGame>();
         stateMachine.AddState(new StateInGame(stateMachine, this));
     }
@@ -34,7 +34,7 @@ public class Game : MonoBehaviour
     {
         stateMachine.Update();
     }
-    internal void OnExitTrigger()
+    internal void OnExitTrigger(Vector3 exitPosition)
     {
         var stats = CurrentPlaySingleton.GetInstance();
         stats.level++;
@@ -42,16 +42,17 @@ public class Game : MonoBehaviour
         if (next == null || next.Length == 0)
         {
             SaveData.GetInstance().SaveRam();
-            if (stats.chapter < 2)
+            if (stats.chapter < 3)
             {
                 stats.chapter++;
+                int currentChapter= SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER,1);
             }
             else
             {
                 stats.chapter = 1;
             }
-            stats.level = 1;
-
+            stats.SaveGamePlay(FindObjectOfType<CharacterMain>());
+            stats.Reset();
             EventManager.TriggerEvent(EventName.POPUP_OPEN, EventManager.Instance.GetEventData().SetString(PopupName.WIN));
         }
         else
@@ -62,13 +63,17 @@ public class Game : MonoBehaviour
             }
             var characterMain = FindObjectOfType<CharacterMain>();
             stats.SaveGamePlay(characterMain);
-            characterMain.OnLevelEnd();
-            LeanTween.color(fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(ChangeScene);
+            characterMain.OnLevelEnd(exitPosition);
+            LeanTween.color(fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(NextLevelScene);
         }
     }
-    private void ChangeScene()
+    private void NextLevelScene()
     {
         SceneManager.LoadScene("Game");
+    }
+    private void MainMenuScene()
+    {
+        SceneManager.LoadScene("Main Menu");
     }
     public void Reset()
     {
@@ -77,7 +82,7 @@ public class Game : MonoBehaviour
     }
     public void Continue()
     {
-        LeanTween.color(fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(ChangeScene);
+        LeanTween.color(fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(MainMenuScene);
         EventManager.TriggerEvent(EventName.POPUP_CLOSE_ALL);
     }
     private void OnDestroy()

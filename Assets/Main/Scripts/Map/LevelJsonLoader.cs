@@ -15,6 +15,8 @@ public class LevelJsonLoader : MonoBehaviour
     public CharacterEnemy[] Enemies { get => enemies; }
     private CharacterMain characterMain;
     public CharacterMain CharacterMain { get => characterMain; }
+    private Level lvl;
+    public Level Lvl { get { return lvl; } }
 
     public void Awake()
     {
@@ -39,7 +41,7 @@ public class LevelJsonLoader : MonoBehaviour
         var variations = Resources.LoadAll<TextAsset>("Maps/Campaign/Book" + book + "/Chapter" + chapter + "/Level" + level);
         if (forceVariation == -1)
         {
-            ParseString(variations[Random.Range(0, variations.Length)].text);
+            lvl= ParseString(variations[Random.Range(0, variations.Length)].text);
         }
         else
         {
@@ -48,10 +50,11 @@ public class LevelJsonLoader : MonoBehaviour
             creator.chapter = chapter;
             creator.level = level;
             creator.variation = forceVariation;
-            var lvl = ParseString(variations[forceVariation].text);
+            lvl = ParseString(variations[forceVariation].text);
             creator.floor = lvl.floor;
             creator.time = lvl.time;
             creator.waveTime = lvl.waveTime;
+            creator.teamEnemiesID = lvl.teamEnemiesID;
         }
 
 
@@ -75,17 +78,26 @@ public class LevelJsonLoader : MonoBehaviour
         {
             var lvl = JsonUtility.FromJson<Level>(tempString);
             floor.material = Resources.Load<Material>("Prefabs/InGame/FloorMaterial/" + lvl.floor);
+            LoadMainCharacter(lvl.main);
             var game = GetComponent<Game>();
             if (game != null)
             {
                 game.time = lvl.time;
                 game.waveTime = lvl.waveTime;
+                AddCompanion("RedHairGril", Vector3.right * 3);
+                //AddCompanion("Succubus", Vector3.left * 3);
             }
-            LoadMainCharacter(lvl.main);
+
             LoadMap(lvl.enemies, lvl.obstacles);
             return lvl;
         }
         return null;
+    }
+
+    private void AddCompanion(string name, Vector3 position)
+    {
+        var go = Instantiate<CharacterEnemy>(Resources.Load<CharacterEnemy>("Prefabs/InGame/Characters/" + name));
+        go.transform.position = characterMain.transform.position + position;
     }
 
     private void LoadMainCharacter(int[] main)
@@ -145,6 +157,7 @@ public class LevelJsonLoader : MonoBehaviour
                         item.isTrigger = true;
                     }
                 }
+
             }
         }
         enemies = enemiesList.ToArray();
@@ -152,7 +165,7 @@ public class LevelJsonLoader : MonoBehaviour
 
     private void AddToParent(CharacterEnemy enemy)
     {
-       var folder= GameObject.Find("wave " + enemy.belongToWave);
+        var folder = GameObject.Find("wave " + enemy.belongToWave);
         if (folder == null)
         {
             folder = new GameObject("wave " + enemy.belongToWave);
