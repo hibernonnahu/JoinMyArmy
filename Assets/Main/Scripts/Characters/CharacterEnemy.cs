@@ -18,6 +18,10 @@ public class CharacterEnemy : Character
     public int extraAlertRange = 0;
     public int belongToWave = 0;
     [Header("Other")]
+#if UNITY_EDITOR
+    public bool debug = false;
+#endif
+    public string triggerOnDeath = "";
     public float followDistance = 1;
     private Vector3 returnPosition;
     public Vector3 ReturnPosition { get { return returnPosition; } set { returnPosition = value; } }
@@ -89,6 +93,12 @@ public class CharacterEnemy : Character
     }
     protected override void Update()
     {
+#if UNITY_EDITOR
+        if (debug)
+        {
+            Debug.Log("brake point here");
+        }
+#endif
         stateMachine.Update();
     }
 

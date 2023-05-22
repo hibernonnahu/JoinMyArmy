@@ -18,7 +18,7 @@ public class CharacterMain : Character
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     private bool isMoving = false;
 
-    public int maxRecluits = 5;
+    private int maxRecluits = 6;
 
     protected override void Awake()
     {

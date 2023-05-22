@@ -6,7 +6,7 @@ public class SaveData
     public int coins = 0;
     private Dictionary<int, int> enemyLocalLevel = new Dictionary<int, int>();//id level
     private Dictionary<string, int> other = new Dictionary<string, int>();//id level
-    public static SaveData instance;
+    private static SaveData instance;
 
     public static SaveData GetInstance()
     {

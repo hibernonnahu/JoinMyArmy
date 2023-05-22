@@ -5,7 +5,7 @@ using System;
 public class StateCharacterEnemyAlert : StateCharacterEnemy
 {
     private const float TICK_TIME = 1;
-    private float counter;
+    protected float counter;
     private float alertDistanceSqr;
     private EnemyStateAttackModeController enemyStateAttackModeHandler;
     public StateCharacterEnemyAlert(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy,EnemyStateAttackModeController enemyStateAttackModeHandler,float alertDistanceSqr) : base(stateMachine, characterEnemy)
@@ -17,8 +17,8 @@ public class StateCharacterEnemyAlert : StateCharacterEnemy
     public override void Awake()
     {
         enemy.Rigidbody.velocity = Vector3.zero;
-        enemy.SetAnimation("idle", 0.02f);
-        counter = 0;
+        enemy.SetAnimation("idle", 0.1f);
+        counter = TICK_TIME;
     }
 
     public override void Sleep()

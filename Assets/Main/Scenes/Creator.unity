@@ -1505,8 +1505,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCreator: 1
   book: 1
-  chapter: 1
-  level: 3
+  chapter: 2
+  level: 7
   forceVariation: 0
   floor: {fileID: 1462155460}
 --- !u!4 &1321057635

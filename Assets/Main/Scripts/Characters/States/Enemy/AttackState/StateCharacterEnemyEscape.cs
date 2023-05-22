@@ -12,7 +12,10 @@ public class StateCharacterEnemyEscape : StateCharacterEnemy
     {
         counter = TICK_TIME;
         Move();
-        enemy.SetAnimation("walk");
+        if (!enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("walk"))
+        {
+            enemy.SetAnimation("walk");
+        }
         enemy.Rigidbody.drag = 0;
 
     }

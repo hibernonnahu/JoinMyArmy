@@ -21,7 +21,10 @@ public class StateCharacterEnemyKnocked : StateCharacterEnemy
             enemy.CharacterMain.AddXP(enemy.GetXp());
             enemy.CharacterMain.coinsUIController.AddCoins(enemy.GetCoins(), enemy.transform.position);
 
-           
+            if (enemy.triggerOnDeath != "")
+            {
+                EventManager.TriggerEvent(enemy.triggerOnDeath);
+            }
         }
         enemy.IsDead = true;
     }

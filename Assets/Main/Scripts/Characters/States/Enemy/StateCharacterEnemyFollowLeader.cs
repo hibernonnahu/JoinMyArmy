@@ -66,7 +66,10 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
                     {
                         enemy.transform.position += CustomMath.XZNormalize(Vector3.right*x+Vector3.forward*z)*5;
                     }
-                    enemy.SetAnimation("walk");
+                    if (!enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("walk"))
+                    {
+                        enemy.SetAnimation("walk");
+                    }
                     enemy.Rigidbody.drag = DRAG_FAR;
                     tick = TICK_UPDATE;
                     enemy.ReturnPosition = Vector3.right * x + Vector3.forward * z;

@@ -3,7 +3,14 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - UI
+  - Missile
+  - hand
+  - hand ui
+  - background ui
+  - point ui
+  - hud
   layers:
   - Default
   - TransparentFX
@@ -18,10 +25,10 @@ TagManager:
   - Exit
   - Wall
   - Camera
-  - 
-  - 
-  - 
-  - 
+  - Bound
+  - BulletEnemy
+  - BulletAlly
+  - Ally
   - 
   - 
   - 

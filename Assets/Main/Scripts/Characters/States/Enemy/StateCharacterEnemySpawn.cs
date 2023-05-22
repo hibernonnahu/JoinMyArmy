@@ -9,12 +9,14 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
     private float castDurationAfter;
     private float counter;
     private ParticleSystem particles;
-    public StateCharacterEnemySpawn(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, ParticleSystem particles, CharacterEnemy[] spawnEnemies, float castDuration, float castDurationAfter) : base(stateMachine, characterEnemy)
+    private AudioSource audio;
+    public StateCharacterEnemySpawn(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, ParticleSystem particles,AudioSource audio, CharacterEnemy[] spawnEnemies, float castDuration, float castDurationAfter) : base(stateMachine, characterEnemy)
     {
         this.spawnEnemies = spawnEnemies;
         this.castDuration = castDuration;
         this.castDurationAfter = castDurationAfter;
         this.particles = particles;
+        this.audio = audio;
     }
     public override void Awake()
     {
@@ -24,6 +26,10 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
         {
             particles.Stop();
             particles.Play();
+        }
+        if (audio != null)
+        {
+            audio.Play();
         }
         counter = 0;
     }

@@ -15,6 +15,8 @@ public class CurrentPlaySingleton
     public int coins = 0;
     public int dificulty = 0;
 
+    public bool animateTransition = false;
+
     public static CurrentPlaySingleton GetInstance()
     {
         if (instance == null)
@@ -63,17 +65,21 @@ public class CurrentPlaySingleton
         int chapter = instance.chapter;
         int book = instance.book;
         var party = instance.party;
+        var animateTransition = instance.animateTransition;
         instance = null;
         GetInstance().level = 1;
-        int count = 15;
-        if (party.Count < count)
-        {
-            count = party.Count;
-        }
-        instance.party = party.GetRange(0, count);
+
+        instance.party = party;
         instance.chapter = chapter;
         instance.book = book;
+        instance.animateTransition = animateTransition;
     }
+
+    internal void AnimateTransition()
+    {
+        throw new NotImplementedException();
+    }
+
     public void ResetStats()
     {
         skillController = null;

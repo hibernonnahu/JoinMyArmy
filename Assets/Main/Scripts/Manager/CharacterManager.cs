@@ -313,7 +313,7 @@ public class CharacterManager : MonoBehaviour
     public void GoMainTeam(CharacterEnemy characterEnemy, bool direct = false, int forcePosition = -1)
     {
         teamList[0].Add(characterEnemy);
-        SaveData.instance.Save(SaveDataKey.RECLUIT + characterEnemy.id, 1);
+        SaveData.GetInstance().Save(SaveDataKey.RECLUIT + characterEnemy.id, 1);
         characterEnemy.level = GetEnemyLevel(characterEnemy.id);
         characterEnemy.UpdateStatsOnLevel(characterEnemy.level, true, false);
         characterEnemy.Revive();

@@ -14,16 +14,20 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
         enemy.SetAnimation("dead", 0.1f);
         enemy.DisableCollider();
         enemy.Rigidbody.isKinematic = true;
-        if (!enemy.IsDead&&enemy.team!=enemy.CharacterMain.team)
+        if (!enemy.IsDead && enemy.team != enemy.CharacterMain.team)
         {
             enemy.CharacterMain.AddXP(enemy.GetXp());
-            enemy.CharacterMain.coinsUIController.AddCoins(enemy.GetCoins(),enemy.transform.position);
-           
+            enemy.CharacterMain.coinsUIController.AddCoins(enemy.GetCoins(), enemy.transform.position);
+            if (enemy.triggerOnDeath != "")
+            {
+                EventManager.TriggerEvent(enemy.triggerOnDeath);
+            }
             foreach (var item in enemy.OnDeadActionList)
             {
                 item();
             }
         }
+       
         enemy.IsDead = true;
     }
 
@@ -34,7 +38,7 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
 
     public override void Update()
     {
-        enemy.transform.position -= Vector3.up * Time.deltaTime*0.3f;
+        enemy.transform.position -= Vector3.up * Time.deltaTime * 0.2f;
     }
     public override void ChangeState(Type type)
     {

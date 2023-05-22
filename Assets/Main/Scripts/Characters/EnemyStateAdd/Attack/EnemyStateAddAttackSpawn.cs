@@ -5,6 +5,7 @@ public class EnemyStateAddAttackSpawn : EnemyStateAddAttack
 {
     private CharacterEnemy characterEnemy;
     public ParticleSystem particles;
+    public AudioSource audio;
     public int[] spawnEnemiesIds;
     public int amount;
     public float castDuration = 30;
@@ -24,14 +25,14 @@ public class EnemyStateAddAttackSpawn : EnemyStateAddAttack
                 spawnEnemies[i].extra = true;
                 spawnEnemies[i].xp = 0;
                 spawnEnemies[i].coins = 0;
-               
+
                 spawnEnemies[i].UpdateStatsOnLevel(characterEnemy.level, false, false);
                 spawnEnemies[i].gameObject.SetActive(false);
                 spawnEnemies[i].IsDead = true;
                 spawnEnemies[i].CharacterManager = characterManager;
             }
 
-            characterEnemy.StateMachine.AddState(new StateCharacterEnemySpawn(characterEnemy.StateMachine, characterEnemy, particles, spawnEnemies, castDuration, castDurationAfter));
+            characterEnemy.StateMachine.AddState(new StateCharacterEnemySpawn(characterEnemy.StateMachine, characterEnemy, particles, audio, spawnEnemies, castDuration, castDurationAfter));
         }
         return this;
     }

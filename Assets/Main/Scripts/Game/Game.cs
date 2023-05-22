@@ -46,6 +46,11 @@ public class Game : MonoBehaviour
             {
                 stats.chapter++;
                 int currentChapter= SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER,1);
+                if (stats.chapter > currentChapter)
+                {
+                    CurrentPlaySingleton.GetInstance().animateTransition = true;
+                    SaveData.GetInstance().Save(SaveDataKey.CURRENT_CHAPTER, stats.chapter);
+                }
             }
             else
             {
