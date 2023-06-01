@@ -165,6 +165,7 @@ MonoBehaviour:
   coins: 50
   extraAlertRange: 0
   belongToWave: 0
+  isBoss: 1
   debug: 0
   triggerOnDeath: exitOpen
   followDistance: 1

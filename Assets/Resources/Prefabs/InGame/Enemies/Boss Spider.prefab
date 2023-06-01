@@ -108,14 +108,15 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   baseHealth: 130
-  speed: 15
+  speed: 20
   strength: 13
-  defense: 4
+  defense: 6
   enemyType: 1
   xp: 50
   coins: 50
   extraAlertRange: 0
   belongToWave: 0
+  isBoss: 1
   debug: 0
   triggerOnDeath: exitOpen
   followDistance: 1
@@ -127,7 +128,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2941814218169843093}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 15
   m_Drag: 0
   m_AngularDrag: 0.05
   m_UseGravity: 0
@@ -162,7 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCastMainPower: 0
   uIColdDown: 0
-  weight: 1.58
+  weight: 1
   removeWhenRecluted: 0
 --- !u!114 &7899753986580523232
 MonoBehaviour:
@@ -178,7 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCastMainPower: 0
   uIColdDown: 1
-  weight: 0.78
+  weight: 3
   removeWhenRecluted: 0
   bulletSpeed: 11
   bulletPool: {fileID: 6652582547993250543}
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCastMainPower: 1
   uIColdDown: 45
-  weight: 1
+  weight: 7.11
   removeWhenRecluted: 0
   particles: {fileID: 8800383721857447487}
   audio: {fileID: 8774690987384026791}

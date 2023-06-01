@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 6859496078760912047}
   - component: {fileID: 6859496078760912046}
   - component: {fileID: 6859496078760912041}
+  - component: {fileID: -8123994582699560103}
   m_Layer: 0
   m_Name: RedHairGril
   m_TagString: Untagged
@@ -93,6 +94,9 @@ MonoBehaviour:
   coins: 1
   extraAlertRange: 0
   belongToWave: 0
+  isBoss: 0
+  debug: 0
+  triggerOnDeath: 
   followDistance: 0.5
 --- !u!114 &6859496078760912047
 MonoBehaviour:
@@ -135,6 +139,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   formationGrad: 90
+--- !u!114 &-8123994582699560103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6859496078760912040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48db06fbcec3b0247b3e49c67a9d7ded, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: 1
 --- !u!1001 &6859496078957937358
 PrefabInstance:
   m_ObjectHideFlags: 0
