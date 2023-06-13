@@ -11,6 +11,7 @@ TagManager:
   - background ui
   - point ui
   - hud
+  - background ui general
   layers:
   - Default
   - TransparentFX
