@@ -20,6 +20,8 @@ public class CharacterMain : Character
 
     private int maxRecluits = 6;
 
+    public StateMachine<StateCharacter> StateMachine { get { return stateMachine; } }
+
     protected override void Awake()
     {
         base.Awake();
@@ -45,6 +47,7 @@ public class CharacterMain : Character
         stateMachine.AddState(new StateCharacterMainInGame(stateMachine, this));
         stateMachine.AddState(new StateCharacterMainDead(stateMachine, this));
         stateMachine.AddState(new StateCharacterVulnerable(stateMachine, this));
+        stateMachine.AddState(new StateCharacterMainIdle(stateMachine, this));
 
         CurrentPlaySingleton.GetInstance().LoadGamePlay(this);
 
@@ -83,8 +86,8 @@ public class CharacterMain : Character
         VulnerableTime = 99999;
         stateMachine.ChangeState<StateCharacterVulnerable>();
         Rigidbody.drag = 0;
-        model.transform.forward = (exitPosition.x * Vector3.right + exitPosition.z * Vector3.forward) - (transform.position.x * Vector3.right + transform.position.z * Vector3.forward);
-        Rigidbody.velocity = model.transform.forward;
+        model.transform.forward = (exitPosition.x * Vector3.right + exitPosition.z * 10 * Vector3.forward) - (transform.position.x * Vector3.right + transform.position.z * Vector3.forward);
+        Rigidbody.velocity = model.transform.forward * 3;
     }
 
     public void AddXP(int xp)

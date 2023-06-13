@@ -1,31 +1,53 @@
 
+using System;
 using UnityEngine;
 
 public class HintSinglePressUI : MonoBehaviour
 {
-    private const float MOVE_DISTANCE = 20F;
-    private const int REPEAT = -1;
-    private bool started = false;
+    protected const float MOVE_DISTANCE = 20F;
+    protected const int REPEAT = -1;
+    protected bool started = false;
+    protected string backgroundName = "background ui";
 
-    private int id = 2;
+    protected int id = 2;
 
-    private GameObject handSprite;
-    private GameObject background;
-    private void Start()
+    protected GameObject handSprite;
+    protected GameObject background;
+    protected Transform parent;
+
+    protected void Start()
     {
         handSprite = GameObject.FindWithTag("hand ui");
-        background = GameObject.FindWithTag("background ui");
+        background = GameObject.FindWithTag(backgroundName);
         EventManager.StartListening(EventName.TUTORIAL_START, OnTrigger);
         EventManager.StartListening(EventName.TUTORIAL_END, OnEnd);
     }
+    protected virtual void OnTrigger(EventData arg0)
+    {
+        if (arg0.intData == id)
+        {
+            started = true;
+            background.transform.position = Vector3.zero;
+            handSprite.SetActive(true);
+            handSprite.transform.position = Vector3.right * Screen.width * (0.5f + 0.2f * arg0.intData2) + Vector3.up * Screen.height * 0.65f;
+            LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.63f, 1).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
+             {
+                 handSprite.SetActive(false);
+             });
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
 
-    private void OnEnd(EventData arg0)
+        }
+    }
+    protected virtual void OnEnd(EventData arg0)
     {
         if (arg0.intData == id && started)
         {
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+            FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
+
             started = false;
             background.transform.position = Vector3.right * 3000;
-            arg0.transformData.gameObject.GetComponent<IconUIController>().DisableDrag(false);
+            ExtraActionOnEnd(arg0);
 
             Time.timeScale = 1;
             LeanTween.cancel(handSprite);
@@ -35,32 +57,27 @@ public class HintSinglePressUI : MonoBehaviour
         }
     }
 
-    private void OnTrigger(EventData arg0)
+
+    internal void SetBackgroundUIName(string v)
     {
-        if (arg0.intData == id)
-        {
-            started = true;
-            var parent = background.transform.parent;
-            background.transform.SetParent(null);
-            background.transform.SetParent(parent);
-            background.transform.position = Vector3.up * Screen.height;
-            LeanTween.cancel(handSprite);
-            handSprite.SetActive(true);
-            arg0.transformData.gameObject.GetComponent<IconUIController>().DisableDrag(true);
-            // Debug.Log(arg0.floatData + " " + arg0.floatData2);
-            handSprite.transform.position = Vector3.right * (arg0.transformData.position.x) + Vector3.up * (arg0.transformData.position.y - MOVE_DISTANCE) + Vector3.forward * (arg0.transformData.position.z);
-
-            parent = arg0.transformData.parent;
-            arg0.transformData.SetParent(null);
-            arg0.transformData.SetParent(parent);
-
-            LeanTween.moveY(handSprite, arg0.transformData.position.y, 1).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
-            {
-                handSprite.SetActive(false);
-            });
-            Time.timeScale = 0;
-        }
+        backgroundName = v;
     }
+
+    internal void SetID(int v)
+    {
+        id = v;
+    }
+
+
+    protected virtual void ExtraActionOnStart(EventData arg0)
+    {
+
+    }
+    protected virtual void ExtraActionOnEnd(EventData arg0)
+    {
+
+    }
+
     private void OnDestroy()
     {
         EventManager.StopListening(EventName.TUTORIAL_START, OnTrigger);

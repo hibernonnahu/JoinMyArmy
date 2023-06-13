@@ -17,10 +17,13 @@ public class CharacterEnemy : Character
     public int coins = 1;
     public int extraAlertRange = 0;
     public int belongToWave = 0;
+    public bool isBoss = false;
+
     [Header("Other")]
 #if UNITY_EDITOR
     public bool debug = false;
 #endif
+    public float stearingRotation = 50;
     public string triggerOnDeath = "";
     public float followDistance = 1;
     private Vector3 returnPosition;

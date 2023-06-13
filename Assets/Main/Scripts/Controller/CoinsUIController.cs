@@ -7,8 +7,10 @@ using UnityEngine.UI;
 public class CoinsUIController : MonoBehaviour
 {
     private const float SCALE_TIME = 0.5F;
-    private const float SCALE_MAX = 0.5F;
-    private const float TRANSLATION_TIME = 0.9F;
+    private const float SCALE_IN_TIME = 0.3F;
+    private const float SCALE_BACK_TIME = 0.5F;
+    private const float SCALE_MAX = 0.6F;
+    private const float TRANSLATION_TIME = 1.4F;
 
     public int amount = 0;
     public Text text;
@@ -30,11 +32,14 @@ public class CoinsUIController : MonoBehaviour
             Vector2 initialPosAnchored = initialPos.x * Screen.width * Vector3.right + initialPos.y * Screen.height * Vector3.up;
 
             flyingImages[currentIndex].transform.localScale = Vector3.zero;
-            LeanTween.scale(flyingImages[currentIndex], Vector3.one * SCALE_MAX, SCALE_TIME).setEaseInBounce();
+            LeanTween.scale(flyingImages[currentIndex], Vector3.one * SCALE_MAX*2, SCALE_IN_TIME).setEaseInOutBounce();
+            LeanTween.scale(flyingImages[currentIndex], Vector3.one * SCALE_MAX, SCALE_BACK_TIME).setEaseOutBack().setDelay(SCALE_IN_TIME);
             flyingImages[currentIndex].anchoredPosition = initialPosAnchored;
 
             LeanTween.move(flyingImages[currentIndex], transform.position, TRANSLATION_TIME).setOnComplete(OnArrive).setEaseInExpo();
             LeanTween.scale(flyingImages[currentIndex], Vector3.zero, SCALE_TIME).setDelay(TRANSLATION_TIME).setEaseInBack();
+            EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("tin"));
+
         }
     }
     private void OnArrive()

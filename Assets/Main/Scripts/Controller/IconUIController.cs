@@ -22,9 +22,10 @@ public class IconUIController : MonoBehaviour
     private Action onUpdateColdDown = () => { };
     private int indexPosition;
     private bool canBeDragged = true;
-   
+
     public int IndexPosition { get { return indexPosition; } }
     private bool drag = false;
+    public int tutorialID = 2;
 
     internal void Init(RecluitController recluitController, int indexPosition)
     {
@@ -64,7 +65,7 @@ public class IconUIController : MonoBehaviour
     {
         if (currentTime <= 0)
         {
-            EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(2));
+            EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(tutorialID));
 
             currentTime = totalTime = characterEnemy.UseMainSkill();
             if (currentTime > 0)
@@ -92,12 +93,14 @@ public class IconUIController : MonoBehaviour
     }
     public void BeginDrag(BaseEventData data)
     {
-        if (button.interactable&& canBeDragged)
+        if (button.interactable && canBeDragged)
         {
             Transform parent = transform.parent;
             transform.SetParent(null, true);
             transform.SetParent(parent, true);
             button.interactable = false;
+            LeanTween.scale(recluitController.trash.gameObject, Vector3.one, 0.1f);
+
             drag = true;
         }
     }
@@ -105,14 +108,13 @@ public class IconUIController : MonoBehaviour
     {
         if (drag)
         {
-            LeanTween.scale(recluitController.trash.gameObject, Vector3.one, 0.1f);
-            rectTransform.transform.localPosition = Vector3.right * (Input.mousePosition.x - Screen.width * 0.5f) + Vector3.up * (Input.mousePosition.y - Screen.height * 0.5f);
+            rectTransform.transform.localPosition = Vector3.right * (Input.mousePosition.x - Screen.width * 0.5f) /* (Utils.ScreenWidth / Screen.width)*/ + Vector3.up * (Input.mousePosition.y - Screen.height * 0.5f)  /*(Utils.ScreenHeight / Screen.height)*/;
         }
     }
     public void EndDrag(BaseEventData data)
     {
         if (drag)
-        {       
+        {
             recluitController.OnEndDrag(this);
         }
     }
@@ -125,7 +127,7 @@ public class IconUIController : MonoBehaviour
             button.interactable = false;
             if (swaped)
             {
-                BounceAnimation(()=> { },Vector3.one);
+                BounceAnimation(() => { }, Vector3.one);
             }
             LeanTween.move(rectTransform.gameObject, initialPosition, 0.5f).setEaseOutBack().setIgnoreTimeScale(true).setOnComplete(() => { button.interactable = true; drag = false; });
         }
@@ -135,7 +137,7 @@ public class IconUIController : MonoBehaviour
         }
     }
 
-    public void BounceAnimation(Action onComplete,Vector3 finalSize)
+    public void BounceAnimation(Action onComplete, Vector3 finalSize)
     {
         LeanTween.scale(rectTransform, Vector3.one * 1.2f, 0.3f).setEaseInBounce().setIgnoreTimeScale(true).setOnComplete(
                   () =>

@@ -9,6 +9,7 @@ public class Game : MonoBehaviour
     public Image fadeImage;
     public float time;
     public float waveTime;
+   
     public CharacterManager CharacterManager { get { return characterManager; } }
     private CharacterManager characterManager;
 
@@ -17,6 +18,7 @@ public class Game : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         var loader = GetComponent<LevelJsonLoader>();
         loader.book = CurrentPlaySingleton.GetInstance().book;
         loader.chapter = CurrentPlaySingleton.GetInstance().chapter;
@@ -24,7 +26,16 @@ public class Game : MonoBehaviour
         characterManager = GetComponent<CharacterManager>();
         characterManager.Init();
         stateMachine = new StateMachine<StateGame>();
+        stateMachine.AddState(new StateWaitGame(stateMachine, this));
         stateMachine.AddState(new StateInGame(stateMachine, this));
+//#if UNITY_ANDROID
+//        AndroidJavaClass unityPlayerClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
+//        AndroidJavaObject activity = unityPlayerClass.GetStatic<AndroidJavaObject>("currentActivity");
+//        AndroidJavaObject window = activity.Call<AndroidJavaObject>("getWindow");
+
+//        int flags = 0x00080000 | 0x4000000; // Fullscreen and Immersive flags
+//        window.Call("setFlags", flags, flags);
+//#endif
     }
 
 
@@ -36,6 +47,7 @@ public class Game : MonoBehaviour
     }
     internal void OnExitTrigger(Vector3 exitPosition)
     {
+        var characterMain = FindObjectOfType<CharacterMain>();
         var stats = CurrentPlaySingleton.GetInstance();
         stats.level++;
         var next = Resources.LoadAll<TextAsset>("Maps/Campaign/Book" + stats.book + "/Chapter" + stats.chapter + "/Level" + stats.level);
@@ -56,7 +68,7 @@ public class Game : MonoBehaviour
             {
                 stats.chapter = 1;
             }
-            stats.SaveGamePlay(FindObjectOfType<CharacterMain>());
+            stats.SaveGamePlay(characterMain);
             stats.Reset();
             EventManager.TriggerEvent(EventName.POPUP_OPEN, EventManager.Instance.GetEventData().SetString(PopupName.WIN));
         }
@@ -66,11 +78,12 @@ public class Game : MonoBehaviour
             {
                 item.ForceKnocked();
             }
-            var characterMain = FindObjectOfType<CharacterMain>();
+           
             stats.SaveGamePlay(characterMain);
-            characterMain.OnLevelEnd(exitPosition);
+            
             LeanTween.color(fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(NextLevelScene);
         }
+        characterMain.OnLevelEnd(exitPosition);
     }
     private void NextLevelScene()
     {

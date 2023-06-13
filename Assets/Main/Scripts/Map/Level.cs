@@ -11,4 +11,5 @@ public class Level  {
     public int floor = 0;
     public int time = -1;
     public int waveTime = 10;
+    public string storyJsonFileName = "";
 }

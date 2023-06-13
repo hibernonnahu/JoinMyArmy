@@ -11,7 +11,7 @@ public class StateCharacterEnemyFlyDown : StateCharacterEnemy
     private const float DAMAGE_MULTIPLIER = 1.5f;
     private const float VULNERABLE_TIME = 3;
     private const float SPEED_ON_AIR = 15;
-    private const float STAY_TIME = 2f;
+    private const float STAY_TIME = 1.6f;
     private ParticleSystem particle;
     private GameObject groundShadow;
     private bool seek;

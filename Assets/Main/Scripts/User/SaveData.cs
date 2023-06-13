@@ -13,10 +13,12 @@ public class SaveData
         if (instance == null)
         {
             instance = new SaveData();
+            //TODO do this only if is a new player
             for (int i = 1; i < 5; i++)
             {
                 instance.AddEnemyLocalLevel(12);
             }
+            instance.coins = 100;
         }
         return instance;
     }

@@ -7,7 +7,7 @@ public class StateInGame : StateGame
 {
     private List<Action> extraActions = new List<Action>();
     private float waveTimeCounter;
-   
+
 
 
     public StateInGame(StateMachine<StateGame> stateMachine, Game game) : base(stateMachine, game)
@@ -15,10 +15,13 @@ public class StateInGame : StateGame
         CheckExtraActions(game);
     }
 
-   
+
     public override void Awake()
     {
-
+        var sm = GameObject.FindObjectOfType<StoryManager>();
+        if (sm != null)
+            sm.CallStory();
+        LeanTween.color(game.fadeImage.rectTransform, Color.clear, 1f);
     }
 
     public override void Update()
@@ -63,11 +66,11 @@ public class StateInGame : StateGame
     {
         game.time -= Time.deltaTime;
         game.gameUIController.UpdateTimeLeft(Mathf.FloorToInt(game.time));
-       
+
     }
     private void OnWaveTimeLeft()
     {
         waveTimeCounter -= Time.deltaTime;
-        game.gameUIController.UpdateWaveTimeLeft(Mathf.FloorToInt(waveTimeCounter),game.CharacterManager);
+        game.gameUIController.UpdateWaveTimeLeft(Mathf.FloorToInt(waveTimeCounter), game.CharacterManager);
     }
 }

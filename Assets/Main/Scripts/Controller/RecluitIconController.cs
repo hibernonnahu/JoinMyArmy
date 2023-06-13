@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class RecluitIconController : MonoBehaviour
@@ -5,11 +6,11 @@ public class RecluitIconController : MonoBehaviour
     const float MAX_MASK_Y = -1F;
     const float FADE_TIME = 0.8F;
     const float ICON_SIZE = 1.8F;
+    const float PRESS_TIME = 20;
 
     private CharacterEnemy enemy;
     public GameObject mask;
     private Vector3 maskOriginalPosition;
-    public float totalTime = 5;
     private bool disabled = false;
     private Transform originalParent;
     private Vector3 originalLocalPosition;
@@ -38,7 +39,8 @@ public class RecluitIconController : MonoBehaviour
         {
             FadeIn();
             knocked = true;
-            LeanTween.moveLocalY(mask, MAX_MASK_Y, totalTime).setDelay(FADE_TIME * 2).setOnComplete(OnTimeOut);
+            if (!enemy.isBoss)
+                LeanTween.moveLocalY(mask, MAX_MASK_Y, PRESS_TIME).setDelay(FADE_TIME * 2).setOnComplete(OnTimeOut);
         }
     }
     void FadeIn()
@@ -98,23 +100,38 @@ public class RecluitIconController : MonoBehaviour
         if (!disabled)
         {
             EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(1));
-            Disable();
 
-            mask.gameObject.SetActive(false);
             if (enemy.CharacterMain.recluitController.CanRecluit() && !enemy.CharacterMain.IsDead)
             {
+                mask.gameObject.SetActive(false);
                 enemy.CharacterMain.recluitController.UpdateFreeSpace();
                 enemy.CharacterMain.recluitController.MakeUIAnimation(transform.position);
                 enemy.CharacterMain.CastRecluit(enemy);
                 gameObject.SetActive(false);
+                Disable();
             }
             else
             {
+                EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("error"));
                 EventManager.TriggerEvent(EventName.BOUNCE_RECLUIT_TEXT);
-                enemy.Kill();
-                FadeOut();
+                BounceButton();
+                //enemy.Kill();
+                //FadeOut();
             }
         }
+    }
+
+    private void BounceButton()
+    {
+        LeanTween.cancel(gameObject);
+        gameObject.transform.localScale = Vector3.one * ICON_SIZE;
+        LeanTween.scale(gameObject, Vector3.one * ICON_SIZE * 0.5f, 0.3f).setEaseLinear().setOnComplete(
+            () =>
+            {
+                LeanTween.scale(gameObject, Vector3.one * ICON_SIZE, 0.7f).setEaseOutBounce();
+            }
+            );
+
     }
 
     internal void Init(string name)

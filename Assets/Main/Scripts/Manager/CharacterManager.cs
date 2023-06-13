@@ -16,6 +16,8 @@ public class CharacterManager : MonoBehaviour
     private LevelJsonLoader loader;
     public LevelJsonLoader Loader { get { return loader; } }
     public List<int>[] teamEnemiesID;
+    private int currentWave = 1;
+    public int CurrentWave { get { return currentWave; } }
 
     private void Start()
     {
@@ -280,7 +282,8 @@ public class CharacterManager : MonoBehaviour
                 character.Spawn(spawnTime);
             }
             waveList.RemoveAt(0);
-
+            currentWave++;
+            EventManager.TriggerEvent(EventName.NEXT_WAVE + CurrentWave);
             EventManager.TriggerEvent(EventName.ENEMIES_REMAIN, EventManager.Instance.GetEventData().SetInt(teamList[1].Count));
             if (waveList.Count > 0)
                 EventManager.TriggerEvent(EventName.SPAWN_WAVE);

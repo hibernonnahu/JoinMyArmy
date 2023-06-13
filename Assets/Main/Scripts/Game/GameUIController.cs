@@ -18,6 +18,14 @@ public class GameUIController : MonoBehaviour
         EventManager.StartListening(EventName.EXIT_OPEN, OnExitOpen);
         EventManager.StartListening(EventName.ENEMIES_REMAIN, UpdateEnemiesRemain);
         EventManager.StartListening(EventName.ENEMY_KILL, UpdateEnemiesRemain);
+        EventManager.StartListening(EventName.HIDE_TEXT, OnHideText);
+    }
+
+    private void OnHideText(EventData arg0)
+    {
+        timeLeft.enabled = !arg0.boolData;
+        nextWave.enabled = !arg0.boolData;
+        enemiesRemain.enabled = !arg0.boolData;
     }
 
     private void UpdateEnemiesRemain(EventData arg0)
@@ -47,15 +55,12 @@ public class GameUIController : MonoBehaviour
             if (time == 0)
             {
                 ready = true;
-
                 EventManager.TriggerEvent(EventName.EXIT_OPEN);
-
-
             }
             else
             {
                 lastCounter = time;
-                timeLeft.text = "Time to exit: " + time;
+                timeLeft.text = "Survive: " + time;
             }
         }
 
@@ -75,6 +80,7 @@ public class GameUIController : MonoBehaviour
                 else
                 {
                     characterManager.SpawnNextWave();
+                   
                 }
             }
             else
@@ -90,5 +96,6 @@ public class GameUIController : MonoBehaviour
         EventManager.StopListening(EventName.EXIT_OPEN, OnExitOpen);
         EventManager.StopListening(EventName.ENEMIES_REMAIN, UpdateEnemiesRemain);
         EventManager.StopListening(EventName.ENEMY_KILL, UpdateEnemiesRemain);
+        EventManager.StopListening(EventName.HIDE_TEXT, OnHideText);
     }
 }

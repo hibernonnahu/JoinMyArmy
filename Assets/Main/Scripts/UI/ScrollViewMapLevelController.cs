@@ -59,7 +59,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
     private void OnNewChapterUnlock()
     {
         rect.anchoredPosition = Vector2.right * lastDestiny;
-        mapSelect[currentChapter - 1].UnlockAnimation(EnableScroll);
+        mapSelect[currentChapter - 1].UnlockAnimation(()=> { EnableScroll(); mapSelect[currentChapter - 1].OnClick(); });
     }
 
     public void OnValueChange(Vector2 v)

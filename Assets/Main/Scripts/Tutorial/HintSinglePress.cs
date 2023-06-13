@@ -21,7 +21,7 @@ public class HintSinglePress : MonoBehaviour
         background.transform.rotation = Quaternion.Euler(Vector3.right * 90);
         var mr = background.GetComponent<MeshRenderer>();
         mr.material.shader = Shader.Find("Unlit/MobileTransparentTint");
-        mr.material.color = new Vector4(COLOR,COLOR,COLOR,0.9F);
+        mr.material.color = new Vector4(COLOR, COLOR, COLOR, 0.9F);
         background.SetActive(false);
         EventManager.StartListening(EventName.TUTORIAL_START, OnTrigger);
         EventManager.StartListening(EventName.TUTORIAL_END, OnEnd);
@@ -31,12 +31,18 @@ public class HintSinglePress : MonoBehaviour
     {
         if (arg0.intData == id && started)
         {
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+            FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
+
             started = false;
             background.SetActive(false);
             hud.SetActive(true);
             LeanTween.cancel(handSprite);
             handSprite.SetActive(false);
-            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            if (CurrentPlaySingleton.GetInstance().level == 4)
+            {
+                SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            }
             Time.timeScale = 1;
             Destroy(this);
         }
@@ -46,6 +52,7 @@ public class HintSinglePress : MonoBehaviour
     {
         if (arg0.intData == id)
         {
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
             started = true;
             LeanTween.cancel(handSprite);
             handSprite.SetActive(true);

@@ -17,7 +17,7 @@ public class CoinsGlobalUIController : MonoBehaviour
 
     private void OnUpdateText(EventData arg0)
     {
-        text.text = SaveData.GetInstance().coins.ToString("0000000");
+        text.text = SaveData.GetInstance().coins.ToString();
     }
 
     private void OnDestroy()

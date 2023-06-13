@@ -17,6 +17,7 @@ public class JsonMapCreator : MonoBehaviour
     public int floor = 0;
     public int time = -1;
     public int waveTime = -1;
+    public string storyJsonFileName = "";
     public GameObject[] wavesFolders;
     public int[] teamEnemiesID = new int[] { 1, 0 };
 
@@ -32,6 +33,7 @@ public class JsonMapCreator : MonoBehaviour
     private void FindCharacters()
     {
         var mainCharacter = FindObjectOfType<CharacterMain>();
+       
         lvl.main = new int[3];
         lvl.main[0] = mainCharacter.id;
         lvl.main[1] = (int)(Math.Floor(mainCharacter.transform.position.x));
@@ -65,12 +67,20 @@ public class JsonMapCreator : MonoBehaviour
         List<int> auxList = new List<int>();
 
 
-        foreach (var obstacle in obstacles)
+        foreach (var obstacle in obstacles)//0-x , 1-z, 2-id ,3-ratation , 4-size , 5-collider,6,7,8
         {
-            auxList.Add((int)(obstacle.transform.position.x));
-            auxList.Add((int)(obstacle.transform.position.z));
+            auxList.Add((int)(obstacle.transform.position.x * 10));
+            auxList.Add((int)(obstacle.transform.position.z * 10));
 
             auxList.Add(obstacle.id);
+            obstacle.rotation = (int)(obstacle.transform.rotation.eulerAngles.y);
+            auxList.Add(obstacle.rotation);
+            obstacle.size = Mathf.RoundToInt(obstacle.transform.localScale.x * 10);
+            auxList.Add(obstacle.size);
+            auxList.Add(obstacle.colliders);
+            auxList.Add(0);
+            auxList.Add(0);
+            auxList.Add(0);
         }
         lvl.obstacles = auxList.ToArray();
 
@@ -82,7 +92,7 @@ public class JsonMapCreator : MonoBehaviour
             if (item.gameObject.tag != "UI" && item.transform.parent == null)
             {
                 var pos = item.position;
-                item.position = Vector3.right * (Mathf.Round(pos.x)) + Vector3.forward * (Mathf.Round(pos.z));
+                item.position = Vector3.right * ((Mathf.Round(pos.x * 10)) / 10) + Vector3.forward * ((Mathf.Round(pos.z * 10)) / 10);
             }
         }
     }
@@ -97,6 +107,7 @@ public class JsonMapCreator : MonoBehaviour
         lvl.floor = floor;
         lvl.time = time;
         lvl.waveTime = waveTime;
+        lvl.storyJsonFileName = storyJsonFileName;
         mapJson = JsonMapper.ToJson(lvl);
 
         string fullPath = Application.dataPath + "/Resources/Maps/Campaign/Book" + book + "/Chapter" + chapter + "/Level" + level + "/" + variation + ".json";

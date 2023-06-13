@@ -25,6 +25,9 @@ public class HintDragUI : MonoBehaviour
     {
         if (arg0.intData == id && started)
         {
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+            FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
+
             started = false;
             Time.timeScale = 1;
             point.SetActive(false);
@@ -42,26 +45,31 @@ public class HintDragUI : MonoBehaviour
     {
         if (arg0.intData == id)
         {
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+
             started = true;
             var parent = background.transform.parent;
-            background.transform.SetParent(null);
-            background.transform.SetParent(parent);
+            background.transform.SetParent(null, true);
+            background.transform.SetParent(parent, true);
             background.transform.position = Vector3.up * Screen.height;
             LeanTween.cancel(handSprite);
             handSprite.SetActive(true);
 
             handSprite.transform.position = arg0.transformData.position + Vector3.up * 25;
 
-            LeanTween.moveY(handSprite, arg0.transformData.position.y - 300, TIME).setDelay(1).setIgnoreTimeScale(true).setRepeat(REPEAT).setOnComplete(() =>
+            LeanTween.moveY(handSprite, arg0.floatData, TIME).setDelay(1).setIgnoreTimeScale(true).setRepeat(REPEAT).setOnComplete(() =>
             {
                 handSprite.SetActive(false);
             });
             parent = arg0.transformData.parent;
+            Vector3 pos = arg0.transformData.position;
             arg0.transformData.SetParent(null);
             arg0.transformData.SetParent(parent);
+            arg0.transformData.position = pos;
+
             point.transform.SetParent(null);
             point.transform.SetParent(parent);
-            point.transform.position = handSprite.transform.position + Vector3.up * -310;
+            point.transform.position = arg0.floatData * Vector3.up + handSprite.transform.position.x * Vector3.right;
             LeanTween.scale(point, Vector3.zero, 0.9f).setIgnoreTimeScale(true).setRepeat(REPEAT);
 
             Time.timeScale = 0;

@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class LevelJsonLoader : MonoBehaviour
 {
+    public float multiplier = 1;
     public bool isCreator = false;
     public int book, chapter, level;
     public int forceVariation = -1;
@@ -54,6 +55,7 @@ public class LevelJsonLoader : MonoBehaviour
             creator.floor = lvl.floor;
             creator.time = lvl.time;
             creator.waveTime = lvl.waveTime;
+            creator.storyJsonFileName = lvl.storyJsonFileName;
             creator.teamEnemiesID = lvl.teamEnemiesID;
         }
 
@@ -82,9 +84,14 @@ public class LevelJsonLoader : MonoBehaviour
             var game = GetComponent<Game>();
             if (game != null)
             {
+                if(lvl.storyJsonFileName != "")
+                {
+                    var sm = gameObject.AddComponent<StoryManager>();
+                    sm.SetJsonCode(lvl.storyJsonFileName);
+                }
                 game.time = lvl.time;
                 game.waveTime = lvl.waveTime;
-                AddCompanion("RedHairGril", Vector3.right * 3);
+                //AddCompanion("RedHairGril", Vector3.right * 3);
                 //AddCompanion("Succubus", Vector3.left * 3);
             }
 
@@ -126,13 +133,15 @@ public class LevelJsonLoader : MonoBehaviour
     private void LoadMap(int[] charactersInfo, int[] obstaclesInfo)
     {
         List<CharacterEnemy> enemiesList = new List<CharacterEnemy>();
-        for (int i = 0; i < obstaclesInfo.Length; i += 3)//0-x , 1-z, 2-id
+        for (int i = 0; i < obstaclesInfo.Length; i += 9)//0-x , 1-z, 2-id ,3-ratation , 4-size , 5-collider,6,7,8
         {
             ObstacleIdentifier prefab = GetObstacle((int)(obstaclesInfo[i + 2]));
             if (prefab)
             {
-                Instantiate<ObstacleIdentifier>(prefab, (Vector3.right * obstaclesInfo[i] + Vector3.forward * obstaclesInfo[i + 1]), Quaternion.identity);
-
+                var obstacle=Instantiate<ObstacleIdentifier>(prefab, (Vector3.right * obstaclesInfo[i]*multiplier + Vector3.forward * obstaclesInfo[i + 1]*multiplier), Quaternion.identity);
+                obstacle.rotation = obstaclesInfo[i + 3];
+                obstacle.size = obstaclesInfo[i + 4];
+                obstacle.colliders = obstaclesInfo[i + 5];
             }
         }
         for (int i = 0; i < charactersInfo.Length; i += 10)//0-x , 1-z, 2-id 3-level 4-team 5-behaviour 6-extraAlertRange 7-belongsToWave

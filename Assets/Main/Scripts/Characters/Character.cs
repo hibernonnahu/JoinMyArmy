@@ -41,6 +41,7 @@ public class Character : MonoBehaviour
 
     [Header("Temps")]
     public Character lastEnemyTarget;
+    public Vector3 destiny;
 
     protected int[] enemyLayer;
     public int[] EnemyLayer { get { return enemyLayer; } }
@@ -270,7 +271,7 @@ public class Character : MonoBehaviour
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
-        stateMachine.CurrentState.OnCollisionEnter(collision);
+       
     }
     private void OnDestroy()
     {

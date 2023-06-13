@@ -46,7 +46,8 @@ public class Popup : MonoBehaviour
             childs[i].SetParent(container.transform);
         }
         container.transform.localScale = Vector3.one * scaleFactor;
-
+        container.pivot = Vector2.right * (0.5f / scaleFactor) + Vector2.up * 0.5f;
+        container.anchoredPosition = Vector2.zero;
     }
 
     private void OnClose(EventData arg0)

@@ -41,6 +41,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
         EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT);
         EventManager.TriggerEvent(EventName.SHAKE_CAM_POS, EventManager.Instance.GetEventData().SetFloat(0.2f));
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("pum"));
+        EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(4));
     }
 
 
@@ -53,7 +54,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
 
     private void UpdateText()
     {
-        priceText.text = price.ToString("00000");
+        priceText.text = price.ToString();
         levelText.text = "Level: " + level.ToString();
     }
  

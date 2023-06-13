@@ -12,11 +12,17 @@ public class TutorialManager : MonoBehaviour
         }
         if (SaveData.GetInstance().GetValue("tutorial2") == 0)
         {
-            gameObject.AddComponent<HintSinglePressUI>();
+            gameObject.AddComponent<HintSinglePressUINoDrag>();
         }
         if (SaveData.GetInstance().GetValue("tutorial3") == 0)
         {
             gameObject.AddComponent<HintDragUI>();
+        }
+        if (SaveData.GetInstance().GetValue("tutorial4") == 0)
+        {
+            var hsp = gameObject.AddComponent<HintSinglePressUI>();
+            hsp.SetID(4);
+            hsp.SetBackgroundUIName("background ui general");
         }
     }
 }

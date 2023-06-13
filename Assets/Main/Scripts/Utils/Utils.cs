@@ -89,6 +89,10 @@ public class Utils
     static Vector4 vg = new Vector4(0, 1, 0, 0);
     static Vector4 vb = new Vector4(0, 00, 1, 0);
     static Vector4 va = new Vector4(0, 00, 0, 1);
+
+    public static float ScreenWidth =1080;
+    public static float ScreenHeight =1920;
+
     public static Color GetColor(float r, float g, float b, float a)
     {
         return r * vr + g * vg + b * vb + va * a;

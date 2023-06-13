@@ -8,7 +8,7 @@ public class StateCharacterEnemyFlyUp : StateCharacterEnemy
     private GameObject groundShadow;
 
     private const float SPEED_UP = 100;
-    private const float MAX_HEIGHT = 40;
+    private const float MAX_HEIGHT = 100;
 
     private AudioSource audio;
 
