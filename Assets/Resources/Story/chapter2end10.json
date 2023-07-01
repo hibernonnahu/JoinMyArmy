@@ -1,0 +1,21 @@
+{
+  "story": [
+    "SpawnCharacter",
+    "17",
+    "0",
+    "0",
+    "0",
+    "0",
+    "&",
+    "ForceFollowMain",
+    "17",
+    "90",
+    "&",
+    "Wait4Trigger",
+    "nextWave3",
+    "&",
+    "HintSinglePressUI",
+    "11",
+    "6"
+  ]
+}
