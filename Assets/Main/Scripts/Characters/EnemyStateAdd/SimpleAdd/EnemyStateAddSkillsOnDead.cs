@@ -63,7 +63,7 @@ public class EnemyStateAddSkillsOnDead : MonoBehaviour, IEnemySimpleAdd
             var type = Type.GetType(skillClassName.name);
 
             ISkill skill = (ISkill)Activator.CreateInstance(type);
-            if (skill.IsAvailable())
+            if (skill.IsAvailable(character.recluitController))
                 list.Add(skillClassName.name);
         }
         return list;

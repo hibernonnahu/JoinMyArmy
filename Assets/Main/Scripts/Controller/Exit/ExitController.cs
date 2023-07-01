@@ -35,7 +35,6 @@ public class ExitController : MonoBehaviour
         if (!open)
         {
             open = true;
-            EventManager.TriggerEvent(EventName.EXIT_OPEN);
             audioSource.Play();
             particles.Play();
             Animation();

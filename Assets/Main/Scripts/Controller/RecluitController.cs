@@ -120,6 +120,18 @@ public class RecluitController : MonoBehaviour
         UpdateText();
     }
 
+    internal bool IsIdRecluited(int id)
+    {
+        foreach (var item in enemies)
+        {
+            if (item != null && item.id == id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     internal void OnEndDrag(IconUIController iconUIController)
     {
         bool fail = true;
@@ -160,6 +172,15 @@ public class RecluitController : MonoBehaviour
         else
         {
             LeanTween.scale(trash.gameObject, Vector3.zero, 0.2f).setEaseOutElastic();
+        }
+    }
+
+    internal void SetOffset(int v)
+    {
+        foreach (var item in enemies)
+        {
+            if (item != null)
+                item.followDistance = v;
         }
     }
 
@@ -230,7 +251,7 @@ public class RecluitController : MonoBehaviour
     internal void MakeUIAnimation(Vector3 position)
     {
         Vector3 initialPos = Camera.main.WorldToViewportPoint(position);
-        
+
         Vector2 destiny = initialPos.x * Screen.width * Vector3.right + initialPos.y * Screen.height * Vector3.up;
 
         Image image = images[freeSpace];

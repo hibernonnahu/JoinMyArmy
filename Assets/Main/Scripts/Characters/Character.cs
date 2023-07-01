@@ -35,6 +35,7 @@ public class Character : MonoBehaviour
     public float attackDistanceSqr = 2;
 
     public float attackSpeed = 1.5f;
+    public float AttackSpeed { get { return attackSpeed + skillController.ExtraSpeed; } }
     public float criticalChance = 0; // 0 to 1
     public float criticalMultiplier = 1.2f;
     public float healWhenKill = 0;
@@ -53,6 +54,7 @@ public class Character : MonoBehaviour
     public Type IdleState { get => idleState; set => idleState = value; }
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
+    public Action onVulnerableEnd = () => { };
     internal void SetAnimation(string name, float crossTime = 0, int layer = 0)
     {
         animator.CrossFade(name, crossTime, layer);
@@ -71,6 +73,8 @@ public class Character : MonoBehaviour
         set { currentHealth = value; }
     }
     public float speed = 1;
+    private float speedStory;
+    public float SpeedStory { get { return speedStory; } set { speedStory = value; } }
     public int strength = 1;
     public int defense = 1;
 
@@ -133,7 +137,7 @@ public class Character : MonoBehaviour
     {
         stateMachine.Update();
     }
-    public float GetHit(Character attacker, float multiplier = 1)//returns damage percent
+    public float GetHit(Character attacker, float multiplier = 1, bool getDissy = false)//returns damage percent
     {
         if (attacker.team != team || CurrentPlaySingleton.GetInstance().dificulty > 0)
         {
@@ -152,11 +156,18 @@ public class Character : MonoBehaviour
                 attacker.Heal(GetHealWhenKillValue());
                 attacker.skillController.OnKill(attacker, this);
             }
+            else if (getDissy)
+            {
+                GoDissy();
+            }
             return percent;
         }
         return 0;
     }
+    protected virtual void GoDissy()
+    {
 
+    }
     private float GetHealWhenKillValue()
     {
         return healWhenKill + healWhenKill * level;
@@ -271,7 +282,7 @@ public class Character : MonoBehaviour
     }
     protected virtual void OnCollisionEnter(Collision collision)
     {
-       
+
     }
     private void OnDestroy()
     {

@@ -14,6 +14,8 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
         enemy.SetAnimation("dead", 0.1f);
         enemy.DisableCollider();
         enemy.Rigidbody.isKinematic = true;
+        enemy.CharacterManager.RemoveCharacter(enemy);
+
         if (!enemy.IsDead && enemy.team != enemy.CharacterMain.team)
         {
             enemy.CharacterMain.AddXP(enemy.GetXp());

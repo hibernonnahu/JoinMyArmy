@@ -48,14 +48,18 @@ public class CurrentPlaySingleton
     private void SaveParty()
     {
         party = new List<int>();
-        var currentTeam = GameObject.FindObjectOfType<RecluitController>().Enemies;
-        for (int i = 0; i < currentTeam.Length; i++)
+        var rc = GameObject.FindObjectOfType<RecluitController>();
+        if (rc)
         {
-            if (currentTeam[i] != null)
+            var currentTeam = rc.Enemies;
+            for (int i = 0; i < currentTeam.Length; i++)
             {
-                party.Add(currentTeam[i].id);
-                party.Add(Mathf.RoundToInt(currentTeam[i].CurrentHealth));
-                party.Add(i);
+                if (currentTeam[i] != null)
+                {
+                    party.Add(currentTeam[i].id);
+                    party.Add(Mathf.RoundToInt(currentTeam[i].CurrentHealth));
+                    party.Add(i);
+                }
             }
         }
     }

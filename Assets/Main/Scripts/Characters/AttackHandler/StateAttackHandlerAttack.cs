@@ -14,16 +14,17 @@ public class StateAttackHandlerAttack : StateAttackHandler
     }
     public override void Awake()
     {
-        characterMain.animator.SetFloat("attackspeed", characterMain.attackSpeed);
+        characterMain.animator.SetFloat("attackspeed", characterMain.AttackSpeed);
 
         animator.SetLayerWeight(1, 1);
-       
+
         characterMain.SetAnimation("attack", 0, 1);
 
         var main = characterMain.FxHandler.slash.main;
-        main.simulationSpeed = characterMain.attackSpeed;
-        PlaySlashFx();
-        counter = (1 / characterMain.attackSpeed) * 0.35f;
+        main.simulationSpeed = characterMain.AttackSpeed;
+
+        LeanTween.delayedCall(characterMain.gameObject, (1 / characterMain.AttackSpeed) * 0.28f, PlaySlashFx);
+        counter = (1 / characterMain.AttackSpeed) * 0.35f;
         hit = false;
 
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("slash"));
@@ -46,9 +47,10 @@ public class StateAttackHandlerAttack : StateAttackHandler
             {
                 if ((characterMain.transform.position - characterMain.lastEnemyTarget.transform.position).sqrMagnitude < characterMain.attackDistanceSqr)
                 {
+
                     characterMain.FxHandler.swordHit.transform.position = characterMain.lastEnemyTarget.transform.position + Vector3.up * 2;
                     characterMain.FxHandler.swordHit.Play();
-                    hitEffectController.CreateEffect(characterMain,characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain));
+                    hitEffectController.CreateEffect(characterMain, characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain));
                 }
                 hit = true;
 

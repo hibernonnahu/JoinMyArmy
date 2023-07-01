@@ -59,6 +59,20 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    internal void KillExtraTeam(int v)
+    {
+        foreach (var item in GetEnemyExtraListForTeam(v))
+        {
+            CharacterEnemy e = item as CharacterEnemy;
+            e.Kill();
+        }
+        foreach (var item in GetEnemyListForTeam(v))
+        {
+            CharacterEnemy e = item as CharacterEnemy;
+            e.Kill();
+        }
+    }
+
     private void InitJson()
     {
         characterMain = loader.CharacterMain;
@@ -108,6 +122,14 @@ public class CharacterManager : MonoBehaviour
                 {
                     inRange.Add(enemy);
                 }
+            }
+        }
+       
+        foreach (var enemy in GetEnemyExtraListForTeam(attackTeam))
+        {
+            if (attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
+            {
+                inRange.Add(enemy);
             }
         }
         return inRange;

@@ -15,7 +15,8 @@ public class StateCharacterEnemyVulnerable : StateCharacterEnemy
     }
     public override void Sleep()
     {
-        
+        enemy.onVulnerableEnd();
+        enemy.onVulnerableEnd = () => { };
 
     }
     public override void UpdateMovement(float x, float y)

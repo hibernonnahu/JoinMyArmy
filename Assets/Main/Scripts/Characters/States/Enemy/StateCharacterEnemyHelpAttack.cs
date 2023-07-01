@@ -4,7 +4,7 @@ using System;
 
 public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
 {
-    private const float TICK_TIME=1;
+    private const float TICK_TIME = 1;
     private float counter;
     public StateCharacterEnemyHelpAttack(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
@@ -19,7 +19,7 @@ public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
 
     public override void Sleep()
     {
-        
+
     }
 
     public override void Update()
@@ -28,7 +28,7 @@ public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
         if (counter < 0)
         {
             counter = TICK_TIME;
-            if (enemy.CharacterMain.lastEnemyTarget == null)
+            if (enemy.CharacterMain.lastEnemyTarget == null || enemy.CharacterMain.lastEnemyTarget.IsDead)
             {
                 ChangeState(typeof(StateCharacterEnemyFollowLeader));
             }

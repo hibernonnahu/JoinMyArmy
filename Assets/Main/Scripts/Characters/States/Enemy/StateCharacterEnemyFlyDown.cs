@@ -7,7 +7,7 @@ public class StateCharacterEnemyFlyDown : StateCharacterEnemy
 
     private const float SPEED_DOWN = 100;
     private const float SEEK_DISTANCE_SQR = 10;
-    private const float DAMAGE_SQR_DISTANCE = 50;
+    private const float DAMAGE_SQR_DISTANCE = 75 ;
     private const float DAMAGE_MULTIPLIER = 1.5f;
     private const float VULNERABLE_TIME = 3;
     private const float SPEED_ON_AIR = 15;
@@ -87,7 +87,8 @@ public class StateCharacterEnemyFlyDown : StateCharacterEnemy
                 enemy.transform.position = enemy.transform.position.x * Vector3.right + enemy.transform.position.z * Vector3.forward;
                 foreach (var character in enemy.CharacterManager.GetEnemiesInRange(enemy.team, DAMAGE_SQR_DISTANCE, enemy.transform.position))
                 {
-                    character.GetHit(enemy, DAMAGE_MULTIPLIER);
+                    character.GetHit(enemy, DAMAGE_MULTIPLIER, true);
+
                     hitEffectController.CreateEffect(enemy, character, 1.5f);
                 }
                 enemy.SetAnimation("land", 0);

@@ -54,7 +54,7 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
                     spawnEnemy.transform.position = enemy.transform.position + UnityEngine.Random.Range(-SPAWN_OFFSET, SPAWN_OFFSET) * Vector3.right + UnityEngine.Random.Range(-SPAWN_OFFSET, SPAWN_OFFSET) * Vector3.forward;
                     spawnEnemy.IsDead = false;
                     spawnEnemy.UpdateStatsOnLevel(spawnEnemy.level, false, false);
-
+                    spawnEnemy.RecluitIconHandler.gameObject.SetActive(false);
                     spawnEnemy.Heal(spawnEnemy.Health, false);
                     spawnEnemy.GetComponent<EnemyStateAddDefaultInit>().SetDefaultInit();
                     spawnEnemy.ForceIdle();
@@ -65,6 +65,7 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
                     
                     spawnEnemy.Rigidbody.isKinematic = false;
                     spawnEnemy.HealthBarController.UpdateBarColor(spawnEnemy);
+                    spawnEnemy.UpdateColor(!spawnEnemy.IsEnemy());
                     spawnEnemy.RecluitIconHandler.Restore();
                     spawnEnemy.gameObject.SetActive(true);
                     enemy.CharacterManager.AddCharacterEnemy(spawnEnemy, enemy.CharacterMain);

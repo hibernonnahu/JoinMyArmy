@@ -25,8 +25,9 @@ public class EnemyStateAddAttackSpawn : EnemyStateAddAttack
                 spawnEnemies[i].extra = true;
                 spawnEnemies[i].xp = 0;
                 spawnEnemies[i].coins = 0;
-
-                spawnEnemies[i].UpdateStatsOnLevel(characterEnemy.level, false, false);
+                spawnEnemies[i].level = characterEnemy.level;
+                spawnEnemies[i].CurrentHealth = 0;
+                spawnEnemies[i].UpdateStatsOnLevel(characterEnemy.level, true, false);
                 spawnEnemies[i].gameObject.SetActive(false);
                 spawnEnemies[i].IsDead = true;
                 spawnEnemies[i].CharacterManager = characterManager;

@@ -13,6 +13,8 @@ public class SkillController
     public int ExtraHealth { get => extraHealth;}
     private int extraDamage;
     public int ExtraDamage { get => extraDamage; }
+    private float extraSpeed;
+    public float ExtraSpeed { get => extraSpeed; }
     private int extraDefense;
     public int ExtraDefense { get => extraDefense; }
     private Character character;
@@ -25,6 +27,7 @@ public class SkillController
     public void CalculateSkills()
     {
         extraDamage = 0;
+        extraSpeed = 0;
         extraHealth = 0;
         extraDefense = 0;
         foreach (var skill in skills)
@@ -37,6 +40,7 @@ public class SkillController
     private void UpdateSkill(ISkill skill)
     {
         extraDamage += skill.ExtraDamage();
+        extraSpeed += skill.ExtraSpeed();
         extraHealth += skill.ExtraHealth();
         extraDefense += skill.ExtraDefense();
         extraRecluit += skill.ExtraRecluit();

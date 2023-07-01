@@ -13,6 +13,11 @@ public class StateCharacterVulnerable : StateCharacter
     {
         character.Rigidbody.drag = 50;
     }
+    public override void Sleep()
+    {
+        character.onVulnerableEnd();
+        character.onVulnerableEnd = () => { };
+    }
     public override void UpdateMovement(float x, float y)
     {
         

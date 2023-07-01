@@ -3,6 +3,7 @@ public interface ISkill
     string GetName();
     string GetDescription();
     int ExtraDamage();
+    float ExtraSpeed();
     int ExtraHealth();
     int ExtraRecluit();
     int ExtraDefense();
@@ -10,5 +11,5 @@ public interface ISkill
     void ExecuteOnKill(Character character,Character characterKill);
     void ExecuteOnGrab(Character character);
     void ExecuteAura();
-    bool IsAvailable();
+    bool IsAvailable(RecluitController recluitController);
 }

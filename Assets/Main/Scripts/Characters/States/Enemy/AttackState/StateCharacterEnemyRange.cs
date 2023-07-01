@@ -20,7 +20,7 @@ public class StateCharacterEnemyRange : StateCharacterEnemy
     public override void Awake()
     {
 
-        enemy.animator.SetFloat("attackspeed", enemy.attackSpeed);
+        enemy.animator.SetFloat("attackspeed", enemy.AttackSpeed);
         AttackInit();
     }
 

@@ -103,4 +103,29 @@ public class CharacterMain : Character
 
         HealthBarController.UpdateXpBar(xpController.GetXpPercent(level));
     }
+    protected override void GoDissy()
+    {
+        VulnerableTime = 4;
+        SetAnimation("knocked");
+        NextState = IdleState;
+        GeneralParticleHandler.stun.Play();
+        onVulnerableEnd = () =>
+        {
+            GeneralParticleHandler.stun.Stop();
+        };
+        StateMachine.ChangeState(typeof(StateCharacterVulnerable));
+    }
+
+    internal void GoToPosition(float x, float z, float speed)
+    {
+        destiny = Vector3.right * x + Vector3.forward * z;
+        this.SpeedStory = speed;
+        this.StateMachine.AddState(new StateCharacterMainGoToPosition(StateMachine, this));
+        this.StateMachine.ChangeState<StateCharacterMainGoToPosition>();
+    }
+
+    internal void ArmyOffset(int v)
+    {
+        recluitController.SetOffset(v);
+    }
 }

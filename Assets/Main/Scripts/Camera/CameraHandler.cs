@@ -1,10 +1,10 @@
 using MoreMountains.Feedbacks;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 public class CameraHandler : MonoBehaviour
 {
+    int LAYER_ALL;
+    int LAYER_UI;
     private const float ARRIVE_DIST_SQR = 2;
     private const float CINEMATIC_TRANSITION_TIME = 1.5f;
     public float cinematicWaitTime = 10;
@@ -33,7 +33,8 @@ public class CameraHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        LAYER_ALL = ~0;
+        LAYER_UI = ~(1 << 5);
         originalBarSize = cinematicBars.localScale.x;
         cinematicBars.localScale = Vector3.one * originalBarSize * 1.5f;
         rigidbody = GetComponentInChildren<Rigidbody>();
@@ -41,6 +42,7 @@ public class CameraHandler : MonoBehaviour
         camera = GetComponentInChildren<Camera>();
         initialY = transform.position.y;
         initialRotation = transform.localRotation.eulerAngles.x;
+        camera.cullingMask = LAYER_ALL;
     }
 
     private void OnShakeCam(EventData arg0)
@@ -98,6 +100,7 @@ public class CameraHandler : MonoBehaviour
 
     private void GoCinematicInGame()
     {
+        camera.cullingMask = LAYER_UI;
 
         onUpdate = Cinematic;
         LeanTween.moveLocalY(gameObject, 6, CINEMATIC_TRANSITION_TIME);
@@ -121,6 +124,8 @@ public class CameraHandler : MonoBehaviour
 
     public void GoInGame(GameObject gameObject, bool warp = true)
     {
+        camera.cullingMask = LAYER_ALL;
+
         FollowGameObject(gameObject, warp);
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
 
@@ -136,6 +141,8 @@ public class CameraHandler : MonoBehaviour
     }
     public void GoCinematicStory(GameObject gameObject, bool warp, float cameraSize)
     {
+        camera.cullingMask = LAYER_UI;
+
         cinematicOffsetSize = cameraSize;
         toFollow = gameObject.transform;
         if (warp)
@@ -150,6 +157,7 @@ public class CameraHandler : MonoBehaviour
         }
         hud.SetActive(false);
         ShowBlackBars();
+        storyArrive = false;
         onUpdate = FollowStory;
         LeanTween.moveLocalY(this.gameObject, 11, CINEMATIC_TRANSITION_TIME);
         LeanTween.rotateX(this.gameObject, 30, CINEMATIC_TRANSITION_TIME);
@@ -184,6 +192,8 @@ public class CameraHandler : MonoBehaviour
     }
     private void GoFollowMode()
     {
+        camera.cullingMask = LAYER_ALL;
+
         onUpdate = ToFollowUpdate;
         LeanTween.moveLocalY(gameObject, initialY, CINEMATIC_TRANSITION_TIME);
         LeanTween.rotateX(gameObject, initialRotation, CINEMATIC_TRANSITION_TIME);

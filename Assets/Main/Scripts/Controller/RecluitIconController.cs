@@ -41,6 +41,9 @@ public class RecluitIconController : MonoBehaviour
             knocked = true;
             if (!enemy.isBoss)
                 LeanTween.moveLocalY(mask, MAX_MASK_Y, PRESS_TIME).setDelay(FADE_TIME * 2).setOnComplete(OnTimeOut);
+            else if (enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id)){
+                OnTimeOut();
+            }
         }
     }
     void FadeIn()
@@ -77,6 +80,7 @@ public class RecluitIconController : MonoBehaviour
     }
     public void Restore()
     {
+        LeanTween.cancel(gameObject);
         mask.gameObject.SetActive(true);
         gameObject.SetActive(true);
         transform.SetParent(originalParent);

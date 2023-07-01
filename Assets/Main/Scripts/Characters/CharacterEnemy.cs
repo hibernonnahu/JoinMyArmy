@@ -23,7 +23,10 @@ public class CharacterEnemy : Character
 #if UNITY_EDITOR
     public bool debug = false;
 #endif
-    public float stearingRotation = 50;
+
+    public float stearingRotationOffset = 0;
+    private float stearingRotation = 150;
+    public float StearingRotation { get { return stearingRotation + stearingRotationOffset; } }
     public string triggerOnDeath = "";
     public float followDistance = 1;
     private Vector3 returnPosition;
@@ -49,19 +52,17 @@ public class CharacterEnemy : Character
         set { characterMain = value; }
     }
 
-    public SkinnedMeshRenderer MeshRenderer { set { meshRenderer = value; } }
-
     private Func<float> onCastMainPower = () => { return -1; };
     public Func<float> OnCastMainPower { get { return onCastMainPower; } }
 
     private EnemyStateAddDefaultInit enemyStateAddInit;
 
-    private SkinnedMeshRenderer meshRenderer;
+    private EnemyStateAddCanBeRecluit enemyStateAddCanBeRecluit;
+    public EnemyStateAddCanBeRecluit EnemyStateAddCanBeRecluit { set { enemyStateAddCanBeRecluit = value; } }
     protected override void Awake()
     {
         base.Awake();
         Init();
-
     }
     public override void Init()
     {
@@ -85,7 +86,7 @@ public class CharacterEnemy : Character
     }
     internal void ForceIdle()
     {
-
+        NextState = IdleState;
         stateMachine.ChangeState(IdleState);
     }
     protected override void LoadResources()
@@ -99,10 +100,17 @@ public class CharacterEnemy : Character
 #if UNITY_EDITOR
         if (debug)
         {
-            Debug.Log("brake point here");
+            Debug.Log("");
         }
 #endif
         stateMachine.Update();
+    }
+
+    internal void GoVulnerable(int v)
+    {
+        VulnerableTime = v;
+        NextState = IdleState;
+        StateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
     }
 
     protected override bool CurrentStateGetHit(float damage, Character attacker)
@@ -130,15 +138,31 @@ public class CharacterEnemy : Character
     public void UpdateStatesToFollow()
     {
         HealthBarController.UpdateBarColor(this);
+        UpdateColor();
         NextState = typeof(StateCharacterEnemyFollowLeader);
         IdleState = typeof(StateCharacterEnemyFollowLeader);
         VulnerableTime = 1;
         StateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemyVulnerable));
         enemyStateAddInit.OnRecluit();
     }
-
-    internal void Kill()
+    public void UpdateColor(bool mainTeam = true)
     {
+        if (enemyStateAddCanBeRecluit != null && enemyStateAddCanBeRecluit.materialB != null)
+        {
+            if (mainTeam)
+            {
+                enemyStateAddCanBeRecluit.SetMaterialB();
+            }
+            else
+            {
+                enemyStateAddCanBeRecluit.SetMaterialA();
+            }
+        }
+    }
+    public void Kill()
+    {
+        currentHealth = 0;
+        HealthBarController.UpdateBar();
         stateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemyDead));
     }
 
@@ -182,6 +206,20 @@ public class CharacterEnemy : Character
     protected override void GoVulnerable()
     {
         stateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
+    }
+
+    protected override void GoDissy()
+    {
+        VulnerableTime = 4;
+        SetAnimation("knocked");
+        NextState = IdleState;
+
+        GeneralParticleHandler.stun.Play();
+        onVulnerableEnd = () =>
+        {
+            GeneralParticleHandler.stun.Stop();
+        };
+        StateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
     }
     protected override void OnCollisionEnter(Collision collision)
     {
