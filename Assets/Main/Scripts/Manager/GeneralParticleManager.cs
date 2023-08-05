@@ -9,6 +9,8 @@ public class GeneralParticleManager : MonoBehaviour
     public ParticleSystem stun;
     public ParticleSystem wallHit;
     public ParticleSystem webTrap;
+    public ParticleSystem slime;
+    public AudioSource slimeAudio;
     public MeshRenderer meshRenderer;
     private Action onUpdate = () => { };
     private Material material;
@@ -20,10 +22,15 @@ public class GeneralParticleManager : MonoBehaviour
 
         material = meshRenderer.material;
     }
-    public void CacconOn(bool on)
+    public void CacconOn(bool on, bool sound = false)
     {
         if (on)
+        {
             onUpdate = CacconOn;
+            slime.Play();
+            if (sound)
+                slimeAudio.Play();
+        }
         else
             onUpdate = CacconOff;
 

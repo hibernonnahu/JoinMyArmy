@@ -11,6 +11,8 @@ public class StoryManager : MonoBehaviour
     private List<string> current;
     private Action nextAction;
     private CharacterEnemy lastCharacterEnemy;
+    public MusicManager musicManager;
+
     internal void SetJsonCode(string storyJsonFileName)
     {
         BlankNextAction();
@@ -30,6 +32,13 @@ public class StoryManager : MonoBehaviour
             else
             {
                 list[counter].Add(item);
+            }
+        }
+        foreach (var item in list)
+        {
+            if (item[0] == "PlayMusic")
+            {
+                musicManager.LoadClip(item[1]);
             }
         }
 
@@ -86,10 +95,10 @@ public class StoryManager : MonoBehaviour
 
         CallStory();
     }
-    private void ShowCaccon()//id - 1 on-2
+    private void ShowCaccon()//id - 1 on-2 sound-3
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
-        character.characterEnemy.GeneralParticleHandler.CacconOn(int.Parse(current[2]) >= 1);
+        character.characterEnemy.GeneralParticleHandler.CacconOn(int.Parse(current[2]) >= 1, int.Parse(current[3]) >= 1);
         CallStory();
     }
     private void EnemyLookAtEnemy()//id1- 1 id2-2
@@ -290,19 +299,35 @@ public class StoryManager : MonoBehaviour
             int enemyID = int.Parse(current[1]);
             LeanTween.delayedCall(gameObject, 2, () =>
             {
-                foreach (var item in rc.iconUI)
+                for (int i = 0; i < rc.iconUI.Length; i++)
                 {
-
-                    if (item.CharacterEnemy != null && item.CharacterEnemy.id == enemyID && item.button.interactable)
+                    if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)
                     {
-                        item.tutorialID = tutorialID;
-                        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(item.transform));
+                        rc.iconUI[i].tutorialID = tutorialID;
+                        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetFloat(rc.Enemies[i].transform.position.x).SetFloat2(rc.Enemies[i].transform.position.z).SetTransform(rc.iconUI[i].transform));
                         break;
                     }
                 }
             });
-
         }
         CallStory();
+    }
+    private void TriggerTutorial()
+    {
+        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(int.Parse(current[1])));
+
+        CallStory();
+    }
+    private void PlayMusic()
+    {
+        musicManager.PlayMusic(current[1], float.Parse(current[2])/100);
+        CallStory();
+
+    }
+    private void StopMusic()
+    {
+        musicManager.StopMusic();
+        CallStory();
+
     }
 }

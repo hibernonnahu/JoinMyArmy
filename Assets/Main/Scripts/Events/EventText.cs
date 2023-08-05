@@ -18,17 +18,26 @@ public class EventText : MonoBehaviour
 
     private void PlayText(EventData arg0)
     {
-        queue.Add(arg0.stringData);
-        if (queue.Count == 1)
+        if (arg0.stringData == "")
         {
-            DisplayText();
+            LeanTween.cancel(text.gameObject);
+            queue.Clear();
+            text.text = "";
+        }
+        else
+        {
+            queue.Add(arg0.stringData);
+            if (queue.Count == 1)
+            {
+                DisplayText();
+            }
         }
     }
 
     private void DisplayText()
     {
         text.text = queue[0];
-        LeanTween.delayedCall(text.gameObject,TEXT_DELAY, RemoveFirst);
+        LeanTween.delayedCall(text.gameObject,TEXT_DELAY, RemoveFirst).setIgnoreTimeScale(true);
     }
 
     private void RemoveFirst()
@@ -46,6 +55,6 @@ public class EventText : MonoBehaviour
     private void OnDestroy()
     {
         LeanTween.cancel(text.gameObject);
-        EventManager.StopListening("main text", PlayText);
+        EventManager.StopListening(EventName.MAIN_TEXT, PlayText);
     }
 }

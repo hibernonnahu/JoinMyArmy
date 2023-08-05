@@ -28,7 +28,7 @@ public class StateCharacterEnemyHelpAttack : StateCharacterEnemy
         if (counter < 0)
         {
             counter = TICK_TIME;
-            if (enemy.CharacterMain.lastEnemyTarget == null || enemy.CharacterMain.lastEnemyTarget.IsDead)
+            if (enemy.CharacterMain.lastEnemyTarget == null || enemy.CharacterMain.lastEnemyTarget.IsDead || enemy.CharacterMain.lastEnemyTarget.IsKnocked)
             {
                 ChangeState(typeof(StateCharacterEnemyFollowLeader));
             }

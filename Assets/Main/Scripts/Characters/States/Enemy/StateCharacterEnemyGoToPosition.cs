@@ -5,25 +5,39 @@ using System;
 public class StateCharacterEnemyGoToPosition : StateCharacterEnemy
 {
     private const float ARRIVE_DIST_SQR = 0.5f;
+    private const float BUG_DISTANCE_CHECK_SQR = 0.5f;
+    private const float TICK = 1f;
     private bool ignoreColliders;
+    private Vector3 lastposition;
+    private float counter;
+    private int normalMask;
+    private int emptyMask;
+   
     public StateCharacterEnemyGoToPosition(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, bool ignoreColliders) : base(stateMachine, characterEnemy)
     {
         this.ignoreColliders = ignoreColliders;
+        emptyMask = LayerMask.GetMask(new string[] { });
+        normalMask = LayerMask.GetMask(new string[] { "Wall", "Water", "Enemy", "Ally" });
+
     }
     public override void Awake()
     {
         if (ignoreColliders)
         {
-            stearingMask = LayerMask.GetMask(new string[] { });
+            counter = 99999;
+            stearingMask = emptyMask;
             enemy.DisableCollider();
         }
         else
         {
-            stearingMask = LayerMask.GetMask(new string[] { "Wall", "Water", "Enemy", "Ally" });
+            counter = -1;
+            stearingMask = normalMask;  
         }
 
         enemy.SetAnimation("walkstory");
         enemy.Rigidbody.drag = 0;
+       
+        lastposition = enemy.transform.position + Vector3.right * 1000;
     }
 
     public override void Sleep()
@@ -34,6 +48,20 @@ public class StateCharacterEnemyGoToPosition : StateCharacterEnemy
 
     public override void Update()
     {
+        counter -= Time.deltaTime;
+        if (counter < 0)
+        {
+            counter = TICK;
+            if((lastposition-enemy.transform.position).sqrMagnitude< BUG_DISTANCE_CHECK_SQR)
+            {
+                stearingMask = emptyMask;
+            }
+            else
+            {
+                stearingMask = normalMask;
+            }
+            lastposition = enemy.transform.position;
+        }
 #if UNITY_EDITOR
         if (enemy.debug)
         {

@@ -96,7 +96,14 @@ public class CurrentPlaySingleton
         LoadMainCharacter(characterMain);
         LoadParty(characterMain);
     }
-
+    public void AddSkill<T>(Type type)where T : ISkill
+    {
+        if (skillController != null)
+        {
+            T t = (T)Activator.CreateInstance(type);
+            skillController.AddSkill(t);
+        }
+    }
     private void LoadMainCharacter(CharacterMain characterMain)
     {
         if (characterMainStats != null)//0-lvl 1-currentXp 2-currentHealth
@@ -108,7 +115,19 @@ public class CurrentPlaySingleton
             characterMain.level = characterMainStats[0];
             characterMain.XpController.ForceXp(characterMainStats[1]);
             characterMain.CurrentHealth = (characterMainStats[2]);
+            //characterMain.scrollViewSkillUI.Refresh();
+            foreach (var skill in skillController.Skills)
+            {
+                characterMain.OnNewSkillAdded(skill.GetName());
+            }
+
         }
+    }
+
+    internal void RefillHP()
+    {
+        if (characterMainStats != null)
+            characterMainStats[2] =(int)( GameObject.FindObjectOfType<CharacterMain>().Health);
     }
 
     private void LoadParty(CharacterMain characterMain)
@@ -133,8 +152,8 @@ public class CurrentPlaySingleton
         enemy.CharacterMain = characterMain;
         enemy.CharacterManager = characterManager;
         enemy.enabled = true;
-        characterManager.GoMainTeam(enemy, true, party[i + 2]);
         enemy.UpdateStatesToFollow();
+        characterManager.GoMainTeam(enemy, true, party[i + 2]);
         enemy.CurrentHealth = party[i + 1];
         enemy.HealthBarController.UpdateBar();
         enemy.model.transform.forward = Vector3.forward;

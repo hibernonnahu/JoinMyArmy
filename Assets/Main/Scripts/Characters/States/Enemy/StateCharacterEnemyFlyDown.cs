@@ -89,7 +89,7 @@ public class StateCharacterEnemyFlyDown : StateCharacterEnemy
                 {
                     character.GetHit(enemy, DAMAGE_MULTIPLIER, true);
 
-                    hitEffectController.CreateEffect(enemy, character, 1.5f);
+                    hitEffectController.CreateEffect(enemy.transform.position, character, 1.5f);
                 }
                 enemy.SetAnimation("land", 0);
                 enemy.VulnerableTime = VULNERABLE_TIME;
@@ -102,6 +102,10 @@ public class StateCharacterEnemyFlyDown : StateCharacterEnemy
 
 
     public override bool GetHit(float damage, Character attacker)
+    {
+        return false;
+    }
+    public override bool CanGetEffect()
     {
         return false;
     }

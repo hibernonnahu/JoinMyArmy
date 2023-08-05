@@ -51,7 +51,8 @@ public class CharacterEnemy : Character
         get { return characterMain; }
         set { characterMain = value; }
     }
-
+    private bool useCastRedDotUI = false;
+    public bool UseCastRedDotUI { get { return useCastRedDotUI; } }
     private Func<float> onCastMainPower = () => { return -1; };
     public Func<float> OnCastMainPower { get { return onCastMainPower; } }
 
@@ -170,6 +171,7 @@ public class CharacterEnemy : Character
     {
         team = 0;
         IsDead = false;
+        IsKnocked = false;
         speed = characterMain.speed;
         canBeRecluit = false;
         collider.enabled = true;
@@ -178,6 +180,7 @@ public class CharacterEnemy : Character
     internal void SetCastMainPower(IEnemyStateAddAttack component)
     {
         onCastMainPower = component.Execute;
+        useCastRedDotUI = component.UseRedDotUI();
     }
 
     internal float UseMainSkill()
@@ -193,16 +196,7 @@ public class CharacterEnemy : Character
         return (coins * level);
     }
 
-    public void DisableCollider()
-    {
-        collider.enabled = false;
 
-    }
-    public void EnableCollider()
-    {
-        collider.enabled = true;
-
-    }
     protected override void GoVulnerable()
     {
         stateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
@@ -210,19 +204,26 @@ public class CharacterEnemy : Character
 
     protected override void GoDissy()
     {
-        VulnerableTime = 4;
-        SetAnimation("knocked");
-        NextState = IdleState;
-
-        GeneralParticleHandler.stun.Play();
-        onVulnerableEnd = () =>
+        if (stateMachine.CurrentState.CanGetEffect())
         {
-            GeneralParticleHandler.stun.Stop();
-        };
-        StateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
+            VulnerableTime = 4;
+            SetAnimation("knocked");
+            NextState = IdleState;
+
+            GeneralParticleHandler.stun.Play();
+            onVulnerableEnd = () =>
+            {
+                GeneralParticleHandler.stun.Stop();
+            };
+            StateMachine.ChangeState(typeof(StateCharacterEnemyVulnerable));
+        }
     }
     protected override void OnCollisionEnter(Collision collision)
     {
         stateMachine.CurrentState.OnCollisionEnter(collision);
+    }
+    internal override bool CanGetEffect()
+    {
+        return stateMachine.CurrentState.CanGetEffect();
     }
 }

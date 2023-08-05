@@ -17,7 +17,9 @@ public class IconUIController : MonoBehaviour
     public Button button;
     public RectTransform rectTransform;
     private float totalTime = -1;
+    public float TotalTime { get { return totalTime; } }
     private float currentTime = -1;
+    public float CurrentTime { get { return currentTime; } }
     private Vector3 initialPosition;
     private Action onUpdateColdDown = () => { };
     private int indexPosition;
@@ -26,6 +28,8 @@ public class IconUIController : MonoBehaviour
     public int IndexPosition { get { return indexPosition; } }
     private bool drag = false;
     public int tutorialID = 2;
+    private Image redDot;
+
 
     internal void Init(RecluitController recluitController, int indexPosition)
     {
@@ -37,8 +41,37 @@ public class IconUIController : MonoBehaviour
     private void Awake()
     {
         coldDown.fillAmount = 0;
-
+       
     }
+    public void SetCoolDownUI(float current, float total)
+    {
+        totalTime = total;
+        if (current == 0)
+        {
+            EnableButton();
+            onUpdateColdDown = () => { };
+        }
+        else
+        {
+            currentTime = current;
+            onUpdateColdDown = OnColdDown;
+            button.interactable = false;
+        }
+    }
+
+    internal void Hide(bool boolData)
+    {
+        if (boolData)
+        {
+            transform.position = Vector3.right * 9999;
+        }
+        else
+        {
+            rectTransform.transform.position = initialPosition;
+
+        }
+    }
+
     private void Update()
     {
         onUpdateColdDown();
@@ -50,7 +83,7 @@ public class IconUIController : MonoBehaviour
         {
             currentTime = 0;
             onUpdateColdDown = () => { };
-            LeanTween.scale(rectTransform, Vector3.one * 1.5f, 0.7f).setEaseInCirc().setOnComplete(
+            LeanTween.scale(rectTransform, Vector3.one * 1.5f, 0.4f).setEaseInCirc().setOnComplete(
                () =>
                {
                    EnableButton();
@@ -68,11 +101,13 @@ public class IconUIController : MonoBehaviour
             EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(tutorialID));
 
             currentTime = totalTime = characterEnemy.UseMainSkill();
+            SaveDot();
             if (currentTime > 0)
             {
                 LeanTween.delayedCall(gameObject, 0.3f, StartColdDown);
             }
         }
+        DotDiactivate();
     }
     private void StartColdDown()
     {
@@ -83,6 +118,7 @@ public class IconUIController : MonoBehaviour
     internal void DisableButton()
     {
         button.interactable = false;
+        DotDiactivate();
     }
 
     internal void EnableButton()
@@ -90,15 +126,17 @@ public class IconUIController : MonoBehaviour
         coldDown.fillAmount = 0;
         currentTime = -1;
         button.interactable = true;
+        CheckDot();
     }
     public void BeginDrag(BaseEventData data)
     {
-        if (button.interactable && canBeDragged)
+        if (canBeDragged)
         {
             Transform parent = transform.parent;
             transform.SetParent(null, true);
             transform.SetParent(parent, true);
             button.interactable = false;
+            LeanTween.cancel(recluitController.trash.gameObject, true);
             LeanTween.scale(recluitController.trash.gameObject, Vector3.one, 0.1f);
 
             drag = true;
@@ -108,7 +146,8 @@ public class IconUIController : MonoBehaviour
     {
         if (drag)
         {
-            rectTransform.transform.localPosition = Vector3.right * (Input.mousePosition.x - Screen.width * 0.5f) /* (Utils.ScreenWidth / Screen.width)*/ + Vector3.up * (Input.mousePosition.y - Screen.height * 0.5f)  /*(Utils.ScreenHeight / Screen.height)*/;
+            rectTransform.anchoredPosition = Vector3.right * (Input.mousePosition.x / Screen.width   )* recluitController.canvas.rect.width 
+                + Vector3.up * (Input.mousePosition.y / Screen.height) * recluitController.canvas.rect.height;
         }
     }
     public void EndDrag(BaseEventData data)
@@ -129,11 +168,48 @@ public class IconUIController : MonoBehaviour
             {
                 BounceAnimation(() => { }, Vector3.one);
             }
-            LeanTween.move(rectTransform.gameObject, initialPosition, 0.5f).setEaseOutBack().setIgnoreTimeScale(true).setOnComplete(() => { button.interactable = true; drag = false; });
+            LeanTween.move(rectTransform.gameObject, initialPosition, 0.5f).setEaseOutBack().setIgnoreTimeScale(true).setOnComplete(() =>
+            {
+                button.interactable = currentTime<=0; drag = false;
+                CheckDot();
+
+            });
         }
         else
         {
             rectTransform.transform.position = initialPosition;
+            CheckDot();
+
+        }
+    }
+
+    private void SaveDot()
+    {
+        if (characterEnemy.UseCastRedDotUI)
+        {
+            int code = SaveData.GetInstance().GetValue("redDot" + characterEnemy.id, 0);
+            code++;
+            SaveData.GetInstance().Save("redDot" + characterEnemy.id, code);
+        }
+    }
+    public void CheckDot()
+    {
+        if (characterEnemy != null && characterEnemy.UseCastRedDotUI)
+        {
+            int code = SaveData.GetInstance().GetValue("redDot" + characterEnemy.id, 0);
+            if (code < 2)
+            {
+               
+                DotActivate();
+            }
+            else
+            {
+                DotDiactivate();
+            }
+        }
+        else
+        {
+            DotDiactivate();
         }
     }
 
@@ -154,5 +230,31 @@ public class IconUIController : MonoBehaviour
     private void OnDestroy()
     {
         LeanTween.cancel(gameObject);
+    }
+    private void DotActivate()
+    {
+
+        if (redDot == null)
+        {
+            GameObject NewObj = new GameObject(); //Create the GameObject
+            NewObj.name = "redDot";
+            redDot = NewObj.AddComponent<Image>();
+            redDot.color = Color.red;
+            var rect = redDot.GetComponent<RectTransform>();
+            rect.SetParent(transform);
+            redDot.sprite = Resources.Load<Sprite>("Texture/circle");
+            rect.anchoredPosition = Vector2.one * 50;
+            rect.localScale = Vector2.one * 0.5f;
+
+        }
+        redDot.gameObject.SetActive(true);
+
+    }
+    private void DotDiactivate()
+    {
+        if (redDot != null)
+        {
+            redDot.gameObject.SetActive(false);
+        }
     }
 }

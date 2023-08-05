@@ -34,6 +34,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
             buttonResourcesCreator.image.sprite = item;
             buttonResourcesCreator.id = int.Parse(item.name);
             buttonResourcesCreator.transform.SetParent(transform);
+            buttonResourcesCreator.transform.localScale = Vector3.one;
             buttonResourcesCreator.button.interactable = buttonResourcesCreator.id <= currentChapter;
             mapSelect[buttonResourcesCreator.id - 1] = buttonResourcesCreator;
         }
@@ -59,7 +60,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
     private void OnNewChapterUnlock()
     {
         rect.anchoredPosition = Vector2.right * lastDestiny;
-        mapSelect[currentChapter - 1].UnlockAnimation(()=> { EnableScroll(); mapSelect[currentChapter - 1].OnClick(); });
+        mapSelect[currentChapter - 1].UnlockAnimation(() => { EnableScroll(); mapSelect[currentChapter - 1].OnClick(); });
     }
 
     public void OnValueChange(Vector2 v)
@@ -107,7 +108,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
     {
         rect.anchoredPosition = Vector2.right * lastDestiny;
         enableScroll = true;
-        hud.anchoredPosition = Vector2.right*9999;
+        hud.anchoredPosition = Vector2.right * 9999;
 
     }
 

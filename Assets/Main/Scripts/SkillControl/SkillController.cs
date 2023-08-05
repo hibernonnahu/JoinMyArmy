@@ -3,14 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkillController 
+public class SkillController
 {
-    private List<ISkill> skills=new List<ISkill>();
+    private List<ISkill> skills = new List<ISkill>();
+    public List<ISkill> Skills { get { return skills; } }
 
     private int extraRecluit;
     public int ExtraRecluit { get => extraRecluit; }
     private int extraHealth;
-    public int ExtraHealth { get => extraHealth;}
+    public int ExtraHealth { get => extraHealth; }
     private int extraDamage;
     public int ExtraDamage { get => extraDamage; }
     private float extraSpeed;
@@ -44,19 +45,20 @@ public class SkillController
         extraHealth += skill.ExtraHealth();
         extraDefense += skill.ExtraDefense();
         extraRecluit += skill.ExtraRecluit();
-        
+
         character.UpdateStatsOnLevel(character.level);
+        character.OnNewSkillAdded(skill.GetName());
     }
 
-    public void AddSkill(ISkill skill) 
-{
+    public void AddSkill(ISkill skill)
+    {
         skills.Add(skill);
         UpdateSkill(skill);
         skill.ExecuteOnGrab(character);
         EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString(skill.GetDescription()));
     }
 
-    public void OnKill(Character character,Character characterKill)
+    public void OnKill(Character character, Character characterKill)
     {
         foreach (var item in skills)
         {

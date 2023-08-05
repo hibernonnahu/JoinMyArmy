@@ -5,6 +5,7 @@ public class EnemyStateAddJustAnimate : EnemyStateAddAttack
 {
     public string animationName = "";
     public string soundName = "";
+    public float soundDelay = 0;
     public float animationSpeed = 1;
     protected CharacterEnemy characterEnemy;
     protected float lenght = -1;
@@ -38,8 +39,13 @@ public class EnemyStateAddJustAnimate : EnemyStateAddAttack
         characterEnemy.Rigidbody.velocity = Vector3.zero;
         characterEnemy.SetAnimation(animationName, 0.02f);
         characterEnemy.VulnerableTime = lenght / animationSpeed;
-
-        EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString(soundName));
+        if (soundName != "")
+        {
+            LeanTween.delayedCall(soundDelay, () =>
+            {
+                EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString(soundName));
+            });
+        }
         characterEnemy.NextState = characterEnemy.IdleState;
         characterEnemy.StateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemyVulnerable));
         return base.Execute();

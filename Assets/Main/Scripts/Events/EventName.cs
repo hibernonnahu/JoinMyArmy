@@ -9,6 +9,7 @@ public class EventName
     public static string ENEMIES_REMAIN = "enemiesRemain";
     public static string EXIT_OPEN = "exitOpen";
     public static string HIDE_TEXT = "hideText";
+    public static string HIDE_CHARACTER_UI = "hideCharacterUI";
     public static string NEXT_WAVE = "nextWave";
     public static string MAIN_TEXT = "mainText";
     public static string POPUP_OPEN = "popupOpen";

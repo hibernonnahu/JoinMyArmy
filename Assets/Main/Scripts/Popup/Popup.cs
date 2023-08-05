@@ -15,7 +15,7 @@ public class Popup : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
-        ApdateToResolution();
+        Utils.AdapteToResolution(rectTransform, transform,GetComponentInParent<Canvas>().GetComponent<RectTransform>());
 
         EventManager.StartListening(EventName.POPUP_OPEN, OnOpen);
         EventManager.StartListening(EventName.POPUP_CLOSE, OnCloseCheck);
@@ -26,29 +26,7 @@ public class Popup : MonoBehaviour
         }
     }
 
-    private void ApdateToResolution()
-    {
-        Transform[] childs = new Transform[transform.childCount];
-        for (int i = 0; i < childs.Length; i++)
-        {
-            childs[i] = transform.GetChild(i);
-        }
 
-        var container = new GameObject().AddComponent<RectTransform>();
-        container.transform.SetParent(rectTransform.transform);
-        float scaleFactor = (transform.parent.GetComponent<RectTransform>().sizeDelta.x / 1080);
-        container.sizeDelta = Vector2.right * 1080 + Vector2.up * 1920;
-        container.anchoredPosition = Vector2.zero;
-        container.transform.localScale = Vector3.one;
-        container.gameObject.name = "container";
-        for (int i = 0; i < childs.Length; i++)
-        {
-            childs[i].SetParent(container.transform);
-        }
-        container.transform.localScale = Vector3.one * scaleFactor;
-        container.pivot = Vector2.right * (0.5f / scaleFactor) + Vector2.up * 0.5f;
-        container.anchoredPosition = Vector2.zero;
-    }
 
     private void OnClose(EventData arg0)
     {
@@ -78,15 +56,19 @@ public class Popup : MonoBehaviour
         {
             item.SetActive(true);
         }
-        Time.timeScale = 0;
+
         graphicRaycaster.enabled = true;
         LeanTween.moveY(rectTransform, -rectTransform.rect.height, TIME).setEaseInCirc().setIgnoreTimeScale(true);
     }
     public void Close()
     {
+        foreach (var item in enableOnUse)
+        {
+            item.SetActive(false);
+        }
         LeanTween.moveY(rectTransform, 0, TIME).setEaseOutCirc().setIgnoreTimeScale(true).setOnComplete(() =>
         {
-            Time.timeScale = 1;
+
             graphicRaycaster.enabled = false;
         });
     }

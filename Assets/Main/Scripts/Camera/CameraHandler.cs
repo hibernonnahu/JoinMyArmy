@@ -1,5 +1,6 @@
 using MoreMountains.Feedbacks;
 using System;
+using System.Collections;
 using UnityEngine;
 public class CameraHandler : MonoBehaviour
 {
@@ -125,9 +126,12 @@ public class CameraHandler : MonoBehaviour
     public void GoInGame(GameObject gameObject, bool warp = true)
     {
         camera.cullingMask = LAYER_ALL;
+        FindObjectOfType<ExitController>().Pause(false);
 
         FollowGameObject(gameObject, warp);
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+        EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
+
 
         if (hud == null)
         {
@@ -142,7 +146,7 @@ public class CameraHandler : MonoBehaviour
     public void GoCinematicStory(GameObject gameObject, bool warp, float cameraSize)
     {
         camera.cullingMask = LAYER_UI;
-
+        FindObjectOfType<ExitController>().Pause(true);
         cinematicOffsetSize = cameraSize;
         toFollow = gameObject.transform;
         if (warp)
@@ -150,6 +154,7 @@ public class CameraHandler : MonoBehaviour
             transform.position = ((toFollow.position.x) * Vector3.right + (toFollow.position.z + OFFSET_Z) * Vector3.forward) + Vector3.up * transform.position.y;
         }
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+        EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
 
         if (hud == null)
         {
@@ -182,6 +187,27 @@ public class CameraHandler : MonoBehaviour
             EventManager.TriggerEvent(EventName.STORY_CAM_ARRIVE);
         }
     }
+    public void GoToPositionOnNoScaleTime(float x, float z)
+    {
+        z -= 10;
+        onUpdate = () => { camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, 16, Time.unscaledDeltaTime*0.85f); };
+       
+        rigidbody.velocity = Vector3.zero;
+        LeanTween.move(gameObject, Vector3.right * x + Vector3.up * transform.position.y + Vector3.forward * z, 0.5f).setIgnoreTimeScale(true).setEaseOutCirc().setOnComplete(
+           () =>
+           {
+               Time.timeScale = 0.7f;
+               LeanTween.delayedCall(gameObject, 2.5f, () =>
+               {
+                   onUpdate = ToFollowUpdate;
+                   Time.timeScale = 1;
+
+               }).setIgnoreTimeScale(true);
+           }
+            );
+
+    }
+   
     public void ShowBlackBars()
     {
         LeanTween.scale(cinematicBars, Vector3.one * originalBarSize, 1);

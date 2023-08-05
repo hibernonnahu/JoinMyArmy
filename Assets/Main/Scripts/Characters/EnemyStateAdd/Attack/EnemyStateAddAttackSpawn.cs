@@ -5,7 +5,7 @@ public class EnemyStateAddAttackSpawn : EnemyStateAddAttack
 {
     private CharacterEnemy characterEnemy;
     public ParticleSystem particles;
-    public AudioSource audio;
+    public new AudioSource audio;
     public int[] spawnEnemiesIds;
     public int amount;
     public float castDuration = 30;

@@ -10,7 +10,7 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
     private float counter;
     private ParticleSystem particles;
     private AudioSource audio;
-    public StateCharacterEnemySpawn(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, ParticleSystem particles,AudioSource audio, CharacterEnemy[] spawnEnemies, float castDuration, float castDurationAfter) : base(stateMachine, characterEnemy)
+    public StateCharacterEnemySpawn(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, ParticleSystem particles, AudioSource audio, CharacterEnemy[] spawnEnemies, float castDuration, float castDurationAfter) : base(stateMachine, characterEnemy)
     {
         this.spawnEnemies = spawnEnemies;
         this.castDuration = castDuration;
@@ -20,7 +20,7 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
     }
     public override void Awake()
     {
-
+        enemy.Rigidbody.velocity = Vector3.zero;
         enemy.SetAnimation("cast", 0);
         if (particles != null)
         {
@@ -53,6 +53,7 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
 
                     spawnEnemy.transform.position = enemy.transform.position + UnityEngine.Random.Range(-SPAWN_OFFSET, SPAWN_OFFSET) * Vector3.right + UnityEngine.Random.Range(-SPAWN_OFFSET, SPAWN_OFFSET) * Vector3.forward;
                     spawnEnemy.IsDead = false;
+                    spawnEnemy.IsKnocked = false;
                     spawnEnemy.UpdateStatsOnLevel(spawnEnemy.level, false, false);
                     spawnEnemy.RecluitIconHandler.gameObject.SetActive(false);
                     spawnEnemy.Heal(spawnEnemy.Health, false);
@@ -62,11 +63,12 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
                     {
                         spawnEnemy.CanBeRecluit = true;
                     }
-                    
+
                     spawnEnemy.Rigidbody.isKinematic = false;
                     spawnEnemy.HealthBarController.UpdateBarColor(spawnEnemy);
                     spawnEnemy.UpdateColor(!spawnEnemy.IsEnemy());
                     spawnEnemy.RecluitIconHandler.Restore();
+                    spawnEnemy.gameObject.layer = enemy.gameObject.layer;
                     spawnEnemy.gameObject.SetActive(true);
                     enemy.CharacterManager.AddCharacterEnemy(spawnEnemy, enemy.CharacterMain);
                     spawnEnemy.enabled = true;

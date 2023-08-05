@@ -12,37 +12,58 @@ public class HitEffectController
     {
         mask = LayerMask.GetMask(new string[] { "Bound", "Wall", "Water" });
     }
-    public void CreateEffect(Character character, Character enemy, float dmgPercent, bool toSide = false)
+    public void CreateEffect(Vector3 hitterPosition, Character enemy, float dmgPercent, Vector3 toSide = default(Vector3), float minDmgPercent = 0.45f)
     {
-        int sound = 1;
-        if (dmgPercent > 0.45f)
+        if (enemy.CanGetEffect())
         {
-            sound = 2;
-            Vector3 dir = CustomMath.Normalize(enemy.transform.position - character.transform.position);
-            if (toSide)
+            int sound = 1;
+           
+            if (dmgPercent <= 0.1)
             {
-                dir = (character.model.transform.forward.z * Vector3.right + Vector3.back * character.model.transform.forward.x) * PUSH_STR * dmgPercent *
-                    Mathf.Clamp(Vector3.Dot(character.model.transform.forward, dir), -1, 1);
+                sound = 1;
+            }
+            else if (dmgPercent < 0.45)
+            {
+                sound = 2;
+            }
+            else if (dmgPercent < 0.85)
+            {
+                sound = 3;
             }
             else
             {
-                dir = dir * PUSH_STR * dmgPercent;
+                sound = 4;
             }
-            Ray ray = new Ray(enemy.transform.position + Vector3.up, dir);
-            RaycastHit hit;
-            if (Physics.Raycast(ray, out hit, PUSH_STR * dmgPercent, mask))
+            if (dmgPercent > minDmgPercent)
             {
-                LeanTween.moveX(enemy.gameObject, hit.point.x, PUSH_TIME * 0.5f).setEaseInOutBack();
-                LeanTween.moveZ(enemy.gameObject, hit.point.z, PUSH_TIME * 0.5f).setEaseInOutBack().setOnComplete(enemy.WallHit);
-                enemy.model.transform.forward = hit.normal;
-            }
-            else
-            {
-                LeanTween.moveX(enemy.gameObject, enemy.transform.position.x + dir.x, PUSH_TIME).setEaseOutQuart();
-                LeanTween.moveZ(enemy.gameObject, enemy.transform.position.z + dir.z, PUSH_TIME).setEaseOutQuart();
+
+                Vector3 dir = CustomMath.Normalize(enemy.transform.position - hitterPosition);
+                if (toSide != Vector3.zero)
+                {
+                    dir = (toSide.z * Vector3.right + Vector3.back * toSide.x) * PUSH_STR * dmgPercent *
+                        Mathf.Clamp(Vector3.Dot(toSide, dir), -1, 1);
+                }
+                else
+                {
+                    dir = dir * PUSH_STR * dmgPercent;
+                }
+                Ray ray = new Ray(enemy.transform.position + Vector3.up, dir);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, PUSH_STR * dmgPercent, mask))
+                {
+                    LeanTween.moveX(enemy.gameObject, hit.point.x, PUSH_TIME * 0.5f).setEaseInOutBack();
+                    LeanTween.moveZ(enemy.gameObject, hit.point.z, PUSH_TIME * 0.5f).setEaseInOutBack().setOnComplete(enemy.WallHit);
+                    enemy.model.transform.forward = hit.normal;
+                }
+                else
+                {
+                    LeanTween.moveX(enemy.gameObject, enemy.transform.position.x + dir.x, PUSH_TIME).setEaseOutQuart();
+                    LeanTween.moveZ(enemy.gameObject, enemy.transform.position.z + dir.z, PUSH_TIME).setEaseOutQuart();
+                }
+
             }
 
+            EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("hit" + sound));
         }
-        EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("hit" + sound));
     }
 }

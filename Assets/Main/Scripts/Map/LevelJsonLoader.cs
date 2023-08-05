@@ -42,7 +42,7 @@ public class LevelJsonLoader : MonoBehaviour
         var variations = Resources.LoadAll<TextAsset>("Maps/Campaign/Book" + book + "/Chapter" + chapter + "/Level" + level);
         if (forceVariation == -1)
         {
-            lvl= ParseString(variations[Random.Range(0, variations.Length)].text);
+            lvl = ParseString(variations[Random.Range(0, variations.Length)].text);
         }
         else
         {
@@ -84,15 +84,22 @@ public class LevelJsonLoader : MonoBehaviour
             var game = GetComponent<Game>();
             if (game != null)
             {
-                if(lvl.storyJsonFileName != "")
+                if (lvl.storyJsonFileName != "")
                 {
+                    var mm = GameObject.FindObjectOfType<MusicManager>();
+                    if (mm == null)
+                    {
+                        GameObject go = new GameObject();
+                        go.name = "Music Manager";
+                        go.SetActive(true);
+                        mm = go.AddComponent<MusicManager>();
+                    }
                     var sm = gameObject.AddComponent<StoryManager>();
+                    sm.musicManager = mm;
                     sm.SetJsonCode(lvl.storyJsonFileName);
                 }
                 game.time = lvl.time;
                 game.waveTime = lvl.waveTime;
-                //AddCompanion("RedHairGril", Vector3.right * 3);
-                //AddCompanion("Succubus", Vector3.left * 3);
             }
 
             LoadMap(lvl.enemies, lvl.obstacles);
@@ -138,7 +145,7 @@ public class LevelJsonLoader : MonoBehaviour
             ObstacleIdentifier prefab = GetObstacle((int)(obstaclesInfo[i + 2]));
             if (prefab)
             {
-                var obstacle=Instantiate<ObstacleIdentifier>(prefab, (Vector3.right * obstaclesInfo[i]*multiplier + Vector3.forward * obstaclesInfo[i + 1]*multiplier), Quaternion.identity);
+                var obstacle = Instantiate<ObstacleIdentifier>(prefab, (Vector3.right * obstaclesInfo[i] * multiplier + Vector3.forward * obstaclesInfo[i + 1] * multiplier), Quaternion.identity);
                 obstacle.rotation = obstaclesInfo[i + 3];
                 obstacle.size = obstaclesInfo[i + 4];
                 obstacle.colliders = obstaclesInfo[i + 5];

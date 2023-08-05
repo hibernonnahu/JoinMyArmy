@@ -18,11 +18,16 @@ public class StateEndGame : StateGame
     public override void Awake()
     {
         var stats = CurrentPlaySingleton.GetInstance();
+        
+        EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+
         stats.level++;
         var next = Resources.LoadAll<TextAsset>("Maps/Campaign/Book" + stats.book + "/Chapter" + stats.chapter + "/Level" + stats.level);
         if (next == null || next.Length == 0)
         {
-            SaveData.GetInstance().SaveRam();
+            game.coinsCollectUIController.gameObject.SetActive(true);
+            SaveData.GetInstance().SaveRam(false);
+            EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString("Chapter "+stats.chapter+" complete!"));
             if (stats.chapter < 3)
             {
                 stats.chapter++;
@@ -39,7 +44,8 @@ public class StateEndGame : StateGame
             }
             stats.SaveGamePlay(characterMain);
             stats.Reset();
-            EventManager.TriggerEvent(EventName.POPUP_OPEN, EventManager.Instance.GetEventData().SetString(PopupName.WIN));
+            ChangeState(typeof(StateGameChapterFinish));
+
         }
         else
         {
@@ -51,6 +57,12 @@ public class StateEndGame : StateGame
             stats.SaveGamePlay(characterMain);
 
             LeanTween.color(game.fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(NextLevelScene);
+        }
+        EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
+        var coinsController = GameObject.FindObjectOfType<CoinsUIController>();
+        if (coinsController != null)
+        {
+            coinsController.gameObject.SetActive(false);
         }
     }
 

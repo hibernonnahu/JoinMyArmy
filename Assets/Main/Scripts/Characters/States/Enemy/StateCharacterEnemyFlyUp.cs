@@ -51,5 +51,9 @@ public class StateCharacterEnemyFlyUp : StateCharacterEnemy
     {
         return false;
     }
+    public override bool CanGetEffect()
+    {
+        return false;
+    }
 
 }

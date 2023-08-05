@@ -74,7 +74,7 @@ public class StateCharacterEnemyDash : StateCharacterEnemy
         if (enemy.HitsLayer(collision.gameObject.layer))
         {
             var character = collision.gameObject.GetComponentInParent<Character>();
-            hitEffectController.CreateEffect(enemy, character, 0.97f, true);
+            hitEffectController.CreateEffect(enemy.transform.position, character, 0.97f, enemy.model.transform.forward);
             collisionParticle.Play();
             enemy.Rigidbody.velocity = enemy.model.transform.forward * DASH_SPEED;
 

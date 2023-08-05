@@ -13,6 +13,9 @@ public class Character : MonoBehaviour
     protected new Collider collider;
     private HealthBarController healthBarController;
     public HealthBarController HealthBarController { get { return healthBarController; } }
+
+   
+
     public GameObject model;
     public TextShortController textShortHandler;
 
@@ -20,6 +23,7 @@ public class Character : MonoBehaviour
     public float barOffset = 0;
     public bool useBarText = false;
     public float generalParticleYOffset = 0;
+    public float generalParticleScale = 1;
     private GeneralParticleManager generalParticleHandler;
     public GeneralParticleManager GeneralParticleHandler { get { return generalParticleHandler; } }
 
@@ -36,6 +40,7 @@ public class Character : MonoBehaviour
 
     public float attackSpeed = 1.5f;
     public float AttackSpeed { get { return attackSpeed + skillController.ExtraSpeed; } }
+
     public float criticalChance = 0; // 0 to 1
     public float criticalMultiplier = 1.2f;
     public float healWhenKill = 0;
@@ -54,6 +59,8 @@ public class Character : MonoBehaviour
     public Type IdleState { get => idleState; set => idleState = value; }
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
+    private bool isKnocked = false;
+    public bool IsKnocked { get => isKnocked; set => isKnocked = value; }
     public Action onVulnerableEnd = () => { };
     internal void SetAnimation(string name, float crossTime = 0, int layer = 0)
     {
@@ -96,7 +103,7 @@ public class Character : MonoBehaviour
     {
         skillController = new SkillController(this);
     }
-    public void UpdateStatsOnLevel(int newLevel, bool forceCurrentHealth = false, bool showText = true)
+    public virtual void UpdateStatsOnLevel(int newLevel, bool forceCurrentHealth = false, bool showText = true)
     {
         float newHealth = (baseHealth + newLevel + newLevel * baseHealth * 0.1f) + skillController.ExtraHealth;
         float dif = newHealth - health;
@@ -121,6 +128,7 @@ public class Character : MonoBehaviour
         rigidbody = GetComponent<Rigidbody>();
         var gph = Resources.Load<GeneralParticleManager>("Prefabs/Particles/GeneralParticleHandler");
         generalParticleHandler = Instantiate<GeneralParticleManager>(gph, transform);
+        generalParticleHandler.transform.localScale = Vector3.one * generalParticleScale;
         generalParticleHandler.transform.localPosition += Vector3.up * generalParticleYOffset;
     }
 
@@ -137,7 +145,7 @@ public class Character : MonoBehaviour
     {
         stateMachine.Update();
     }
-    public float GetHit(Character attacker, float multiplier = 1, bool getDissy = false)//returns damage percent
+    public virtual float GetHit(Character attacker, float multiplier = 1, bool getDissy = false)//returns damage percent
     {
         if (attacker.team != team || CurrentPlaySingleton.GetInstance().dificulty > 0)
         {
@@ -201,7 +209,7 @@ public class Character : MonoBehaviour
         return result;
     }
 
-    internal void Heal(float heal, bool showText = true)
+    public virtual void Heal(float heal, bool showText = true)
     {
         if (heal > 0)
         {
@@ -284,8 +292,27 @@ public class Character : MonoBehaviour
     {
 
     }
+    public virtual void OnNewSkillAdded(string v)
+    {
+
+    }
+
     private void OnDestroy()
     {
         LeanTween.cancel(gameObject);
+    }
+    public void DisableCollider()
+    {
+        collider.enabled = false;
+
+    }
+    public void EnableCollider()
+    {
+        collider.enabled = true;
+
+    }
+    internal virtual bool CanGetEffect()
+    {
+        return true;
     }
 }

@@ -24,5 +24,12 @@ public class TutorialManager : MonoBehaviour
             hsp.SetID(4);
             hsp.SetBackgroundUIName("background ui general");
         }
+#if UNITY_STANDALONE
+        if (SaveData.GetInstance().GetValue("tutorial100") == 0)
+        {
+            var hsp = gameObject.AddComponent<HintUseArrowKeys>();
+          
+        }
+#endif
     }
 }

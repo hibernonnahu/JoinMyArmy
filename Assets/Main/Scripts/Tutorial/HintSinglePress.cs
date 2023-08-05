@@ -32,6 +32,8 @@ public class HintSinglePress : MonoBehaviour
         if (arg0.intData == id && started)
         {
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+            EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
+
             FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
 
             started = false;
@@ -52,13 +54,18 @@ public class HintSinglePress : MonoBehaviour
     {
         if (arg0.intData == id)
         {
-            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
             started = true;
             LeanTween.cancel(handSprite);
             handSprite.SetActive(true);
             handSprite.transform.position = Vector3.right * arg0.floatData + Vector3.up * (arg0.floatData2 + 1) + Vector3.forward * (arg0.floatData3 + MOVE_DISTANCE);
             hud.SetActive(false);
             background.SetActive(true);
+            if (arg0.boolData)
+            {
+                handSprite.transform.localScale = Vector3.left * handSprite.transform.localScale.x + Vector3.up * handSprite.transform.localScale.y + Vector3.forward * handSprite.transform.localScale.z;
+            }
+            EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+            EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
 
             background.transform.position = Vector3.up * (arg0.floatData2 - 0.7f);
             LeanTween.moveLocalZ(handSprite, arg0.floatData3, 1).setIgnoreTimeScale(true).setRepeat(REPEAT).setOnComplete(() =>

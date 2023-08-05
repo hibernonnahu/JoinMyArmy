@@ -59,11 +59,12 @@ public class SaveData
         return enemyLocalLevel[enemyId];
     }
 
-    internal void SaveRam()
+    internal void SaveRam(bool updateText = true)
     {
         coins += CurrentPlaySingleton.GetInstance().coins;
         CurrentPlaySingleton.GetInstance().coins = 0;
-        EventManager.TriggerEvent(EventName.UPDATE_GAME_COINS_TEXT);
+        if (updateText)
+            EventManager.TriggerEvent(EventName.UPDATE_GAME_COINS_TEXT);
     }
 }
 

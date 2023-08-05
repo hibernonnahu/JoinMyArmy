@@ -4,7 +4,7 @@ using System;
 
 public class StateCharacterEnemyStomp : StateCharacterEnemy
 {
-    private const float DAMAGE_SQR_DISTANCE = 100;
+    private const float DAMAGE_SQR_DISTANCE = 150;
     private const float DAMAGE_MULTIPLIER = 1f;
     private ParticleSystem particle;
 
@@ -48,7 +48,7 @@ public class StateCharacterEnemyStomp : StateCharacterEnemy
             foreach (var character in enemy.CharacterManager.GetEnemiesInRange(enemy.team, DAMAGE_SQR_DISTANCE, enemy.transform.position))
             {
                 character.GetHit(enemy, DAMAGE_MULTIPLIER);
-                hitEffectController.CreateEffect(enemy, character, 1.5f);
+                hitEffectController.CreateEffect(enemy.transform.position, character, 1.5f);
             }
             ChangeState(typeof(StateCharacterEnemyVulnerable));
         }

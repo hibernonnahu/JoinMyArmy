@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
 {
     public bool isCastMainPower = false;
+    public bool redDotUITip = false;
     public float uIColdDown = 5;
     [Range(0, 10)]
     public float weight = 1;
@@ -47,5 +48,10 @@ public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
     private void Update()
     {
         onUpdate();
+    }
+
+    public bool UseRedDotUI()
+    {
+        return redDotUITip;
     }
 }

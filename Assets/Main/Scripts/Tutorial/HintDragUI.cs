@@ -26,6 +26,8 @@ public class HintDragUI : MonoBehaviour
         if (arg0.intData == id && started)
         {
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+            //EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
+
             FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
 
             started = false;
@@ -46,6 +48,8 @@ public class HintDragUI : MonoBehaviour
         if (arg0.intData == id)
         {
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+           // EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
+
 
             started = true;
             var parent = background.transform.parent;

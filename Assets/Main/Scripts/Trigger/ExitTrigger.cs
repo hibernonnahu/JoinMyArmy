@@ -5,14 +5,19 @@ using UnityEngine;
 public class ExitTrigger : MonoBehaviour
 {
     private new Collider collider;
+    public bool pause = false;
 
     private void Start()
     {
         collider = GetComponent<Collider>();
     }
-    private void OnTriggerEnter(Collider other)
+    
+    private void OnTriggerStay(Collider other)
     {
-        collider.enabled = false;
-        FindObjectOfType<Game>().OnExitTrigger(transform.position);
+        if (!pause)
+        {
+            collider.enabled = false;
+            FindObjectOfType<Game>().OnExitTrigger(transform.position);
+        }
     }
 }

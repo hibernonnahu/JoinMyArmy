@@ -36,7 +36,8 @@ public class HintSinglePressUINoDrag : HintSinglePressUI
             arg0.transformData.SetParent(null, true);
             arg0.transformData.SetParent(parent);
             arg0.transformData.position = pos;
-
+            camPosX = arg0.floatData;
+            camPosZ = arg0.floatData2;
 
             LeanTween.moveY(handSprite, arg0.transformData.position.y, 1).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
             {

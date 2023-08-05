@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class RecluitController : MonoBehaviour
 {
+    public RectTransform canvas;
     private const float SWAP_SQR_DISTANCE = 6000;
     public Image trash;
     public RectTransform textContainer;
@@ -39,7 +40,18 @@ public class RecluitController : MonoBehaviour
         GameObject.FindWithTag("background ui").transform.SetParent(transform.parent);
         trash.transform.localScale = Vector3.zero;
         EventManager.StartListening(EventName.BOUNCE_RECLUIT_TEXT, BounceText);
+        EventManager.StartListening(EventName.HIDE_CHARACTER_UI, HideRecluitUI);
     }
+
+    private void HideRecluitUI(EventData arg0)
+    {
+        gameObject.SetActive(!arg0.boolData);
+        for (int i = 0; i < images.Length; i++)
+        {
+            iconUI[i].Hide(arg0.boolData);
+        }
+    }
+
     public void SetMaxRecluits(int max)
     {
         this.max = max;
@@ -84,6 +96,12 @@ public class RecluitController : MonoBehaviour
         LeanTween.cancel(textContainer);
         if (text.text == "MAX")
         {
+            LeanTween.cancel(trash.gameObject, true);
+
+            LeanTween.scale(trash.gameObject, Vector3.one, 0.2f).setEaseOutElastic().setOnComplete(() =>
+            {
+                LeanTween.scale(trash.gameObject, Vector3.zero, 0.2f).setDelay(1.5f).setEaseOutElastic();
+            });
             LeanTween.move(textContainer.gameObject, gotoTextPosition.position, 0.15f);
             LeanTween.move(textContainer.gameObject, initialTextPos, 0.15f).setDelay(1.1f);
         }
@@ -116,6 +134,10 @@ public class RecluitController : MonoBehaviour
             iconUI[freeSpace].DisableButton();
             iconUI[freeSpace].container.gameObject.SetActive(false);
         }
+        else
+        {
+            iconUI[freeSpace].CheckDot();
+        }
         UpdateFreeSpace();
         UpdateText();
     }
@@ -146,7 +168,7 @@ public class RecluitController : MonoBehaviour
                 break;
             }
         }
-        LeanTween.cancel(trash.gameObject);
+        LeanTween.cancel(trash.gameObject,true);
         if (fail)
         {
             if ((trash.transform.position - iconUIController.transform.position).sqrMagnitude < SWAP_SQR_DISTANCE)
@@ -195,18 +217,24 @@ public class RecluitController : MonoBehaviour
         if (enemy1 != null)
         {
             var auxPos = iconUI[iconUIController1Position].transform.position;
+            var auxTotaltime = iconUI[iconUIController1Position].TotalTime;
+            var auxCurrentltime = iconUI[iconUIController1Position].CurrentTime;
+            iconUI[iconUIController1Position].SetCoolDownUI(iconUI[iconUIControllerDragedPosition].CurrentTime, iconUI[iconUIControllerDragedPosition].TotalTime);
             iconUI[iconUIController1Position].transform.position = iconUI[iconUIControllerDragedPosition].transform.position;
             iconUI[iconUIControllerDragedPosition].transform.position = auxPos;
+            iconUI[iconUIControllerDragedPosition].SetCoolDownUI(auxCurrentltime, auxTotaltime);
             Recluit(enemy1, true, iconUIControllerDragedPosition);
             enemy1.HealthBarController.UpdateBar();
             iconUI[iconUIControllerDragedPosition].ReturnToOriginalPosition(true);
         }
         else
         {
+            iconUI[iconUIController1Position].SetCoolDownUI(iconUI[iconUIControllerDragedPosition].CurrentTime, iconUI[iconUIControllerDragedPosition].TotalTime);
             iconUI[iconUIControllerDragedPosition].ReturnToOriginalPosition(true, true);
         }
         Recluit(enemy2, true, iconUIController1Position);
         iconUI[iconUIController1Position].ReturnToOriginalPosition(true);
+        iconUI[iconUIControllerDragedPosition].CheckDot();
 
         enemy2.HealthBarController.UpdateBar();
     }
@@ -252,11 +280,13 @@ public class RecluitController : MonoBehaviour
     {
         Vector3 initialPos = Camera.main.WorldToViewportPoint(position);
 
-        Vector2 destiny = initialPos.x * Screen.width * Vector3.right + initialPos.y * Screen.height * Vector3.up;
+        Vector2 destiny = initialPos.x * canvas.rect.width * Vector3.right + initialPos.y * canvas.rect.height * Vector3.up;
 
         Image image = images[freeSpace];
         IconUIController iconUITemp = iconUI[freeSpace];
+
         iconUITemp.ReturnToOriginalPosition(false, false);
+        iconUITemp.SetCoolDownUI(0, 1);
         LeanTween.cancel(image.gameObject);
         LeanTween.scale(image.rectTransform, Vector3.one * 1.7f, 0.8f).setIgnoreTimeScale(true).setEaseOutElastic();
         LeanTween.scale(image.rectTransform, Vector3.one, 0.5f).setIgnoreTimeScale(true).setDelay(0.8f);
@@ -272,7 +302,8 @@ public class RecluitController : MonoBehaviour
                 if (iconUITemp.CharacterEnemy.id == 0)//tree
                 {
                     iconUITemp.tutorialID = 2;
-                    EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(2).SetTransform(iconUITemp.transform).SetBool(false));
+                    EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(2).SetTransform(iconUITemp.transform)
+                        .SetFloat(iconUITemp.CharacterEnemy.transform.position.x).SetFloat2(iconUITemp.CharacterEnemy.transform.position.z).SetBool(false));
                 }
                 else if (iconUITemp.CharacterEnemy.id == 10 && iconUITemp.IndexPosition < 3)//spider
                 {
@@ -293,5 +324,7 @@ public class RecluitController : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.StopListening(EventName.BOUNCE_RECLUIT_TEXT, BounceText);
+        EventManager.StopListening(EventName.HIDE_CHARACTER_UI, HideRecluitUI);
+
     }
 }

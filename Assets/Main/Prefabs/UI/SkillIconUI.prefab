@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3700835925224085228}
   - component: {fileID: 1423610021}
   - component: {fileID: 6922887187410948009}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SkillIconUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6239355034972929951}
   - component: {fileID: 2806565317117619337}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Sprite Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2758281258876704447}
   - component: {fileID: 1520190651542244221}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: redCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -289,9 +289,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3458393391697950414}
     m_Modifications:
+    - target: {fileID: 113104, guid: 23818e20c9fcaa74eae69d5f3348c74d, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 130200, guid: 23818e20c9fcaa74eae69d5f3348c74d, type: 3}
       propertyPath: m_Name
       value: StarTrail
+      objectReference: {fileID: 0}
+    - target: {fileID: 130200, guid: 23818e20c9fcaa74eae69d5f3348c74d, type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 145100, guid: 23818e20c9fcaa74eae69d5f3348c74d, type: 3}
+      propertyPath: m_Layer
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 466980, guid: 23818e20c9fcaa74eae69d5f3348c74d, type: 3}
       propertyPath: m_RootOrder

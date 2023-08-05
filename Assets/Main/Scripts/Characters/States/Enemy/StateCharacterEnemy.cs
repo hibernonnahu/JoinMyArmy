@@ -38,18 +38,21 @@ public class StateCharacterEnemy : State<StateCharacterEnemy>
     }
     public virtual bool GetHit(float damage, Character attacker)//returns if character die
     {
+
         enemy.CurrentHealth -= damage;
         if (enemy.CurrentHealth <= 0)
         {
             enemy.CurrentHealth = 0;
             if (enemy.CanBeRecluit && !enemy.CharacterMain.IsDead)
             {
-                enemy.RecluitIconHandler.KnockOut();
-                ChangeState(typeof(StateCharacterEnemyKnocked));
+                if (enemy.RecluitIconHandler.KnockOut())
+                {
+                    ChangeState(typeof(StateCharacterEnemyKnocked));
+                }
             }
             else
             {
-                
+
                 enemy.Kill();
             }
             enemy.HealthBarController.UpdateBar();
@@ -66,5 +69,10 @@ public class StateCharacterEnemy : State<StateCharacterEnemy>
     internal virtual void OnCollisionEnter(Collision collision)
     {
 
+    }
+
+    public virtual bool CanGetEffect()
+    {
+        return true;
     }
 }

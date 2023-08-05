@@ -67,12 +67,12 @@ public class GameUIController : MonoBehaviour
     }
     public void UpdateWaveTimeLeft(int time, CharacterManager characterManager)
     {
-        if (!wavesReady&& time != lastWaveCounter)
+        if (!wavesReady && time != lastWaveCounter && time >= 0)
         {
             if (time == 0)
             {
                 nextWave.text = "";
-               
+
                 if (!characterManager.HasSpawnEnemies())
                 {
                     wavesReady = true;
@@ -80,13 +80,13 @@ public class GameUIController : MonoBehaviour
                 else
                 {
                     characterManager.SpawnNextWave();
-                   
+
                 }
             }
             else
             {
                 lastWaveCounter = time;
-                nextWave.text = "Next wave: " + time +" waves: "+characterManager.GetRemainingWaves();
+                nextWave.text = "Next wave: " + time + " waves: " + characterManager.GetRemainingWaves();
             }
         }
 

@@ -9,6 +9,7 @@ public class ExitController : MonoBehaviour
     public ParticleSystem particles;
     private AudioSource audioSource;
     private bool open = false;
+   
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -54,5 +55,11 @@ public class ExitController : MonoBehaviour
     {
         EventManager.StopListening(EventName.EXIT_OPEN, OnExitOpen);
 
+    }
+
+    internal void Pause(bool v)
+    {
+       
+        triggerExit.GetComponent<ExitTrigger>().pause = v;
     }
 }

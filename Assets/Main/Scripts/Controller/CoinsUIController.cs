@@ -16,6 +16,7 @@ public class CoinsUIController : MonoBehaviour
     public Text text;
     public RectTransform[] flyingImages;
     private int currentIndex = 0;
+    public RectTransform canvas;
     private void Awake()
     {
         EventManager.StartListening(EventName.UPDATE_GAME_COINS_TEXT, UpdateText);
@@ -29,14 +30,14 @@ public class CoinsUIController : MonoBehaviour
             amount += addedCoins;
             CurrentPlaySingleton.GetInstance().coins = amount;
             Vector3 initialPos = Camera.main.WorldToViewportPoint(worldPosition);
-            Vector2 initialPosAnchored = initialPos.x * Screen.width * Vector3.right + initialPos.y * Screen.height * Vector3.up;
+            Vector2 initialPosAnchored = initialPos.x * canvas.rect.width * Vector3.right + initialPos.y * canvas.rect.height * Vector3.up;
 
             flyingImages[currentIndex].transform.localScale = Vector3.zero;
             LeanTween.scale(flyingImages[currentIndex], Vector3.one * SCALE_MAX*2, SCALE_IN_TIME).setEaseInOutBounce();
             LeanTween.scale(flyingImages[currentIndex], Vector3.one * SCALE_MAX, SCALE_BACK_TIME).setEaseOutBack().setDelay(SCALE_IN_TIME);
             flyingImages[currentIndex].anchoredPosition = initialPosAnchored;
 
-            LeanTween.move(flyingImages[currentIndex], transform.position, TRANSLATION_TIME).setOnComplete(OnArrive).setEaseInExpo();
+            LeanTween.move(flyingImages[currentIndex].gameObject, transform.position, TRANSLATION_TIME).setOnComplete(OnArrive).setEaseInExpo();
             LeanTween.scale(flyingImages[currentIndex], Vector3.zero, SCALE_TIME).setDelay(TRANSLATION_TIME).setEaseInBack();
             EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("tin"));
 
@@ -51,7 +52,7 @@ public class CoinsUIController : MonoBehaviour
     private void UpdateText(EventData arg0 = null)
     {
         amount = CurrentPlaySingleton.GetInstance().coins;
-        text.text = amount.ToString("00000");
+        text.text = amount.ToString();
     }
     private void OnDestroy()
     {

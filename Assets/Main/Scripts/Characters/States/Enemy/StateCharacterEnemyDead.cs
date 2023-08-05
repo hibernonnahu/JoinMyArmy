@@ -16,7 +16,7 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
         enemy.Rigidbody.isKinematic = true;
         enemy.CharacterManager.RemoveCharacter(enemy);
 
-        if (!enemy.IsDead && enemy.team != enemy.CharacterMain.team)
+        if (!enemy.IsDead && !enemy.IsKnocked && enemy.team != enemy.CharacterMain.team)
         {
             enemy.CharacterMain.AddXP(enemy.GetXp());
             enemy.CharacterMain.coinsUIController.AddCoins(enemy.GetCoins(), enemy.transform.position);
@@ -46,4 +46,5 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
     {
 
     }
+ 
 }

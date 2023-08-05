@@ -8,9 +8,11 @@ public class CharacterMain : Character
     public FloatingJoystick floatingJoystick;
     public RecluitController recluitController;
     public IconUIController barUI;
+    public DamageControllerUI damageControllerUI;
     private FxManager fxController;
     public FxManager FxHandler { get { return fxController; } }
     public CoinsUIController coinsUIController;
+    public ScrollViewSkillUI scrollViewSkillUI;
 
     private XpController xpController;
     public XpController XpController { get { return xpController; } }
@@ -18,7 +20,7 @@ public class CharacterMain : Character
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     private bool isMoving = false;
 
-    private int maxRecluits = 6;
+    private int maxRecluits = 8;
 
     public StateMachine<StateCharacter> StateMachine { get { return stateMachine; } }
 
@@ -115,6 +117,18 @@ public class CharacterMain : Character
         };
         StateMachine.ChangeState(typeof(StateCharacterVulnerable));
     }
+    public override float GetHit(Character attacker, float multiplier = 1, bool getDissy = false)
+    {
+        float result = base.GetHit(attacker, multiplier, getDissy);
+        UpdateDamageUI();
+
+        return result;
+    }
+    public override void Heal(float heal, bool showText = true)
+    {
+        base.Heal(heal, showText);
+        UpdateDamageUI();
+    }
 
     internal void GoToPosition(float x, float z, float speed)
     {
@@ -127,5 +141,18 @@ public class CharacterMain : Character
     internal void ArmyOffset(int v)
     {
         recluitController.SetOffset(v);
+    }
+    public override void UpdateStatsOnLevel(int newLevel, bool forceCurrentHealth = false, bool showText = true)
+    {
+        base.UpdateStatsOnLevel(newLevel, forceCurrentHealth, showText);
+        UpdateDamageUI();
+    }
+    private void UpdateDamageUI()
+    {
+        damageControllerUI.UpdateUI(1 - (currentHealth / Health));
+    }
+    public override void OnNewSkillAdded(string v)
+    {
+        scrollViewSkillUI.Add(v);
     }
 }

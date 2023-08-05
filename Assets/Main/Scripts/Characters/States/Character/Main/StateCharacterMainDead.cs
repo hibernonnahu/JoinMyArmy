@@ -20,7 +20,8 @@ public class StateCharacterMainDead : StateCharacter
         characterMain.IsDead = true;
         characterMain.lastEnemyTarget = null;
         character.Rigidbody.drag = 100;
-        LeanTween.delayedCall(DELAY_LOSE_POPUP, DisplayLosePopup);
+        GameObject.FindObjectOfType<Game>().OnDead();
+       // LeanTween.delayedCall(DELAY_LOSE_POPUP, DisplayLosePopup);
     }
     public override void ChangeState(Type type)
     {

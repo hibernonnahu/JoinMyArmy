@@ -5,10 +5,17 @@ using System;
 public class StateCharacterMainGoToPosition : StateCharacter
 {
     private const float ARRIVE_DIST_SQR = 0.5f;
+    private const float BUG_DISTANCE_CHECK_SQR = 0.5f;
+    private const float TICK = 1f;
     private int stearingMask;
+    private Vector3 lastposition;
+    private float counter;
+    private int normalMask;
+    private int emptyMask;
     public StateCharacterMainGoToPosition(StateMachine<StateCharacter> stateMachine, CharacterMain character) : base(stateMachine, character)
     {
-        stearingMask = LayerMask.GetMask(new string[] { "Wall", "Water" });
+        normalMask = LayerMask.GetMask(new string[] { "Wall", "Water" });
+        emptyMask = LayerMask.GetMask(new string[] { });
 
     }
     public override void Awake()
@@ -16,6 +23,7 @@ public class StateCharacterMainGoToPosition : StateCharacter
 
         character.SetAnimation("walkstory");
         character.Rigidbody.drag = 0;
+        stearingMask = normalMask;
     }
 
     public override void Sleep()
@@ -25,6 +33,23 @@ public class StateCharacterMainGoToPosition : StateCharacter
 
     public override void Update()
     {
+        counter -= Time.deltaTime;
+        if (counter < 0)
+        {
+            counter = TICK;
+            if ((lastposition - character.transform.position).sqrMagnitude < BUG_DISTANCE_CHECK_SQR)
+            {
+                stearingMask = emptyMask;
+                character.DisableCollider();
+            }
+            else
+            {
+                character.EnableCollider();
+
+                stearingMask = normalMask;
+            }
+            lastposition = character.transform.position;
+        }
         Vector3 difVector = character.destiny - character.transform.position;
         UpdateMovement(difVector.x, difVector.z);
         if ((character.transform.position - character.destiny).sqrMagnitude < ARRIVE_DIST_SQR)

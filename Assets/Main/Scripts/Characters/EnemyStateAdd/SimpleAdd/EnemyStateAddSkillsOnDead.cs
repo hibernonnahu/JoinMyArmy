@@ -3,22 +3,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyStateAddSkillsOnDead : MonoBehaviour, IEnemySimpleAdd
+public class EnemyStateAddSkillsOnDead : EnemyStateOnDead
 {
     private const float OFFSET_PER_UNIT = 3;
     private const float OFFSET = 1f;
     public SkillIconController skillIconController;
     public int skillsAmount = 2;
     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
   
-    public void Init(CharacterEnemy characterEnemy)
+
+    protected override void ExecuteOnDead()
     {
-        characterEnemy.OnDeadActionList.Add(CallSkillsPopup);
+        CallSkillsPopup();
     }
     private void CallSkillsPopup()
     {

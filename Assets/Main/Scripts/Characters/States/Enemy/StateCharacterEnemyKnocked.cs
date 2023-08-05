@@ -16,7 +16,7 @@ public class StateCharacterEnemyKnocked : StateCharacterEnemy
         enemy.SetAnimation("knocked",0.3f);
         enemy.RecluitIconHandler.KnockOut();
         enemy.DisableCollider();
-        if (!enemy.IsDead && enemy.team != enemy.CharacterMain.team)
+        if (!enemy.IsDead &&!enemy.IsKnocked && enemy.team != enemy.CharacterMain.team)
         {
             enemy.CharacterMain.AddXP(enemy.GetXp());
             enemy.CharacterMain.coinsUIController.AddCoins(enemy.GetCoins(), enemy.transform.position);
@@ -26,7 +26,7 @@ public class StateCharacterEnemyKnocked : StateCharacterEnemy
                 EventManager.TriggerEvent(enemy.triggerOnDeath);
             }
         }
-        enemy.IsDead = true;
+        enemy.IsKnocked = true;
     }
 
     public override void Sleep()
@@ -38,4 +38,5 @@ public class StateCharacterEnemyKnocked : StateCharacterEnemy
     {
 
     }
+
 }

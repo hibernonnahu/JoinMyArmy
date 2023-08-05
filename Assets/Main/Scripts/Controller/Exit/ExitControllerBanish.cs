@@ -9,7 +9,7 @@ public class ExitControllerBanish : ExitController
     private Action onUpdate = () => { };
     private Material material;
     private float currentTransparency = 0.01f;
-    private float fadeSpeed = 0.1f;
+    private float fadeSpeed = 0.25f;
     protected override void Start()
     {
         currentTransparency = 0.01f;

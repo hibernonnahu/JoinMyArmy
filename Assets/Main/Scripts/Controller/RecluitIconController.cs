@@ -7,7 +7,8 @@ public class RecluitIconController : MonoBehaviour
     const float FADE_TIME = 0.8F;
     const float ICON_SIZE = 1.8F;
     const float PRESS_TIME = 20;
-
+    
+    public float y_fixed_offset = 0;
     private CharacterEnemy enemy;
     public GameObject mask;
     private Vector3 maskOriginalPosition;
@@ -18,6 +19,11 @@ public class RecluitIconController : MonoBehaviour
     public Sprite Sprite { get => sprite; set => sprite = value; }
 
     private bool knocked = false;
+
+    private Action onUpdate = () => { };
+
+    private Game game;
+    private bool checkToRecluitCount;
     void Awake()
     {
         originalParent = transform.parent;
@@ -25,6 +31,7 @@ public class RecluitIconController : MonoBehaviour
         maskOriginalPosition = mask.transform.localPosition;
         transform.localScale = Vector3.zero;
         enemy = GetComponentInParent<CharacterEnemy>();
+        game = FindObjectOfType<Game>();
     }
     public void ForceKnocked()
     {
@@ -33,23 +40,40 @@ public class RecluitIconController : MonoBehaviour
             OnTimeOut();
         }
     }
-    public void KnockOut()
+    public bool KnockOut()
     {
         if (!knocked)
         {
-            FadeIn();
-            knocked = true;
-            if (!enemy.isBoss)
+            CheckRecluitCounter();
+            checkToRecluitCount = false;
+             knocked = true;
+            if(enemy.isBoss && !enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id))
+            {
+                FadeIn();
+                return true;
+
+            }
+            else if (!((enemy.isBoss && enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id)) || !game.toRecluitManager.HasRoom()))
+            {
+                checkToRecluitCount = true;
+
+                game.toRecluitManager.count++;
+                FadeIn();
                 LeanTween.moveLocalY(mask, MAX_MASK_Y, PRESS_TIME).setDelay(FADE_TIME * 2).setOnComplete(OnTimeOut);
-            else if (enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id)){
+                return true;
+            }
+            else 
+            {
                 OnTimeOut();
             }
         }
+        return false;
     }
     void FadeIn()
     {
         Reset();
 
+        onUpdate = UpdatePosition;
         LeanTween.scale(this.gameObject, Vector3.one * ICON_SIZE, FADE_TIME).setEaseInExpo().setOnComplete(Pulse);
     }
 
@@ -59,10 +83,20 @@ public class RecluitIconController : MonoBehaviour
         LeanTween.cancel(gameObject);
         transform.localScale = Vector3.zero;
         mask.transform.localPosition = maskOriginalPosition;
+        
     }
 
+    void CheckRecluitCounter()
+    {
+        if (checkToRecluitCount)
+        {
+            checkToRecluitCount = false;
+            game.toRecluitManager.count--;
+        }
+    }
     void FadeOut()
     {
+        onUpdate = () => { };
         LeanTween.scale(this.gameObject, Vector3.zero, FADE_TIME).setEaseOutExpo().setOnComplete(() => { Disable(); gameObject.SetActive(false); });
     }
     private void Disable()
@@ -70,13 +104,14 @@ public class RecluitIconController : MonoBehaviour
         disabled = true;
         LeanTween.cancel(mask);
         LeanTween.cancel(gameObject);
-
+        CheckRecluitCounter();
     }
     void OnTimeOut()
     {
         Disable();
         FadeOut();
         enemy.Kill();
+       
     }
     public void Restore()
     {
@@ -93,8 +128,8 @@ public class RecluitIconController : MonoBehaviour
     {
         transform.SetParent(null);
 
-
-        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetInt(1));
+        UpdatePosition();
+        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetInt(1).SetBool(screenPos.x > 0.5f));
 
         LeanTween.scale(gameObject, gameObject.transform.localScale * 1.1f, 0.6f).setEaseLinear().setLoopPingPong();
     }
@@ -105,14 +140,21 @@ public class RecluitIconController : MonoBehaviour
         {
             EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(1));
 
-            if (enemy.CharacterMain.recluitController.CanRecluit() && !enemy.CharacterMain.IsDead)
+            if (enemy.isBoss && (enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id)))
+            {
+                enemy.Kill();
+                FadeOut();
+            }
+            else if (enemy.CharacterMain.recluitController.CanRecluit() && !enemy.CharacterMain.IsDead)
             {
                 mask.gameObject.SetActive(false);
                 enemy.CharacterMain.recluitController.UpdateFreeSpace();
                 enemy.CharacterMain.recluitController.MakeUIAnimation(transform.position);
                 enemy.CharacterMain.CastRecluit(enemy);
+                
                 gameObject.SetActive(false);
                 Disable();
+             
             }
             else
             {
@@ -137,7 +179,41 @@ public class RecluitIconController : MonoBehaviour
             );
 
     }
+    Vector3 screenPos;
+    private void UpdatePosition()
+    {
+        Vector3 tempPos = Vector3.right * enemy.transform.position.x + Vector3.up * transform.position.y + Vector3.forward * (enemy.transform.position.z + originalLocalPosition.z);
+        screenPos = (Camera.main.WorldToViewportPoint(tempPos));
+        Vector3 camTempMin = (Camera.main.ScreenToWorldPoint(Camera.main.transform.position));
+        Vector3 camTempMax = (Camera.main.ScreenToWorldPoint(Camera.main.transform.position + Vector3.right * Screen.width));
 
+        if (screenPos.x < 0)
+        {
+            tempPos = Vector3.right * (camTempMin.x + 1) + Vector3.up * tempPos.y + Vector3.forward * tempPos.z;
+        }
+        else if (screenPos.x > 1)
+        {
+            tempPos = Vector3.right * (camTempMax.x - 1) + Vector3.up * tempPos.y + Vector3.forward * tempPos.z;
+
+
+        }
+        //if (screenPos.y < 0)
+        //{
+        //    tempPos = Vector3.right * tempPos.x + Vector3.up * tempPos.y + Vector3.forward * camTempMin.z;
+        //    Debug.Log("out down");
+
+        //}
+        //else if (screenPos.y > 1)
+        //{
+        //    tempPos = Vector3.right * tempPos.x + Vector3.up * tempPos.y + Vector3.forward * camTempMax.z;
+        //    Debug.Log("out up");
+        //}
+        transform.position = tempPos;
+    }
+    private void Update()
+    {
+        onUpdate();
+    }
     internal void Init(string name)
     {
         Sprite = Resources.Load<Sprite>("CharacterIcons/" + name);

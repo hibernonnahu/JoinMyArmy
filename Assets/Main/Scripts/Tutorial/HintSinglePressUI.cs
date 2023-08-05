@@ -14,6 +14,8 @@ public class HintSinglePressUI : MonoBehaviour
     protected GameObject handSprite;
     protected GameObject background;
     protected Transform parent;
+    protected float camPosX;
+    protected float camPosZ;
 
     protected void Start()
     {
@@ -29,13 +31,16 @@ public class HintSinglePressUI : MonoBehaviour
             started = true;
             background.transform.position = Vector3.zero;
             handSprite.SetActive(true);
-            handSprite.transform.position = Vector3.right * Screen.width * (0.5f + 0.2f * arg0.intData2) + Vector3.up * Screen.height * 0.65f;
+            handSprite.transform.position = Vector3.right * Screen.width * (0.5f + 0.2f * arg0.intData2) + Vector3.up * Screen.height * 0.5f;
             LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.63f, 1).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
              {
                  handSprite.SetActive(false);
              });
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+            EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
 
+            camPosX = arg0.floatData;
+            camPosZ = arg0.floatData2;
         }
     }
     protected virtual void OnEnd(EventData arg0)
@@ -43,16 +48,18 @@ public class HintSinglePressUI : MonoBehaviour
         if (arg0.intData == id && started)
         {
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+            EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
+
             FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
 
             started = false;
             background.transform.position = Vector3.right * 3000;
             ExtraActionOnEnd(arg0);
 
-            Time.timeScale = 1;
             LeanTween.cancel(handSprite);
             handSprite.SetActive(false);
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            FindObjectOfType<CameraHandler>().GoToPositionOnNoScaleTime(camPosX, camPosZ);
             Destroy(this);
         }
     }

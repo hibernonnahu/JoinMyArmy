@@ -28,10 +28,49 @@ public class Utils
         int m = v / 60;
         return m + ":" + s + ":" + ms;
     }
+
+    internal static void AdapteToResolution(RectTransform rectTransform, Transform transform, RectTransform canvasParent, bool onlyWidth = false)
+    {
+
+        Transform[] childs = new Transform[transform.childCount];
+        for (int i = 0; i < childs.Length; i++)
+        {
+            childs[i] = transform.GetChild(i);
+        }
+
+        var container = new GameObject().AddComponent<RectTransform>();
+        container.transform.SetParent(rectTransform.transform);
+        float scaleFactor = (transform.parent.GetComponent<RectTransform>().sizeDelta.x / 1080);
+        container.sizeDelta = Vector2.right * 1080 + Vector2.up * 1920;
+        container.anchoredPosition = Vector2.zero;
+        container.transform.localScale = Vector3.one;
+        container.gameObject.name = "container";
+        for (int i = 0; i < childs.Length; i++)
+        {
+            childs[i].SetParent(container.transform);
+        }
+        float scale = canvasParent.rect.width / rectTransform.rect.width;
+#if UNITY_STANDALONE
+        if (!onlyWidth)
+            scale = 1;
+#endif
+        if (onlyWidth)
+        {
+            container.transform.localScale = Vector3.right * scale + Vector3.up + Vector3.forward;
+        }
+        else
+        {
+            container.transform.localScale = Vector3.one * scale;
+        }
+        container.pivot = Vector2.right * (0.5f / scaleFactor) + Vector2.up * 0.5f;
+        container.anchoredPosition = Vector2.zero;
+
+    }
+
     public static Vector3 StearingVector(Vector3 position, Vector3 normalizedDirection, int mask)
     {
         Vector3 offset = Vector3.left * normalizedDirection.z + Vector3.forward * normalizedDirection.x;
-       
+
 
         float dl = 3, dr = 3;
         RaycastHit hit;
@@ -43,12 +82,12 @@ public class Utils
         {
             dr = hit.distance;
         }
-       
+
         Debug.DrawRay(position + offset, CustomMath.XZNormalize(normalizedDirection) * dr, Color.green, 1);
         Debug.DrawRay(position - offset, CustomMath.XZNormalize(normalizedDirection) * dl, Color.green, 1);
-       
 
-        return  offset * (dr - dl);
+
+        return offset * (dr - dl);
     }
 
     internal static int GetBinaryCount(int v)
@@ -90,8 +129,8 @@ public class Utils
     static Vector4 vb = new Vector4(0, 00, 1, 0);
     static Vector4 va = new Vector4(0, 00, 0, 1);
 
-    public static float ScreenWidth =1080;
-    public static float ScreenHeight =1920;
+    public static float ScreenWidth = 1080;
+    public static float ScreenHeight = 1920;
 
     public static Color GetColor(float r, float g, float b, float a)
     {
