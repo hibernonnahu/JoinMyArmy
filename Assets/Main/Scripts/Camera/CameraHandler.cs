@@ -8,7 +8,7 @@ public class CameraHandler : MonoBehaviour
     int LAYER_UI;
     private const float ARRIVE_DIST_SQR = 2;
     private const float CINEMATIC_TRANSITION_TIME = 1.5f;
-    public float cinematicWaitTime = 10;
+
     public float defaultSize = 25;
     public float offsetSize = 5;
     public float speedSize = 5;
@@ -90,11 +90,7 @@ public class CameraHandler : MonoBehaviour
                 currentOffsetSize = 0;
             }
             timeStill += Time.deltaTime;
-            if (timeStill > cinematicWaitTime)
-            {
-                toFollowInitialPos = toFollow.position;
-                GoCinematicInGame();
-            }
+
         }
         camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, defaultSize + currentOffsetSize, Time.deltaTime);
     }
@@ -126,7 +122,11 @@ public class CameraHandler : MonoBehaviour
     public void GoInGame(GameObject gameObject, bool warp = true)
     {
         camera.cullingMask = LAYER_ALL;
-        FindObjectOfType<ExitController>().Pause(false);
+        var exit = FindObjectOfType<ExitController>();
+        if (exit != null)
+        {
+            exit.Pause(false);
+        }
 
         FollowGameObject(gameObject, warp);
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
@@ -142,11 +142,16 @@ public class CameraHandler : MonoBehaviour
 
         LeanTween.moveLocalY(this.gameObject, initialY, CINEMATIC_TRANSITION_TIME);
         LeanTween.rotateX(this.gameObject, initialRotation, CINEMATIC_TRANSITION_TIME);
+        LeanTween.delayedCall(CINEMATIC_TRANSITION_TIME + 0.5f, () => { EventManager.TriggerEvent(EventName.STORY_CAM_GOBACK); });
     }
     public void GoCinematicStory(GameObject gameObject, bool warp, float cameraSize)
     {
         camera.cullingMask = LAYER_UI;
-        FindObjectOfType<ExitController>().Pause(true);
+        var exit = FindObjectOfType<ExitController>();
+        if (exit != null)
+        {
+            exit.Pause(true);
+        }
         cinematicOffsetSize = cameraSize;
         toFollow = gameObject.transform;
         if (warp)
@@ -190,8 +195,8 @@ public class CameraHandler : MonoBehaviour
     public void GoToPositionOnNoScaleTime(float x, float z)
     {
         z -= 10;
-        onUpdate = () => { camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, 16, Time.unscaledDeltaTime*0.85f); };
-       
+        onUpdate = () => { camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, 16, Time.unscaledDeltaTime * 0.85f); };
+
         rigidbody.velocity = Vector3.zero;
         LeanTween.move(gameObject, Vector3.right * x + Vector3.up * transform.position.y + Vector3.forward * z, 0.5f).setIgnoreTimeScale(true).setEaseOutCirc().setOnComplete(
            () =>
@@ -207,7 +212,7 @@ public class CameraHandler : MonoBehaviour
             );
 
     }
-   
+
     public void ShowBlackBars()
     {
         LeanTween.scale(cinematicBars, Vector3.one * originalBarSize, 1);

@@ -28,7 +28,7 @@ public class StateEndGame : StateGame
             game.coinsCollectUIController.gameObject.SetActive(true);
             SaveData.GetInstance().SaveRam(false);
             EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString("Chapter "+stats.chapter+" complete!"));
-            if (stats.chapter < 3)
+            if (stats.chapter < 4)
             {
                 stats.chapter++;
                 int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER, 1);

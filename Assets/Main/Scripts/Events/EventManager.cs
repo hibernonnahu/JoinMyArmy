@@ -148,7 +148,7 @@ public class EventManager
 
     public static void TriggerEvent(string eventName, EventData eventData = null)
     {
-        //Debug.Log("TriggerEvent");
+        //Debug.Log("TriggerEvent "+eventName);
         UnityEvent<EventData> thisEvent = null;
         if (Instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {

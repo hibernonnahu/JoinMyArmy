@@ -4,11 +4,12 @@ using System;
 
 public class StateCharacterMainInGame : StateCharacter
 {
-    private CharacterMainAttackController attackHandler;
-    private CharacterMain characterMain;
+    protected ICharacterAttackController attackHandler;
+    protected CharacterMain characterMain;
     public StateCharacterMainInGame(StateMachine<StateCharacter> stateMachine, CharacterMain character) : base(stateMachine, character)
     {
-        attackHandler = new CharacterMainAttackController(character, character.animator,character.CharacterManager);
+        attackHandler = character.GetComponent<ICharacterAttackController>();
+        attackHandler.Init(character, character.animator, character.CharacterManager);
         this.characterMain = character;
         characterMain.animator.SetFloat("walkspeed", characterMain.speed);
 
@@ -27,7 +28,7 @@ public class StateCharacterMainInGame : StateCharacter
     {
         if (x ==0&&y==0)
         {
-            character.SetAnimation("idle",0.02f);
+            character.SetAnimation("idle",0);
             character.Rigidbody.drag = 50;
             character.Rigidbody.velocity = Vector3.zero;
             characterMain.IsMoving = false;
@@ -52,7 +53,7 @@ public class StateCharacterMainInGame : StateCharacter
     }
     public override void Update()
     {
-        attackHandler.Update();
+        attackHandler.GoUpdate();
     }
 
 }

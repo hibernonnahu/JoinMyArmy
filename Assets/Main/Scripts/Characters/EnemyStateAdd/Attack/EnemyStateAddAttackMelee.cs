@@ -11,7 +11,7 @@ public class EnemyStateAddAttackMelee : EnemyStateAddAttack
     {
         this.characterEnemy = characterEnemy;
         characterEnemy.AttackState = typeof(StateCharacterEnemyMelee);
-        characterEnemy.HelpAttack = true;
+       
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyChase(characterEnemy.StateMachine, characterEnemy));
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyMelee(characterEnemy.StateMachine, characterEnemy,particleHit,swing,hit));
 

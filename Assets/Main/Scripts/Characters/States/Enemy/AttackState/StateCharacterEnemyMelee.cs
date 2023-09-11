@@ -68,7 +68,7 @@ public class StateCharacterEnemyMelee : StateCharacterEnemy
                     enemy.lastEnemyTarget = null;
                 }
                 hit = true;
-                counter = enemy.AttackSpeed * 0.65f;
+                counter = (1 / enemy.AttackSpeed) * 0.65f;
             }
         }
         else

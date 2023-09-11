@@ -38,12 +38,13 @@ public class HealthBarController : MonoBehaviour
         if (character.IsEnemy())
         {
             transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material = red;
+            ShowBarAgain();
         }
         else
         {
             transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material = green;
         }
-        ShowBarAgain();
+       
     }
     public void ShowBarAgain()
     {

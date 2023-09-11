@@ -26,9 +26,13 @@ public class ScrollViewMapLevelController : MonoBehaviour
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         var prefabs = Resources.LoadAll<Sprite>(resourcesFolder);
         currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER, 1);
-
+        var sortMaps = new Sprite[prefabs.Length];
+        for (int i = 0; i < prefabs.Length; i++)
+        {
+            sortMaps[int.Parse(prefabs[i].name) - 1] = prefabs[i];
+        }
         mapSelect = new MapLevelSelectController[prefabs.Length];
-        foreach (var item in prefabs)
+        foreach (var item in sortMaps)
         {
             var buttonResourcesCreator = Instantiate<MapLevelSelectController>(buttonPrefab);
             buttonResourcesCreator.image.sprite = item;
@@ -60,7 +64,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
     private void OnNewChapterUnlock()
     {
         rect.anchoredPosition = Vector2.right * lastDestiny;
-        mapSelect[currentChapter - 1].UnlockAnimation(() => { EnableScroll(); mapSelect[currentChapter - 1].OnClick(); });
+        mapSelect[currentChapter - 1].UnlockAnimation(() => { EnableScroll(); /*mapSelect[currentChapter - 1].OnClick();*/ });
     }
 
     public void OnValueChange(Vector2 v)

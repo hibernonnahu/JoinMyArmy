@@ -8,6 +8,7 @@ public class EnemyStateAddCanBeRecluit : MonoBehaviour, IEnemySimpleAdd
     private SkinnedMeshRenderer meshRenderer;
     private Material materialA;
     public Material materialB;
+    public bool helpAttack = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,8 +22,9 @@ public class EnemyStateAddCanBeRecluit : MonoBehaviour, IEnemySimpleAdd
         characterEnemy.EnemyStateAddCanBeRecluit = this;
         meshRenderer = characterEnemy.model.GetComponentInChildren<SkinnedMeshRenderer>();
         materialA = meshRenderer.material;
+        if(helpAttack)
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyHelpAttack(characterEnemy.StateMachine, characterEnemy));
-        characterEnemy.StateMachine.AddState(new StateCharacterEnemyFollowLeader(characterEnemy.StateMachine, characterEnemy));
+        characterEnemy.StateMachine.AddState(new StateCharacterEnemyFollowLeader(characterEnemy.StateMachine, characterEnemy, helpAttack));
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyKnocked(characterEnemy.StateMachine, characterEnemy));
 
     }

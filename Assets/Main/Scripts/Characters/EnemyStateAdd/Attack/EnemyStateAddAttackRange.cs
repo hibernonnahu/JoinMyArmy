@@ -15,7 +15,7 @@ public class EnemyStateAddAttackRange : EnemyStateAddAttack
         this.characterEnemy = characterEnemy;
         characterEnemy.AttackState = typeof(StateCharacterEnemyRange);
 
-        characterEnemy.HelpAttack = true;
+      
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyRange(characterEnemy.StateMachine, characterEnemy, bulletPool, hideOnShot, bulletSpeed, preCast, castExpulsion, expulsionSqrRange));
 
         return this;

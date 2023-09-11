@@ -7,7 +7,7 @@ public class EnemyStateAddAttackGoBack : EnemyStateAddAttack
     public override IEnemyStateAddAttack InitStates(CharacterEnemy characterEnemy) //where Type : StateCharacter
     {
         this.characterEnemy = characterEnemy;
-        characterEnemy.HelpAttack = false;
+       
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyGoBack(characterEnemy.StateMachine, characterEnemy));
 
         return this;

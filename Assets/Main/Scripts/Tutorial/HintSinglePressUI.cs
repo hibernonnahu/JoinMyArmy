@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HintSinglePressUI : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class HintSinglePressUI : MonoBehaviour
     protected int id = 2;
 
     protected GameObject handSprite;
+    protected GameObject point;
     protected GameObject background;
     protected Transform parent;
     protected float camPosX;
@@ -20,6 +22,8 @@ public class HintSinglePressUI : MonoBehaviour
     protected void Start()
     {
         handSprite = GameObject.FindWithTag("hand ui");
+        point = GameObject.FindWithTag("cross ui");
+
         background = GameObject.FindWithTag(backgroundName);
         EventManager.StartListening(EventName.TUTORIAL_START, OnTrigger);
         EventManager.StartListening(EventName.TUTORIAL_END, OnEnd);
@@ -32,10 +36,17 @@ public class HintSinglePressUI : MonoBehaviour
             background.transform.position = Vector3.zero;
             handSprite.SetActive(true);
             handSprite.transform.position = Vector3.right * Screen.width * (0.5f + 0.2f * arg0.intData2) + Vector3.up * Screen.height * 0.5f;
+           
+            point.transform.SetParent(handSprite.transform.parent);
+            handSprite.transform.SetParent(point.transform.parent);
+
+            point.transform.position = handSprite.transform.position;
+            LeanTween.scale(point, Vector3.one * 1.5f,0.9f).setDelay(0.5f).setIgnoreTimeScale(true).setRepeat(REPEAT);
             LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.63f, 1).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
              {
                  handSprite.SetActive(false);
              });
+           
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
             EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
 
@@ -47,6 +58,8 @@ public class HintSinglePressUI : MonoBehaviour
     {
         if (arg0.intData == id && started)
         {
+            LeanTween.cancel(point);
+            point.SetActive(false);
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
             EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
 
@@ -55,6 +68,7 @@ public class HintSinglePressUI : MonoBehaviour
             started = false;
             background.transform.position = Vector3.right * 3000;
             ExtraActionOnEnd(arg0);
+            GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
 
             LeanTween.cancel(handSprite);
             handSprite.SetActive(false);

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StoryManager : MonoBehaviour
 {
@@ -59,6 +60,7 @@ public class StoryManager : MonoBehaviour
             current = list[0];
             list.RemoveAt(0);
 
+            Debug.Log("Story: " + (current[0]));
             SendMessage(current[0]);
         }
     }
@@ -72,6 +74,7 @@ public class StoryManager : MonoBehaviour
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
         var recluit = character.gameObject.AddComponent<EnemyStateAddForceRecluit>();
+        recluit.helpAttack = false;
         recluit.formationGrad = int.Parse(current[2]);
         recluit.Init(character.characterEnemy);
         CallStory();
@@ -110,23 +113,40 @@ public class StoryManager : MonoBehaviour
     }
     private void LookDirection()//1-id 2-x -3-z
     {
-        CharacterStory character = GetCharacter(int.Parse(current[1]));
-        character.characterEnemy.model.transform.forward = Vector3.right * int.Parse(current[2]) + Vector3.forward * int.Parse(current[3]);
+        int id = int.Parse(current[1]);
+        GameObject character;
+        if (id != -1)
+        {
+            character = GetCharacter(id).characterEnemy.model;
+        }
+        else
+        {
+            character = FindObjectOfType<CharacterMain>().model;
+
+        }
+        Vector3 direction = CustomMath.XZNormalize(Vector3.right * int.Parse(current[2]) + Vector3.forward * int.Parse(current[3]));
+        LeanTween.cancel(character);
+        LeanTween.rotate(character, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, 0.5f);
+        //character.transform.forward = Vector3.right * int.Parse(current[2]) + Vector3.forward * int.Parse(current[3]);
         CallStory();
     }
     private void LookAtCharacter()
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
+        Vector3 direction = CustomMath.XZNormalize(FindObjectOfType<CharacterMain>().transform.position - character.transform.position);
+        LeanTween.cancel(character.characterEnemy.model);
+        LeanTween.rotate(character.characterEnemy.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, 0.5f);
 
-        character.characterEnemy.model.transform.forward = FindObjectOfType<CharacterMain>().transform.position - character.transform.position;
         CallStory();
     }
     private void CharacterLookAt()
     {
         var main = FindObjectOfType<CharacterMain>();
         CharacterStory character = GetCharacter(int.Parse(current[1]));
+        Vector3 direction = CustomMath.XZNormalize(character.transform.position - main.transform.position);
+        LeanTween.cancel(main.model);
+        LeanTween.rotate(main.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, 1.5f);
 
-        main.model.transform.forward = character.transform.position - main.transform.position;
         CallStory();
     }
     private void SetAsParent()//1 - parent 2-child
@@ -138,6 +158,13 @@ public class StoryManager : MonoBehaviour
         CallStory();
     }
 
+    private void LevelEnd()
+    {
+        var main = FindObjectOfType<CharacterMain>();
+        FindObjectOfType<CameraHandler>().HideBlackBars();
+        main.HideArmy(false);
+        FindObjectOfType<Game>().OnExitTrigger(main.transform.position);
+    }
     private void FollowExit()//1 - speed
     {
         FindObjectOfType<CameraHandler>().GoCinematicStory(FindObjectOfType<ExitController>().gameObject, false, float.Parse(current[1]));
@@ -172,7 +199,18 @@ public class StoryManager : MonoBehaviour
     }
     private void HideArmy()
     {
-        FindObjectOfType<CharacterMain>().ArmyOffset(25);
+        FindObjectOfType<CharacterMain>().HideArmy(true);
+
+        CallStory();
+    }
+    private void CamSizeSpeed()//1-offset
+    {
+        FindObjectOfType<CameraHandler>().speedSize = int.Parse(current[1]);
+        CallStory();
+    }
+    private void CamFollowSpeed()//1-offset
+    {
+        FindObjectOfType<CameraHandler>().speed = int.Parse(current[1]);
         CallStory();
     }
     private void CamOffsetZ()//1-offset
@@ -180,7 +218,31 @@ public class StoryManager : MonoBehaviour
         FindObjectOfType<CameraHandler>().OFFSET_Z = int.Parse(current[1]);
         CallStory();
     }
+    private void Particle()//1-id 2-indexpos 3- 1 if is world
+    {
+        CharacterStory character = GetCharacter(int.Parse(current[1]));
+        var particle = character.particles[int.Parse(current[2])];
+        if (current[3] == "1")
+        {
+            float y = particle.transform.position.y;
+            particle.transform.SetParent(null, true);
+            particle.transform.position = character.transform.position.x * Vector3.right + y * Vector3.up + character.transform.position.z * Vector3.forward;
+        }
+        particle.Stop();
+        particle.Play();
+        var sound = particle.GetComponent<AudioSource>();
+        if (sound != null)
+        {
+            sound.Play();
+        }
+        CallStory();
+    }
+    private void TutorialText()//1-text
+    {
+        GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = current[1];
 
+        CallStory();
+    }
     private void CallExpresion()//1-id 2-itemname 3-offset
     {
         Vector3 pos;
@@ -191,7 +253,7 @@ public class StoryManager : MonoBehaviour
         }
         else
         {
-            pos = GetCharacter(id).transform.position + Vector3.up * int.Parse(current[1]);
+            pos = GetCharacter(id).transform.position + Vector3.up * int.Parse(current[3]) + Vector3.back * 2;
         }
         GameObject.Instantiate<GameObject>(Resources.Load<GameObject>("Expresion/" + current[2])).transform.position = pos;
         CallStory();
@@ -211,7 +273,7 @@ public class StoryManager : MonoBehaviour
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
         character.characterEnemy.GoVulnerable(99);
-        character.characterEnemy.SetAnimation(current[2], 0.3f);
+        character.characterEnemy.SetAnimation(current[2], 0.01f);
         CallStory();
     }
     private void Teleport()//1-id 2-x 3-z
@@ -267,8 +329,29 @@ public class StoryManager : MonoBehaviour
         CharacterMain characterMain = FindObjectOfType<CharacterMain>();
         characterMain.StateMachine.ChangeState(typeof(StateCharacterMainIdle));
         characterMain.StateMachine.ChangeState(characterMain.IdleState);
-        characterMain.ArmyOffset(1);
+        characterMain.HideArmy(false);
         FindObjectOfType<CameraHandler>().GoInGame(characterMain.gameObject, false);
+        CallStory();
+    }
+    private void Fade()//1- bool
+    {
+        var game = FindObjectOfType<Game>();
+        if (current[1] == "1")
+        {
+            LeanTween.color(game.fadeImage.rectTransform, Color.black, 2.5f).setOnComplete(() =>
+            {
+                EventManager.TriggerEvent(EventName.FADE_IN_COMPLETE);
+            });
+
+        }
+        else
+        {
+            LeanTween.color(game.fadeImage.rectTransform, Color.clear, 1f).setOnComplete(() =>
+            {
+                EventManager.TriggerEvent(EventName.FADE_OUT_COMPLETE);
+            });
+        }
+
         CallStory();
     }
     private void ForceRotation()//1-id 2-rotation
@@ -287,7 +370,119 @@ public class StoryManager : MonoBehaviour
         };
         EventManager.StartListening(eventName, CallStory);
     }
+    private void HintForceRecluit()//1 CharacterId //2 tutorial id 3-force swap
+    {
+        if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
+        {
+            RecluitController rc = FindObjectOfType<RecluitController>();
+            var recluitIcons = FindObjectsOfType<RecluitIconController>();
+            int enemyId = int.Parse(current[1]);
+            if (!(current[3] == "1" && rc.HasAtLeastOneNormalRecluit()) && rc.CanRecluit())
+            {
+                HintSinglePress();
+                foreach (var item in recluitIcons)
+                {
+                    if (item.GetId() == enemyId && item.gameObject.active)
+                    {
+                        item.DispatchTutorialEvent();
+                        break;
+                    }
+                }
+                return;
+            }
+            else
+            {
 
+                RecluitIconController worldIconTemp = null;
+
+                foreach (var item in recluitIcons)
+                {
+                    if (item.GetId() == enemyId && item.gameObject.active)
+                    {
+                        worldIconTemp = item;
+                        break;
+                    }
+                }
+                if (worldIconTemp != null)
+                {
+
+
+                    var hspui = gameObject.AddComponent<HintDragUI>();
+                    int tutorialID = int.Parse(current[2]);
+                    hspui.SetID(tutorialID);
+
+                    int enemyID = int.Parse(current[1]);
+                    LeanTween.delayedCall(gameObject, 0.5f, () =>
+                    {
+                        int minIndex = -1;
+                        for (int i = 0; i < rc.iconUI.Length; i++)
+                        {
+                            rc.iconUI[i].tutorialID = tutorialID;
+
+                            if (rc.iconUI[i].CharacterEnemy != null && !rc.iconUI[i].CharacterEnemy.isBoss && rc.iconUI[i].CharacterEnemy.CurrentHealth > 1 && (minIndex == -1 || rc.iconUI[i].CharacterEnemy.CurrentHealth < rc.iconUI[minIndex].CharacterEnemy.CurrentHealth))
+                            {
+                                minIndex = i;
+                            }
+                        }
+
+                        if (minIndex != -1)
+                        {
+                            worldIconTemp.DisableButtonOnly();
+                            var uiPos = Camera.main.WorldToViewportPoint(worldIconTemp.transform.position);
+                            Vector2 destiny = uiPos.x * rc.canvas.rect.width * Vector3.right + uiPos.y * rc.canvas.rect.height * Vector3.up;
+                            EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[minIndex].transform).SetFloat(destiny.y).SetFloat2(destiny.x));
+                        }
+
+                    });
+                }
+            }
+        }
+
+
+        CallStory();
+    }
+    private void TriggerEvent()//1-eventname 2-booldata
+    {
+
+        EventManager.TriggerEvent(current[1], EventManager.Instance.GetEventData().SetBool(current[2] == "1"));
+        CallStory();
+    }
+    private void HintSinglePress()//1 CharacterId //2 tutorial id
+    {
+        if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
+        {
+            var hspui = gameObject.AddComponent<HintSinglePress>();
+            int tutorialID = int.Parse(current[2]);
+            hspui.SetID(tutorialID);
+            hspui.SetEnemyID(int.Parse(current[1]));
+        }
+
+        CallStory();
+    }
+    private void HintDragUI()//1 CharacterId //2 tutorial id
+    {
+        if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
+        {
+            var hspui = gameObject.AddComponent<HintDragUI>();
+            int tutorialID = int.Parse(current[2]);
+            hspui.SetID(tutorialID);
+            RecluitController rc = FindObjectOfType<RecluitController>();
+            int enemyID = int.Parse(current[1]);
+            LeanTween.delayedCall(gameObject, 0.5f, () =>
+            {
+                for (int i = 0; i < rc.iconUI.Length; i++)
+                {
+                    if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)
+                    {
+                        rc.iconUI[i].tutorialID = tutorialID;
+                        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[i].transform).SetFloat(rc.iconUI[7].transform.position.y).SetFloat2(rc.iconUI[i].transform.position.x));
+                        break;
+                    }
+                }
+            });
+        }
+        CallStory();
+    }
     private void HintSinglePressUI()//1 CharacterId //2 tutorial id
     {
         if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
@@ -297,7 +492,7 @@ public class StoryManager : MonoBehaviour
             hspui.SetID(tutorialID);
             RecluitController rc = FindObjectOfType<RecluitController>();
             int enemyID = int.Parse(current[1]);
-            LeanTween.delayedCall(gameObject, 2, () =>
+            LeanTween.delayedCall(gameObject, 0.5f, () =>
             {
                 for (int i = 0; i < rc.iconUI.Length; i++)
                 {
@@ -320,7 +515,7 @@ public class StoryManager : MonoBehaviour
     }
     private void PlayMusic()
     {
-        musicManager.PlayMusic(current[1], float.Parse(current[2])/100);
+        musicManager.PlayMusic(current[1], float.Parse(current[2]) / 100);
         CallStory();
 
     }

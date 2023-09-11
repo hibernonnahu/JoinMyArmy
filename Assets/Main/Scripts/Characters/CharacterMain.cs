@@ -56,6 +56,7 @@ public class CharacterMain : Character
         UpdateStatsOnLevel(level, currentHealth != 0, false);
 
         HealthBarController.UpdateXpBar(XpController.GetXpPercent(level));
+        stateMachine.ChangeState<StateCharacterMainInGame>();
     }
 
 
@@ -138,6 +139,11 @@ public class CharacterMain : Character
         this.StateMachine.ChangeState<StateCharacterMainGoToPosition>();
     }
 
+    public void HideArmy(bool hide)
+    {
+        recluitController.HideArmy(hide,this);
+
+    }
     internal void ArmyOffset(int v)
     {
         recluitController.SetOffset(v);

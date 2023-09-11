@@ -8,13 +8,16 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
     private const float HELP_SQR_DISTANCE = 600f;
     private const float TICK_UPDATE = 0.2f;
     private const float TICK_UPDATE_RANGE = 1f;
-    private const float DRAG_DISTANCE = 8;
+    private const float DRAG_DISTANCE = 16;
     private const float DRAG_NEAR = 100;
     private const float DRAG_FAR = 0;
     private float tick = 0.25f;
-    public StateCharacterEnemyFollowLeader(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
+   
+    private bool helpAttack;
+    public StateCharacterEnemyFollowLeader(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy,bool helpAttack) : base(stateMachine, characterEnemy)
     {
-
+       
+        this.helpAttack = helpAttack;
     }
     public override void Awake()
     {
@@ -36,7 +39,7 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
         tick -= Time.deltaTime;
         if (tick < 0)
         {
-            if (enemy.HelpAttack && (enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= HELP_SQR_DISTANCE)
+            if (helpAttack && (enemy.CharacterMain.transform.position - enemy.transform.position).sqrMagnitude <= HELP_SQR_DISTANCE)
             {
                 enemy.lastEnemyTarget = enemy.CharacterManager.GetClosestEnemyInRange(enemy.team, enemy.attackDistanceSqr, enemy.model.transform.position);
             }
@@ -48,7 +51,7 @@ public class StateCharacterEnemyFollowLeader : StateCharacterEnemy
                 var dist = CustomMath.SqrDistance2(x, z);
                 if (dist < DRAG_DISTANCE && !enemy.CharacterMain.IsMoving)
                 {
-                    if (!enemy.HelpAttack || enemy.CharacterMain.lastEnemyTarget == null)
+                    if (!helpAttack || enemy.CharacterMain.lastEnemyTarget == null)
                     {
                         if (enemy.animator.GetCurrentAnimatorStateInfo(0).IsName("walk"))
                             enemy.SetAnimation("idle");

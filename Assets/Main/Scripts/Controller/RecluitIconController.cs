@@ -7,7 +7,7 @@ public class RecluitIconController : MonoBehaviour
     const float FADE_TIME = 0.8F;
     const float ICON_SIZE = 1.8F;
     const float PRESS_TIME = 20;
-    
+
     public float y_fixed_offset = 0;
     private CharacterEnemy enemy;
     public GameObject mask;
@@ -23,6 +23,7 @@ public class RecluitIconController : MonoBehaviour
     private Action onUpdate = () => { };
 
     private Game game;
+    private Transform cameraRefPoint;
     private bool checkToRecluitCount;
     void Awake()
     {
@@ -32,6 +33,11 @@ public class RecluitIconController : MonoBehaviour
         transform.localScale = Vector3.zero;
         enemy = GetComponentInParent<CharacterEnemy>();
         game = FindObjectOfType<Game>();
+        cameraRefPoint = Camera.main.transform.GetChild(0);
+    }
+    public int GetId()
+    {
+        return enemy.id;
     }
     public void ForceKnocked()
     {
@@ -46,8 +52,8 @@ public class RecluitIconController : MonoBehaviour
         {
             CheckRecluitCounter();
             checkToRecluitCount = false;
-             knocked = true;
-            if(enemy.isBoss && !enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id))
+            knocked = true;
+            if (enemy.isBoss && !enemy.CharacterMain.recluitController.IsIdRecluited(enemy.id))
             {
                 FadeIn();
                 return true;
@@ -62,7 +68,7 @@ public class RecluitIconController : MonoBehaviour
                 LeanTween.moveLocalY(mask, MAX_MASK_Y, PRESS_TIME).setDelay(FADE_TIME * 2).setOnComplete(OnTimeOut);
                 return true;
             }
-            else 
+            else
             {
                 OnTimeOut();
             }
@@ -83,7 +89,7 @@ public class RecluitIconController : MonoBehaviour
         LeanTween.cancel(gameObject);
         transform.localScale = Vector3.zero;
         mask.transform.localPosition = maskOriginalPosition;
-        
+
     }
 
     void CheckRecluitCounter()
@@ -99,6 +105,10 @@ public class RecluitIconController : MonoBehaviour
         onUpdate = () => { };
         LeanTween.scale(this.gameObject, Vector3.zero, FADE_TIME).setEaseOutExpo().setOnComplete(() => { Disable(); gameObject.SetActive(false); });
     }
+    public void DisableButtonOnly()
+    {
+        disabled = true;
+    }
     private void Disable()
     {
         disabled = true;
@@ -111,7 +121,7 @@ public class RecluitIconController : MonoBehaviour
         Disable();
         FadeOut();
         enemy.Kill();
-       
+
     }
     public void Restore()
     {
@@ -129,12 +139,16 @@ public class RecluitIconController : MonoBehaviour
         transform.SetParent(null);
 
         UpdatePosition();
-        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetInt(1).SetBool(screenPos.x > 0.5f));
+        EventManager.TriggerEvent(EventName.RECLUIT_ICON_POP);
 
+        DispatchTutorialEvent();
         LeanTween.scale(gameObject, gameObject.transform.localScale * 1.1f, 0.6f).setEaseLinear().setLoopPingPong();
     }
-
-    void OnMouseDown()
+    public void DispatchTutorialEvent()
+    {
+        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetBool(screenPos.x > 0.5f).SetInt(enemy.id));
+    }
+    public void Recluit(bool updateFreeSpace)
     {
         if (!disabled)
         {
@@ -148,13 +162,14 @@ public class RecluitIconController : MonoBehaviour
             else if (enemy.CharacterMain.recluitController.CanRecluit() && !enemy.CharacterMain.IsDead)
             {
                 mask.gameObject.SetActive(false);
-                enemy.CharacterMain.recluitController.UpdateFreeSpace();
+                if (updateFreeSpace)
+                    enemy.CharacterMain.recluitController.UpdateFreeSpace();
                 enemy.CharacterMain.recluitController.MakeUIAnimation(transform.position);
                 enemy.CharacterMain.CastRecluit(enemy);
-                
+
                 gameObject.SetActive(false);
                 Disable();
-             
+
             }
             else
             {
@@ -165,6 +180,10 @@ public class RecluitIconController : MonoBehaviour
                 //FadeOut();
             }
         }
+    }
+    void OnMouseDown()
+    {
+        Recluit(true);
     }
 
     private void BounceButton()
@@ -187,33 +206,35 @@ public class RecluitIconController : MonoBehaviour
         Vector3 camTempMin = (Camera.main.ScreenToWorldPoint(Camera.main.transform.position));
         Vector3 camTempMax = (Camera.main.ScreenToWorldPoint(Camera.main.transform.position + Vector3.right * Screen.width));
 
-        if (screenPos.x < 0)
+        if (screenPos.x < 0.05f)
         {
-            tempPos = Vector3.right * (camTempMin.x + 1) + Vector3.up * tempPos.y + Vector3.forward * tempPos.z;
+            tempPos = Vector3.right * (camTempMin.x + 2) + Vector3.up * tempPos.y + Vector3.forward * tempPos.z;
         }
-        else if (screenPos.x > 1)
+        else if (screenPos.x > 0.95f)
         {
-            tempPos = Vector3.right * (camTempMax.x - 1) + Vector3.up * tempPos.y + Vector3.forward * tempPos.z;
-
+            tempPos = Vector3.right * (camTempMax.x - 2) + Vector3.up * tempPos.y + Vector3.forward * tempPos.z;
+        }
+        if (screenPos.y < 0.05f)
+        {
+            tempPos = Vector3.right * tempPos.x + Vector3.up * tempPos.y + Vector3.forward * (cameraRefPoint.position.z - Camera.main.orthographicSize);
 
         }
-        //if (screenPos.y < 0)
-        //{
-        //    tempPos = Vector3.right * tempPos.x + Vector3.up * tempPos.y + Vector3.forward * camTempMin.z;
-        //    Debug.Log("out down");
-
-        //}
-        //else if (screenPos.y > 1)
-        //{
-        //    tempPos = Vector3.right * tempPos.x + Vector3.up * tempPos.y + Vector3.forward * camTempMax.z;
-        //    Debug.Log("out up");
-        //}
+        else if (screenPos.y > 0.95f)
+        {
+            tempPos = Vector3.right * tempPos.x + Vector3.up * tempPos.y + Vector3.forward * (cameraRefPoint.position.z + Camera.main.orthographicSize);
+        }
         transform.position = tempPos;
     }
     private void Update()
     {
         onUpdate();
     }
+
+    internal void ForceEnable()
+    {
+        disabled = false;
+    }
+
     internal void Init(string name)
     {
         Sprite = Resources.Load<Sprite>("CharacterIcons/" + name);

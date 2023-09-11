@@ -5,19 +5,17 @@ using UnityEngine;
 
 public class ExitController : MonoBehaviour
 {
+    public GameObject[] hideOnOpen;
     public GameObject triggerExit;
     public ParticleSystem particles;
     private AudioSource audioSource;
     private bool open = false;
-   
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
         audioSource = GetComponent<AudioSource>();
-        if (audioSource == null)
-        {
-            throw new Exception("No audioSource on exit " );
-        }
+
         if (triggerExit.active)
         {
             throw new Exception("exit already enabled ");
@@ -35,8 +33,13 @@ public class ExitController : MonoBehaviour
     {
         if (!open)
         {
+            foreach (var item in hideOnOpen)
+            {
+                item.SetActive(false);
+            }
             open = true;
-            audioSource.Play();
+            if (audioSource != null)
+                audioSource.Play();
             particles.Play();
             Animation();
         }
@@ -44,7 +47,7 @@ public class ExitController : MonoBehaviour
 
     protected virtual void Animation()
     {
-       
+        OnComplete();
     }
 
     protected void OnComplete()
@@ -59,7 +62,7 @@ public class ExitController : MonoBehaviour
 
     internal void Pause(bool v)
     {
-       
+
         triggerExit.GetComponent<ExitTrigger>().pause = v;
     }
 }

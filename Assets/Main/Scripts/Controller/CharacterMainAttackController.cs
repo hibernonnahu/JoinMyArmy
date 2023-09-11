@@ -3,28 +3,32 @@
 using System;
 using UnityEngine;
 
-public class CharacterMainAttackController
+public class CharacterMainAttackController : MonoBehaviour, ICharacterAttackController
 {
     private StateMachine<StateAttackHandler> stateMachine;
-   
-    public CharacterMainAttackController(CharacterMain characterMain,Animator animator, CharacterManager characterManager)
+
+    public void Init(CharacterMain characterMain, Animator animator, CharacterManager characterManager)
     {
         stateMachine = new StateMachine<StateAttackHandler>();
-        stateMachine.AddState(new StateAttackHandlerAlert(stateMachine,characterMain,animator,characterManager));
-        stateMachine.AddState(new StateAttackHandlerIdle(stateMachine,characterMain,animator,characterManager));
-        stateMachine.AddState(new StateAttackHandlerAttack(stateMachine, characterMain,animator));
+        stateMachine.AddState(new StateAttackHandlerAlert(stateMachine, characterMain, animator, characterManager));
+        stateMachine.AddState(new StateAttackHandlerIdle(stateMachine, characterMain, animator, characterManager));
+        stateMachine.AddState(new StateAttackHandlerAttack(stateMachine, characterMain, animator));
     }
 
-    internal void GoIdle()
+    public void GoAttack()
+    {
+        stateMachine.ChangeState<StateAttackHandlerAttack>();
+    }
+    public void GoIdle()
     {
         stateMachine.ChangeState<StateAttackHandlerIdle>();
     }
-    internal void GoAlert()
+    public void GoAlert()
     {
         stateMachine.ChangeState<StateAttackHandlerAlert>();
     }
 
-    internal void Update()
+    public void GoUpdate()
     {
         stateMachine.Update();
     }

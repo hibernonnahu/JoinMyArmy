@@ -8,11 +8,13 @@ public class StateAttackHandlerAlert : StateAttackHandler
     private CharacterManager characterManager;
     private float tick;
     private CrossHairController crossHairHandler;
+    private ICharacterAttackController attackHandler;
     public StateAttackHandlerAlert(StateMachine<StateAttackHandler> stateMachine, CharacterMain characterMain, Animator animator, CharacterManager characterManager) :
         base(stateMachine, characterMain, animator)
     {
         this.characterManager = characterManager;
         crossHairHandler = GameObject.FindObjectOfType<CrossHairController>();
+        attackHandler = characterMain.GetComponent<ICharacterAttackController>();
     }
 
     public override void Awake()
@@ -35,13 +37,14 @@ public class StateAttackHandlerAlert : StateAttackHandler
                 {
                     characterMain.model.transform.forward = characterMain.lastEnemyTarget.transform.position - characterMain.transform.position;
                     crossHairHandler.FollowEnemy(characterMain.lastEnemyTarget.model);
-                    ChangeState(typeof(StateAttackHandlerAttack));
+                    attackHandler.GoAttack();
+
                 }
 
             }
             else
             {
-                ChangeState(typeof(StateAttackHandlerAttack));
+                attackHandler.GoAttack();
             }
         }
     }

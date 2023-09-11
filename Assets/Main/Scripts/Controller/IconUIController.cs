@@ -43,13 +43,17 @@ public class IconUIController : MonoBehaviour
         coldDown.fillAmount = 0;
        
     }
+    private void Start()
+    {
+        EnableButton();
+    }
     public void SetCoolDownUI(float current, float total)
     {
         totalTime = total;
         if (current == 0)
         {
-            EnableButton();
             onUpdateColdDown = () => { };
+            EnableButton();
         }
         else
         {
@@ -86,8 +90,8 @@ public class IconUIController : MonoBehaviour
             LeanTween.scale(rectTransform, Vector3.one * 1.5f, 0.4f).setEaseInCirc().setOnComplete(
                () =>
                {
-                   EnableButton();
                    LeanTween.scale(rectTransform, Vector3.one, 0.3f).setEaseOutCirc();
+                   EnableButton();
                }
                );
 
@@ -123,10 +127,20 @@ public class IconUIController : MonoBehaviour
 
     internal void EnableButton()
     {
-        coldDown.fillAmount = 0;
-        currentTime = -1;
-        button.interactable = true;
-        CheckDot();
+        if (button != null)
+        {
+            coldDown.fillAmount = 0;
+            currentTime = -1;
+            button.interactable = true;
+            if (characterEnemy != null && characterEnemy.autoCast)
+            {
+                OnClick();
+            }
+            else
+            {
+                CheckDot();
+            }
+        }
     }
     public void BeginDrag(BaseEventData data)
     {

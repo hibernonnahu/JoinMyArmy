@@ -15,6 +15,7 @@ public class RecluitController : MonoBehaviour
     public Text text;
     public Image[] images;
     public IconUIController[] iconUI;
+    public bool trashEnable = true;
     private int[] positions = { 0, 45, -45, 90, -90, 135, -135, 180 };
     private CharacterEnemy[] enemies = new CharacterEnemy[8];
     public CharacterEnemy[] Enemies { get { return enemies; } }
@@ -24,9 +25,10 @@ public class RecluitController : MonoBehaviour
         get { return max; }
     }
     private int freeSpace = 0;//-1 means no room
-
+    private int recluitIconMask;
     private void Awake()
     {
+        recluitIconMask = LayerMask.GetMask("UI");
         initialTextPos = textContainer.transform.position;
         iconUI = new IconUIController[images.Length];
         for (int i = 0; i < images.Length; i++)
@@ -67,7 +69,17 @@ public class RecluitController : MonoBehaviour
             UpdateFreeSpace();
         }
     }
-
+    public bool HasAtLeastOneNormalRecluit()
+    {
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null && !enemies[i].isBoss)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     private void UpdateText()
     {
         int count = 0;
@@ -168,10 +180,10 @@ public class RecluitController : MonoBehaviour
                 break;
             }
         }
-        LeanTween.cancel(trash.gameObject,true);
+        LeanTween.cancel(trash.gameObject, true);
         if (fail)
         {
-            if ((trash.transform.position - iconUIController.transform.position).sqrMagnitude < SWAP_SQR_DISTANCE)
+            if (trashEnable && (trash.transform.position - iconUIController.transform.position).sqrMagnitude < SWAP_SQR_DISTANCE)
             {
                 EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
 
@@ -187,8 +199,31 @@ public class RecluitController : MonoBehaviour
             }
             else
             {
-                iconUIController.ReturnToOriginalPosition();
-                LeanTween.scale(trash.gameObject, Vector3.zero, 0.2f).setEaseOutElastic();
+                //try swap
+                Vector3 pos = Camera.main.ScreenToWorldPoint(iconUIController.transform.position);
+                pos = Vector3.right * pos.x + Vector3.forward * (pos.z - 6) + Vector3.up * 40;
+                Debug.Log("pos " + pos);
+                RaycastHit hit;
+                if (Physics.Raycast(pos, Vector3.down, out hit, 15, recluitIconMask) || Physics.Raycast(pos + Vector3.forward * 2, Vector3.down, out hit, 15, recluitIconMask))// Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask);
+                {
+                    int tempFreeSpace = iconUIController.IndexPosition;
+
+                    enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
+                    Remove(enemies[iconUIController.IndexPosition]);
+                    freeSpace = tempFreeSpace;
+                    var controller = hit.collider.gameObject.GetComponent<RecluitIconController>();
+                    controller.ForceEnable();
+                    controller.Recluit(false);
+                    EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(iconUI[0].tutorialID));
+
+                }
+                else
+                {
+                    iconUIController.ReturnToOriginalPosition();
+                    LeanTween.scale(trash.gameObject, Vector3.zero, 0.2f).setEaseOutElastic();
+                }
+                Debug.DrawRay(pos, Vector3.down * 15, Color.red, 2);
+
             }
         }
         else
@@ -197,12 +232,28 @@ public class RecluitController : MonoBehaviour
         }
     }
 
+    public void HideArmy(bool hide,CharacterMain character)
+    {
+        
+        foreach (var item in enemies)
+        {
+            if (item != null)
+            {
+                if (hide)
+                    item.transform.position = Vector3.down * 100;
+                else
+                    item.transform.position = character.transform.position;
+            }
+        }
+    }
     internal void SetOffset(int v)
     {
         foreach (var item in enemies)
         {
             if (item != null)
+            {
                 item.followDistance = v;
+            }
         }
     }
 
@@ -231,6 +282,7 @@ public class RecluitController : MonoBehaviour
         {
             iconUI[iconUIController1Position].SetCoolDownUI(iconUI[iconUIControllerDragedPosition].CurrentTime, iconUI[iconUIControllerDragedPosition].TotalTime);
             iconUI[iconUIControllerDragedPosition].ReturnToOriginalPosition(true, true);
+            iconUI[iconUIControllerDragedPosition].CharacterEnemy = null;
         }
         Recluit(enemy2, true, iconUIController1Position);
         iconUI[iconUIController1Position].ReturnToOriginalPosition(true);
@@ -299,16 +351,8 @@ public class RecluitController : MonoBehaviour
                 iconUITemp.container.gameObject.SetActive(true);
                 iconUITemp.currentBar.localScale = Vector3.one;
                 iconUITemp.EnableButton();
-                if (iconUITemp.CharacterEnemy.id == 0)//tree
-                {
-                    iconUITemp.tutorialID = 2;
-                    EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(2).SetTransform(iconUITemp.transform)
-                        .SetFloat(iconUITemp.CharacterEnemy.transform.position.x).SetFloat2(iconUITemp.CharacterEnemy.transform.position.z).SetBool(false));
-                }
-                else if (iconUITemp.CharacterEnemy.id == 10 && iconUITemp.IndexPosition < 3)//spider
-                {
-                    EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(3).SetTransform(iconUITemp.transform).SetFloat(iconUI[7].transform.position.y));
-                }
+
+                EventManager.TriggerEvent(EventName.RECLUIT_ICON_ARRIVE);
                 LeanTween.scale(image.rectTransform, Vector3.one, 0.3f).setIgnoreTimeScale(true).setEaseOutBounce();
             }
             );

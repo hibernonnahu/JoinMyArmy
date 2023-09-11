@@ -7,6 +7,8 @@ public class CharacterStory : MonoBehaviour
 {
     public bool ignoreColliders = false;
     public CharacterEnemy characterEnemy;
+    public ParticleSystem[] particles;
+   
     private void Awake()
     {
         characterEnemy = GetComponent<CharacterEnemy>();

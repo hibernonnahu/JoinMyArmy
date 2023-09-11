@@ -18,12 +18,13 @@ public class CharacterEnemy : Character
     public int extraAlertRange = 0;
     public int belongToWave = 0;
     public bool isBoss = false;
+   
 
     [Header("Other")]
 #if UNITY_EDITOR
     public bool debug = false;
 #endif
-
+    public bool autoCast = false;
     public float stearingRotationOffset = 0;
     private float stearingRotation = 150;
     public float StearingRotation { get { return stearingRotation + stearingRotationOffset; } }
@@ -31,8 +32,7 @@ public class CharacterEnemy : Character
     public float followDistance = 1;
     private Vector3 returnPosition;
     public Vector3 ReturnPosition { get { return returnPosition; } set { returnPosition = value; } }
-    private bool helpAttack = false;
-    public bool HelpAttack { get { return helpAttack; } set { helpAttack = value; } }
+   
     private Type attackState;
     public Type AttackState { get => attackState; set => attackState = value; }
     private bool canBeRecluit = false;
@@ -180,7 +180,7 @@ public class CharacterEnemy : Character
     internal void SetCastMainPower(IEnemyStateAddAttack component)
     {
         onCastMainPower = component.Execute;
-        useCastRedDotUI = component.UseRedDotUI();
+        useCastRedDotUI = !autoCast && component.UseRedDotUI();
     }
 
     internal float UseMainSkill()

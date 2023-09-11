@@ -20,10 +20,13 @@ public class StateAttackHandlerAttack : StateAttackHandler
 
         characterMain.SetAnimation("attack", 0, 1);
 
-        var main = characterMain.FxHandler.slash.main;
-        main.simulationSpeed = characterMain.AttackSpeed;
+        if (characterMain.FxHandler.slash != null)
+        {
+            var main = characterMain.FxHandler.slash.main;
+            main.simulationSpeed = characterMain.AttackSpeed;
+            LeanTween.delayedCall(characterMain.gameObject, (1 / characterMain.AttackSpeed) * 0.28f, PlaySlashFx);
 
-        LeanTween.delayedCall(characterMain.gameObject, (1 / characterMain.AttackSpeed) * 0.28f, PlaySlashFx);
+        }
         counter = (1 / characterMain.AttackSpeed) * 0.35f;
         hit = false;
 
@@ -47,10 +50,13 @@ public class StateAttackHandlerAttack : StateAttackHandler
             {
                 if ((characterMain.transform.position - characterMain.lastEnemyTarget.transform.position).sqrMagnitude < characterMain.attackDistanceSqr)
                 {
-                    characterMain.FxHandler.swordHit.transform.position = characterMain.lastEnemyTarget.transform.position + Vector3.up * 3 + CustomMath.XZNormalize(characterMain.transform.position - characterMain.lastEnemyTarget.transform.position);
-                    characterMain.FxHandler.swordHit.Stop();
-                    characterMain.FxHandler.swordHit.Play();
-                    hitEffectController.CreateEffect(characterMain.transform.position, characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain), Vector3.zero, 0.1f);
+                    if (characterMain.FxHandler.swordHit != null)
+                    {
+                        characterMain.FxHandler.swordHit.transform.position = characterMain.lastEnemyTarget.transform.position + Vector3.up * 3 + CustomMath.XZNormalize(characterMain.transform.position - characterMain.lastEnemyTarget.transform.position);
+                        characterMain.FxHandler.swordHit.Stop();
+                        characterMain.FxHandler.swordHit.Play();
+                    }
+                        hitEffectController.CreateEffect(characterMain.transform.position, characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain), Vector3.zero, 0.1f);
                 }
                 hit = true;
 

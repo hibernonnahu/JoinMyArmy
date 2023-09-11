@@ -1,5 +1,7 @@
 
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HintSinglePress : MonoBehaviour
 {
@@ -8,11 +10,12 @@ public class HintSinglePress : MonoBehaviour
     private const int REPEAT = -1;
     private bool started = false;
     private int id = 1;
+    private int enemyId = -1;
 
     private GameObject hud;
     private GameObject handSprite;
     private GameObject background;
-    private void Start()
+    private void Awake()
     {
         handSprite = GameObject.FindWithTag("hand");
         hud = GameObject.FindWithTag("hud");
@@ -29,7 +32,7 @@ public class HintSinglePress : MonoBehaviour
 
     private void OnEnd(EventData arg0)
     {
-        if (arg0.intData == id && started)
+        if (started)
         {
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
             EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
@@ -41,10 +44,10 @@ public class HintSinglePress : MonoBehaviour
             hud.SetActive(true);
             LeanTween.cancel(handSprite);
             handSprite.SetActive(false);
-            if (CurrentPlaySingleton.GetInstance().level == 4)
-            {
-                SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
-            }
+
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
+
             Time.timeScale = 1;
             Destroy(this);
         }
@@ -52,7 +55,7 @@ public class HintSinglePress : MonoBehaviour
 
     private void OnTrigger(EventData arg0)
     {
-        if (arg0.intData == id)
+        if (!started && arg0.intData == enemyId)
         {
             started = true;
             LeanTween.cancel(handSprite);
@@ -81,5 +84,15 @@ public class HintSinglePress : MonoBehaviour
         EventManager.StopListening(EventName.TUTORIAL_START, OnTrigger);
         EventManager.StopListening(EventName.TUTORIAL_END, OnEnd);
 
+    }
+
+    internal void SetID(int tutorialID)
+    {
+        id = tutorialID;
+    }
+
+    internal void SetEnemyID(int enemyId)
+    {
+        this.enemyId = enemyId;
     }
 }
