@@ -12,6 +12,7 @@ public class EventName
     public static string FADE_OUT_COMPLETE = "fadeOutComplete";
     public static string HIDE_TEXT = "hideText";
     public static string HIDE_CHARACTER_UI = "hideCharacterUI";
+    public static string HIDE_RECLUIT_ICON = "hideRecluitIcon";
     public static string NEXT_WAVE = "nextWave";
     public static string MAIN_TEXT = "mainText";
     public static string POPUP_OPEN = "popupOpen";

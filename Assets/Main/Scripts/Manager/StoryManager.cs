@@ -326,6 +326,8 @@ public class StoryManager : MonoBehaviour
     }
     private void GoInGame()
     {
+        EventManager.TriggerEvent(EventName.HIDE_RECLUIT_ICON, EventManager.Instance.GetEventData().SetBool(false));
+
         CharacterMain characterMain = FindObjectOfType<CharacterMain>();
         characterMain.StateMachine.ChangeState(typeof(StateCharacterMainIdle));
         characterMain.StateMachine.ChangeState(characterMain.IdleState);
@@ -429,7 +431,7 @@ public class StoryManager : MonoBehaviour
                         {
                             worldIconTemp.DisableButtonOnly();
                             var uiPos = Camera.main.WorldToViewportPoint(worldIconTemp.transform.position);
-                            Vector2 destiny = uiPos.x * rc.canvas.rect.width * Vector3.right + uiPos.y * rc.canvas.rect.height * Vector3.up;
+                            Vector2 destiny = uiPos.x * rc.canvas.rect.width * Vector3.right * rc.canvas.localScale.x + uiPos.y * rc.canvas.rect.height * Vector3.up * rc.canvas.localScale.y;
                             EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[minIndex].transform).SetFloat(destiny.y).SetFloat2(destiny.x));
                         }
 
@@ -457,6 +459,11 @@ public class StoryManager : MonoBehaviour
             hspui.SetEnemyID(int.Parse(current[1]));
         }
 
+        CallStory();
+    }
+    private void HideRecluitIcon()
+    {
+        EventManager.TriggerEvent(EventName.HIDE_RECLUIT_ICON, EventManager.Instance.GetEventData().SetBool(true));
         CallStory();
     }
     private void HintDragUI()//1 CharacterId //2 tutorial id
@@ -494,16 +501,26 @@ public class StoryManager : MonoBehaviour
             int enemyID = int.Parse(current[1]);
             LeanTween.delayedCall(gameObject, 0.5f, () =>
             {
+                bool found = false;
                 for (int i = 0; i < rc.iconUI.Length; i++)
                 {
                     if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)
                     {
                         rc.iconUI[i].tutorialID = tutorialID;
                         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetFloat(rc.Enemies[i].transform.position.x).SetFloat2(rc.Enemies[i].transform.position.z).SetTransform(rc.iconUI[i].transform));
+                        found = true;
                         break;
                     }
                 }
+                if (!found)
+                {
+                    GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
+                }
             });
+        }
+        else
+        {
+            GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
         }
         CallStory();
     }

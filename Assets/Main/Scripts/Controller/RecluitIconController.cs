@@ -25,6 +25,7 @@ public class RecluitIconController : MonoBehaviour
     private Game game;
     private Transform cameraRefPoint;
     private bool checkToRecluitCount;
+    private float originalYPosition = -1;
     void Awake()
     {
         originalParent = transform.parent;
@@ -34,7 +35,25 @@ public class RecluitIconController : MonoBehaviour
         enemy = GetComponentInParent<CharacterEnemy>();
         game = FindObjectOfType<Game>();
         cameraRefPoint = Camera.main.transform.GetChild(0);
+        EventManager.StartListening(EventName.HIDE_RECLUIT_ICON, OnHide);
     }
+
+    private void OnHide(EventData arg0)
+    {
+        if (arg0.boolData)
+        {
+            originalYPosition = transform.position.y;
+            transform.position += Vector3.up * 9999;
+        }
+        else
+        {
+            if (originalYPosition != -1)
+            {
+                transform.position = Vector3.right * transform.position.x + Vector3.forward * transform.position.z + Vector3.up * originalYPosition;
+            }
+        }
+    }
+
     public int GetId()
     {
         return enemy.id;
