@@ -6,7 +6,11 @@ using UnityEngine.UI;
 
 public class MapLevelSelectController : MonoBehaviour
 {
-
+    public enum GameType
+    {
+        Campaign, CastleDefense
+    }
+    public GameType gameTypeEnum;
     public Text levelText;
 
     public Button button;
@@ -29,6 +33,7 @@ public class MapLevelSelectController : MonoBehaviour
     {
         CurrentPlaySingleton.GetInstance().chapter = id;
         CurrentPlaySingleton.GetInstance().level = 1;
+        CurrentPlaySingleton.GetInstance().gameType = gameTypeEnum.ToString();
         SceneManager.LoadScene("Game");
     }
 

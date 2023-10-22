@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class LevelJsonLoader : MonoBehaviour
 {
+    public enum GameType
+    {
+        Campaign,CastleDefense
+    }
+    public GameType gameTypeEnum;
+    
+
     public float multiplier = 1;
     public bool isCreator = false;
     public int book, chapter, level;
@@ -21,6 +28,7 @@ public class LevelJsonLoader : MonoBehaviour
 
     public void Awake()
     {
+       
         var characters = Resources.LoadAll<CharacterEnemy>("Prefabs/InGame/Enemies");
         enemiesResources = new CharacterEnemy[characters.Length];
         foreach (var item in characters)
@@ -38,8 +46,14 @@ public class LevelJsonLoader : MonoBehaviour
 
     public void LoadMap()
     {
+        string gameType = gameTypeEnum.ToString();
+        if (!isCreator)
+        {
+            gameType = CurrentPlaySingleton.GetInstance().gameType;
+        }
+        Debug.Log(gameType);
         DeleteAll();
-        var variations = Resources.LoadAll<TextAsset>("Maps/Campaign/Book" + book + "/Chapter" + chapter + "/Level" + level);
+        var variations = Resources.LoadAll<TextAsset>("Maps/"+ gameType + "/Book" + book + "/Chapter" + chapter + "/Level" + level);
         if (forceVariation == -1)
         {
             lvl = ParseString(variations[Random.Range(0, variations.Length)].text);
@@ -47,6 +61,7 @@ public class LevelJsonLoader : MonoBehaviour
         else
         {
             var creator = FindFirstObjectByType<JsonMapCreator>();
+            creator.gameType = gameType;
             creator.book = book;
             creator.chapter = chapter;
             creator.level = level;

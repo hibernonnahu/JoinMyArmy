@@ -9,12 +9,14 @@ public class HintDragUI : MonoBehaviour
     private const int REPEAT = -1;
     private bool started = false;
 
-    private int id = 3;
+    protected int id = 3;
 
-    private GameObject handSprite;
+    protected GameObject handSprite;
     private GameObject background;
-    private GameObject point;
-    private void Awake()
+    protected GameObject point;
+    private bool canSwap = true;
+    protected bool showTrash = false;
+    protected virtual void Start()
     {
         handSprite = GameObject.FindWithTag("hand ui");
         background = GameObject.FindWithTag("background ui");
@@ -43,11 +45,12 @@ public class HintDragUI : MonoBehaviour
             LeanTween.cancel(point);
             GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            FindObjectOfType<RecluitController>().canSwap = true;
             Destroy(this);
         }
     }
 
-    private void OnTrigger(EventData arg0)
+    protected virtual void OnTrigger(EventData arg0)
     {
         if (arg0.intData == id)
         {
@@ -56,7 +59,9 @@ public class HintDragUI : MonoBehaviour
 
 
             started = true;
-            FindObjectOfType<RecluitController>().trashEnable = false;
+            var RC = FindObjectOfType<RecluitController>();
+            RC.trashEnable = showTrash;
+            RC.canSwap = canSwap;
             var parent = background.transform.parent;
             background.transform.SetParent(null, true);
             background.transform.SetParent(parent, true);
@@ -84,7 +89,8 @@ public class HintDragUI : MonoBehaviour
             Time.timeScale = 0;
         }
     }
-    private void OnDestroy()
+
+    protected virtual void OnDestroy()
     {
         EventManager.StopListening(EventName.TUTORIAL_START, OnTrigger);
         EventManager.StopListening(EventName.TUTORIAL_END, OnEnd);
@@ -94,5 +100,15 @@ public class HintDragUI : MonoBehaviour
     internal void SetID(int tutorialID)
     {
         id = tutorialID;
+    }
+
+    internal void DisableSwap()
+    {
+        canSwap = false;
+    }
+
+    internal void ShowTrash()
+    {
+        showTrash = true;
     }
 }

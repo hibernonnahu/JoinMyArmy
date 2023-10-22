@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
                 enemy.GetHit(character, multiplier, dissy);
 
                 if (expulsion > 0)
-                    hitEffectController.CreateEffect(transform.position, enemy, expulsion);
+                    hitEffectController.CreateEffect(transform.position.x * Vector3.right + transform.position.z * Vector3.forward, enemy, expulsion);
             }
         }
         else if (character.HitsLayer(collision.gameObject.layer))

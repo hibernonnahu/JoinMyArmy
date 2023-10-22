@@ -14,7 +14,7 @@ public class Character : MonoBehaviour
     private HealthBarController healthBarController;
     public HealthBarController HealthBarController { get { return healthBarController; } }
 
-   
+
 
     public GameObject model;
     public TextShortController textShortHandler;
@@ -103,9 +103,13 @@ public class Character : MonoBehaviour
     {
         skillController = new SkillController(this);
     }
+    public static float CalculateHealth(int level, float baseHealth)
+    {
+        return (baseHealth + level + level * baseHealth * 0.1f);
+    }
     public virtual void UpdateStatsOnLevel(int newLevel, bool forceCurrentHealth = false, bool showText = true)
     {
-        float newHealth = (baseHealth + newLevel + newLevel * baseHealth * 0.1f) + skillController.ExtraHealth;
+        float newHealth = CalculateHealth(newLevel, baseHealth) + skillController.ExtraHealth;
         float dif = newHealth - health;
 
         health = newHealth;
@@ -193,15 +197,22 @@ public class Character : MonoBehaviour
         gameObject.SetActive(true);
         generalParticleHandler.wallHit.Play();
     }
-
+    public static float GetBaseDefense(int defense, int level)
+    {
+        return defense + level * 0.1f;
+    }
     private float GetDefense()
     {
-        return defense + level * 0.1f + skillController.ExtraDefense;
+        return GetBaseDefense(defense, level) + skillController.ExtraDefense;
     }
 
+    public static float CalculateBaseDamage(int level, int strength, int extraDamage = 0)
+    {
+        return level * 0.1f + strength + extraDamage;
+    }
     private int GetDamage(float defense)
     {
-        int result = Mathf.FloorToInt(level * 0.1f + strength + skillController.ExtraDamage + level * 0.1f * UnityEngine.Random.Range(1, strength) - defense);
+        int result = Mathf.FloorToInt(CalculateBaseDamage(level, strength, skillController.ExtraDamage) + level * 0.1f * UnityEngine.Random.Range(1, strength) - defense);
         if (result < 1)
         {
             result = 1;

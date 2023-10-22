@@ -50,7 +50,7 @@ public class Utils
             childs[i].SetParent(container.transform);
         }
         float scale = canvasParent.rect.width / rectTransform.rect.width;
-#if UNITY_STANDALONE
+#if UNITY_STANDALONE || UNITY_WEBGL
         if (!onlyWidth)
             scale = 1;
 #endif

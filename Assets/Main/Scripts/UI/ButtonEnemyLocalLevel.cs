@@ -15,15 +15,23 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
     public string asset = "";
     public Image image;
     public int baseCost;
+    public float baseHealth;
+    public int defense;
+    public int strength;
     public int id;
     private int price;
     private int level;
-
-
+    public Text healthText;
+    public Text damageText;
+    public Text defenseText;
+    private void Awake()
+    {
+        initialSize = levelTextContainer.transform.localScale.x;
+    }
     // Start is called before the first frame update
     void Start()
     {
-        initialSize = levelTextContainer.transform.localScale.x;
+       
         name = asset;
         image.sprite = Resources.Load<Sprite>("CharacterIcons/" + name);
         if (image.sprite == null)
@@ -61,20 +69,26 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
 
     private void UpdateText()
     {
+        //cost
         levelText.text = "Level: " + level.ToString();
         priceText.text = price.ToString();
+
+        //stats
+        healthText.text = "HEALTH: " + Character.CalculateHealth(level, baseHealth).ToString("f1");
+        damageText.text = "ATTACK: " + Character.CalculateBaseDamage(level, strength).ToString("f1");
+        defenseText.text = "DEFENSE: " + Character.GetBaseDefense(defense, level).ToString("f1");
     }
     private void UpdateTextAnimation()
     {
         LeanTween.cancel(levelTextContainer.gameObject);
-        levelText.text = "Level: " + level.ToString();
+       
         LeanTween.scale(levelTextContainer.gameObject, Vector3.one * initialSize * 1.5f, 0.3f).setEaseLinear().setOnComplete(
            () =>
            {
                LeanTween.scale(levelTextContainer.gameObject, Vector3.one * initialSize, 0.7f).setEaseOutBounce();
            }
            );
-        priceText.text = price.ToString();
+        UpdateText();
 
     }
 

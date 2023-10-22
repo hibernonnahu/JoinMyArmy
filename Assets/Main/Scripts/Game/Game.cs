@@ -17,6 +17,8 @@ public class Game : MonoBehaviour
     private StateMachine<StateGame> stateMachine;
 
     public ToRecluitManager toRecluitManager;
+    public float gameTime =0;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +48,12 @@ public class Game : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      
+#if UNITY_EDITOR
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            EventManager.TriggerEvent(EventName.EXIT_OPEN);
+        }
+#endif
         stateMachine.Update();
     }
     internal void OnExitTrigger(Vector3 exitPosition)
@@ -59,6 +66,9 @@ public class Game : MonoBehaviour
     }
     public void OnDead()
     {
+        var sql = GameObject.FindObjectOfType<SQLManager>();
+        if (sql != null)
+            sql.SaveUser();
         coinsCollectUIController.gameObject.SetActive(true);
         SaveData.GetInstance().SaveRam(false);
         EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString("You died!"));
@@ -72,6 +82,9 @@ public class Game : MonoBehaviour
     }
     public void Reset()
     {
+        string levelKey = SaveDataKey.RESET_AD + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
+        SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
+
         //CurrentPlaySingleton.GetInstance().ResetStats();
         CurrentPlaySingleton.GetInstance().AddSkill<SkillExtraDamage>(typeof(SkillExtraDamage));
         CurrentPlaySingleton.GetInstance().AddSkill<SkillExtraDefense>(typeof(SkillExtraDefense));

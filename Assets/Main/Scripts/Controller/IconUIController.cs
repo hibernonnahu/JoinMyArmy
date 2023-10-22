@@ -28,6 +28,7 @@ public class IconUIController : MonoBehaviour
     public int IndexPosition { get { return indexPosition; } }
     private bool drag = false;
     public int tutorialID = 2;
+    public bool tutorialOnClick = false;
     private Image redDot;
 
 
@@ -102,6 +103,7 @@ public class IconUIController : MonoBehaviour
     {
         if (currentTime <= 0)
         {
+            if(tutorialOnClick)
             EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(tutorialID));
 
             currentTime = totalTime = characterEnemy.UseMainSkill();
@@ -203,7 +205,7 @@ public class IconUIController : MonoBehaviour
         {
             int code = SaveData.GetInstance().GetValue("redDot" + characterEnemy.id, 0);
             code++;
-            SaveData.GetInstance().Save("redDot" + characterEnemy.id, code);
+            SaveData.GetInstance().Save(SaveDataKey.RED_DOT + characterEnemy.id, code);
         }
     }
     public void CheckDot()

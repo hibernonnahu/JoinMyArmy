@@ -13,6 +13,11 @@ public class StateCharacterMainDead : StateCharacter
 
     public override void Awake()
     {
+        var stats = CurrentPlaySingleton.GetInstance();
+        string levelKey = SaveDataKey.BOOK_CHAPTER_LEVEL_DEAD + "_" + stats.book + "_" + stats.chapter + "_" + stats.level;
+       
+        SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
+
         character.IdleState = typeof(StateCharacterMainDead);
         character.Rigidbody.velocity = Vector3.zero;
         character.CharacterManager.RemoveCharacter(character);

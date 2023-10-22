@@ -8,6 +8,7 @@ public class CurrentPlaySingleton
     public int book = 1;
     public int chapter = 1;
     public int level = 1;
+    public string gameType= "Campaign";
     private List<int> party;
     private int[] characterMainStats;
     private SkillController skillController;
@@ -33,6 +34,33 @@ public class CurrentPlaySingleton
         return instance;
     }
 
+    internal string GetArmyString()
+    {
+        string code = "";
+        if (party != null)
+        {
+            foreach (var item in party)
+            {
+                code += item + "_";
+            }
+            if (code.Length > 0)
+            {
+                code.Remove(code.Length - 1, 1);
+            }
+        }
+        return code;
+    }
+    public void UpdateArmy(string code)
+    {
+        string[] split = code.Split("_");
+        party = new List<int>();
+        foreach (var item in split)
+        {
+            if (item != "")
+                party.Add(int.Parse(item));
+        }
+    }
+
     internal void SaveGamePlay(CharacterMain characterMain)
     {
         SaveMainCharacter(characterMain);
@@ -48,7 +76,7 @@ public class CurrentPlaySingleton
     private void SaveParty()
     {
         party = new List<int>();
-        var rc = GameObject.FindObjectOfType<RecluitController>();
+        var rc = GameObject.FindObjectOfType<CharacterMain>().recluitController;
         if (rc)
         {
             var currentTeam = rc.Enemies;
@@ -96,7 +124,7 @@ public class CurrentPlaySingleton
         LoadMainCharacter(characterMain);
         LoadParty(characterMain);
     }
-    public void AddSkill<T>(Type type)where T : ISkill
+    public void AddSkill<T>(Type type) where T : ISkill
     {
         if (skillController != null)
         {
@@ -127,7 +155,7 @@ public class CurrentPlaySingleton
     internal void RefillHP()
     {
         if (characterMainStats != null)
-            characterMainStats[2] =(int)( GameObject.FindObjectOfType<CharacterMain>().Health);
+            characterMainStats[2] = (int)(GameObject.FindObjectOfType<CharacterMain>().Health);
     }
 
     private void LoadParty(CharacterMain characterMain)

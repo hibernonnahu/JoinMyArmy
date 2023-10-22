@@ -26,6 +26,8 @@ public class RecluitController : MonoBehaviour
     }
     private int freeSpace = 0;//-1 means no room
     private int recluitIconMask;
+    public bool canSwap = true;
+
     private void Awake()
     {
         recluitIconMask = LayerMask.GetMask("UI");
@@ -69,6 +71,19 @@ public class RecluitController : MonoBehaviour
             UpdateFreeSpace();
         }
     }
+
+    public bool HasNoRecluits()
+    {
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            if (enemies[i] != null)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public bool HasAtLeastOneNormalRecluit()
     {
         for (int i = 0; i < enemies.Length; i++)
@@ -124,7 +139,7 @@ public class RecluitController : MonoBehaviour
             }
             );
     }
-
+    
     public void Recluit(CharacterEnemy enemy, bool direct = false, int forcePosition = -1)
     {
         if (forcePosition != -1)
@@ -172,7 +187,7 @@ public class RecluitController : MonoBehaviour
         for (int i = 0; i < iconUI.Length; i++)
         {
 
-            if (iconUIController != iconUI[i] && (iconUI[i].transform.localPosition - iconUIController.transform.localPosition).sqrMagnitude < SWAP_SQR_DISTANCE)
+            if (canSwap && iconUIController != iconUI[i] && (iconUI[i].transform.localPosition - iconUIController.transform.localPosition).sqrMagnitude < SWAP_SQR_DISTANCE)
             {
                 EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
                 Swap(i, iconUIController.IndexPosition);
@@ -186,6 +201,7 @@ public class RecluitController : MonoBehaviour
             if (trashEnable && (trash.transform.position - iconUIController.transform.position).sqrMagnitude < SWAP_SQR_DISTANCE)
             {
                 EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
+                EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(101));
 
                 iconUIController.BounceAnimation(() =>
                 {
@@ -194,6 +210,9 @@ public class RecluitController : MonoBehaviour
                         enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
                         Remove(enemies[iconUIController.IndexPosition]);
                         iconUIController.ReturnToOriginalPosition(false, false);
+
+                        SaveData.GetInstance().Save(SaveDataKey.TRASH, SaveData.GetInstance().GetValue(SaveDataKey.TRASH, 0) + 1);
+
                     });
                 }, Vector3.zero);
             }
@@ -201,10 +220,11 @@ public class RecluitController : MonoBehaviour
             {
                 //try swap
                 Vector3 pos = Camera.main.ScreenToWorldPoint(iconUIController.transform.position);
-                pos = Vector3.right * pos.x + Vector3.forward * (pos.z - 6) + Vector3.up * 40;
-                Debug.Log("pos " + pos);
+                //pos = Vector3.right * pos.x + Vector3.forward * (pos.z) + Vector3.up * 40;
+                pos -= Camera.main.transform.forward * 40;
+                //Debug.Log("pos " + pos);
                 RaycastHit hit;
-                if (Physics.Raycast(pos, Vector3.down, out hit, 15, recluitIconMask) || Physics.Raycast(pos + Vector3.forward * 2, Vector3.down, out hit, 15, recluitIconMask))// Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask);
+                if (Physics.Raycast(pos, Camera.main.transform.forward, out hit, 100, recluitIconMask))// Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float maxDistance, int layerMask);
                 {
                     int tempFreeSpace = iconUIController.IndexPosition;
 
@@ -214,6 +234,8 @@ public class RecluitController : MonoBehaviour
                     var controller = hit.collider.gameObject.GetComponent<RecluitIconController>();
                     controller.ForceEnable();
                     controller.Recluit(false);
+                    SaveData.GetInstance().Save(SaveDataKey.RECLUIT_SWAP, SaveData.GetInstance().GetValue(SaveDataKey.RECLUIT_SWAP, 0) + 1);
+
                     EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(iconUI[0].tutorialID));
 
                 }
@@ -222,8 +244,9 @@ public class RecluitController : MonoBehaviour
                     iconUIController.ReturnToOriginalPosition();
                     LeanTween.scale(trash.gameObject, Vector3.zero, 0.2f).setEaseOutElastic();
                 }
-                Debug.DrawRay(pos, Vector3.down * 15, Color.red, 2);
-
+#if UNITY_EDITOR
+                Debug.DrawRay(pos, Camera.main.transform.forward * 100, Color.red, 3);
+#endif
             }
         }
         else
@@ -232,9 +255,9 @@ public class RecluitController : MonoBehaviour
         }
     }
 
-    public void HideArmy(bool hide,CharacterMain character)
+    public void HideArmy(bool hide, CharacterMain character)
     {
-        
+
         foreach (var item in enemies)
         {
             if (item != null)

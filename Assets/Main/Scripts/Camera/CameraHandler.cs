@@ -130,6 +130,8 @@ public class CameraHandler : MonoBehaviour
 
         FollowGameObject(gameObject, warp);
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
+        EventManager.TriggerEvent(EventName.HIDE_GAMEOBJECT, EventManager.Instance.GetEventData().SetBool(false));
+
         EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
 
 
@@ -142,7 +144,11 @@ public class CameraHandler : MonoBehaviour
 
         LeanTween.moveLocalY(this.gameObject, initialY, CINEMATIC_TRANSITION_TIME);
         LeanTween.rotateX(this.gameObject, initialRotation, CINEMATIC_TRANSITION_TIME);
-        LeanTween.delayedCall(CINEMATIC_TRANSITION_TIME + 0.5f, () => { EventManager.TriggerEvent(EventName.STORY_CAM_GOBACK); });
+        LeanTween.delayedCall(CINEMATIC_TRANSITION_TIME + 0.5f, () =>
+        {
+            EventManager.TriggerEvent(EventName.HIDE_RECLUIT_ICON, EventManager.Instance.GetEventData().SetBool(false));
+            EventManager.TriggerEvent(EventName.STORY_CAM_GOBACK);
+        });
     }
     public void GoCinematicStory(GameObject gameObject, bool warp, float cameraSize)
     {
@@ -159,6 +165,7 @@ public class CameraHandler : MonoBehaviour
             transform.position = ((toFollow.position.x) * Vector3.right + (toFollow.position.z + OFFSET_Z) * Vector3.forward) + Vector3.up * transform.position.y;
         }
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+        EventManager.TriggerEvent(EventName.HIDE_GAMEOBJECT, EventManager.Instance.GetEventData().SetBool(true));
         EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
 
         if (hud == null)

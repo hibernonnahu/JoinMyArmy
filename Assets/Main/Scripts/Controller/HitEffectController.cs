@@ -48,6 +48,8 @@ public class HitEffectController
                     dir = dir * PUSH_STR * dmgPercent;
                 }
                 Ray ray = new Ray(enemy.transform.position + Vector3.up, dir);
+                //Debug.DrawRay(enemy.transform.position + Vector3.up, dir, Color.red, 3);
+                //Debug.Log(enemy.transform.position + " " + dir);
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, PUSH_STR * dmgPercent, mask))
                 {

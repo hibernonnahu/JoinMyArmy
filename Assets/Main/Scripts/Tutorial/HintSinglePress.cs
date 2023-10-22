@@ -24,7 +24,7 @@ public class HintSinglePress : MonoBehaviour
         background.transform.rotation = Quaternion.Euler(Vector3.right * 90);
         var mr = background.GetComponent<MeshRenderer>();
         mr.material.shader = Shader.Find("Unlit/MobileTransparentTint");
-        mr.material.color = new Vector4(COLOR, COLOR, COLOR, 0.9F);
+        mr.material.color = new Vector4(COLOR, COLOR, COLOR, 0.7F);
         background.SetActive(false);
         EventManager.StartListening(EventName.TUTORIAL_START, OnTrigger);
         EventManager.StartListening(EventName.TUTORIAL_END, OnEnd);

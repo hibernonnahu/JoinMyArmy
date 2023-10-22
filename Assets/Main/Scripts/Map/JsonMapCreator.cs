@@ -10,6 +10,7 @@ public class JsonMapCreator : MonoBehaviour
 {
     JsonData mapJson;
     Level lvl;
+    public string gameType;
     public int book = 1;
     public int chapter = 1;
     public int level = 1;
@@ -17,10 +18,10 @@ public class JsonMapCreator : MonoBehaviour
     public int floor = 0;
     public int time = -1;
     public int waveTime = -1;
+    public int castleDefenseEnemy = -1;
     public string storyJsonFileName = "";
     public GameObject[] wavesFolders;
     public int[] teamEnemiesID = new int[] { 1, 0 };
-
     // Use this for initialization
     private void Awake()
     {
@@ -33,7 +34,7 @@ public class JsonMapCreator : MonoBehaviour
     private void FindCharacters()
     {
         var mainCharacter = FindObjectOfType<CharacterMain>();
-       
+
         lvl.main = new int[3];
         lvl.main[0] = mainCharacter.id;
         lvl.main[1] = (int)(Math.Floor(mainCharacter.transform.position.x));
@@ -108,9 +109,10 @@ public class JsonMapCreator : MonoBehaviour
         lvl.time = time;
         lvl.waveTime = waveTime;
         lvl.storyJsonFileName = storyJsonFileName;
+        lvl.castleDefenseEnemy = castleDefenseEnemy;
         mapJson = JsonMapper.ToJson(lvl);
 
-        string fullPath = Application.dataPath + "/Resources/Maps/Campaign/Book" + book + "/Chapter" + chapter + "/Level" + level + "/" + variation + ".json";
+        string fullPath = Application.dataPath + "/Resources/Maps/" + gameType + "/Book" + book + "/Chapter" + chapter + "/Level" + level + "/" + variation + ".json";
 
         Debug.Log(fullPath);
 

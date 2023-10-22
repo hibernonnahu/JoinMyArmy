@@ -51,7 +51,7 @@ public class CharacterEnemy : Character
         get { return characterMain; }
         set { characterMain = value; }
     }
-    private bool useCastRedDotUI = false;
+    public bool useCastRedDotUI = false;
     public bool UseCastRedDotUI { get { return useCastRedDotUI; } }
     private Func<float> onCastMainPower = () => { return -1; };
     public Func<float> OnCastMainPower { get { return onCastMainPower; } }

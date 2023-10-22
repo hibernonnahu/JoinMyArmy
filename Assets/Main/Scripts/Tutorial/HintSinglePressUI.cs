@@ -18,6 +18,8 @@ public class HintSinglePressUI : MonoBehaviour
     protected Transform parent;
     protected float camPosX;
     protected float camPosZ;
+    public Action onTriggerStart = () => { };
+    public Action onTriggerEnd = () => { };
 
     protected void Start()
     {
@@ -32,6 +34,7 @@ public class HintSinglePressUI : MonoBehaviour
     {
         if (arg0.intData == id)
         {
+            onTriggerStart();
             started = true;
             background.transform.position = Vector3.zero;
             handSprite.SetActive(true);
@@ -42,7 +45,7 @@ public class HintSinglePressUI : MonoBehaviour
 
             point.transform.position = handSprite.transform.position;
             LeanTween.scale(point, Vector3.one * 1.5f,0.9f).setDelay(0.5f).setIgnoreTimeScale(true).setRepeat(REPEAT);
-            LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.63f, 1).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
+            LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.52f, 0.3f).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
              {
                  handSprite.SetActive(false);
              });
@@ -58,6 +61,9 @@ public class HintSinglePressUI : MonoBehaviour
     {
         if (arg0.intData == id && started)
         {
+            onTriggerEnd();
+
+           
             LeanTween.cancel(point);
             point.SetActive(false);
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));

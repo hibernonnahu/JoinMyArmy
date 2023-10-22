@@ -20,6 +20,9 @@ public class ScrollViewLevelController : MonoBehaviour
                 buttonResourcesCreator.asset = enemy.name;
                 buttonResourcesCreator.id = enemy.id;
                 buttonResourcesCreator.baseCost = enemy.baseCost;
+                buttonResourcesCreator.baseHealth = enemy.baseHealth;
+                buttonResourcesCreator.defense = enemy.defense;
+                buttonResourcesCreator.strength = enemy.strength;
                 buttonResourcesCreator.transform.SetParent(transform);
                 list.Add(buttonResourcesCreator);
             }

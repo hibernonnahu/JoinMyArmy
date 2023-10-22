@@ -15,7 +15,7 @@ public class Popup : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
-        Utils.AdapteToResolution(rectTransform, transform,GetComponentInParent<Canvas>().GetComponent<RectTransform>());
+        Utils.AdapteToResolution(rectTransform, transform, GetComponentInParent<Canvas>().GetComponent<RectTransform>());
 
         EventManager.StartListening(EventName.POPUP_OPEN, OnOpen);
         EventManager.StartListening(EventName.POPUP_CLOSE, OnCloseCheck);
@@ -27,8 +27,11 @@ public class Popup : MonoBehaviour
     }
 
 
-
-    private void OnClose(EventData arg0)
+    public void JustClose()
+    {
+        LeanTween.moveY(rectTransform, 0, TIME).setEaseOutCirc().setIgnoreTimeScale(true);
+    }
+    public void OnClose(EventData arg0)
     {
         Close();
     }
@@ -60,7 +63,7 @@ public class Popup : MonoBehaviour
         graphicRaycaster.enabled = true;
         LeanTween.moveY(rectTransform, -rectTransform.rect.height, TIME).setEaseInCirc().setIgnoreTimeScale(true);
     }
-    public void Close()
+    public virtual void Close()
     {
         foreach (var item in enableOnUse)
         {

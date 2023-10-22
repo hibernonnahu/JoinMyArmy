@@ -13,6 +13,7 @@ public class RecluitIconController : MonoBehaviour
     public GameObject mask;
     private Vector3 maskOriginalPosition;
     private bool disabled = false;
+    public bool clickeable = true;
     private Transform originalParent;
     private Vector3 originalLocalPosition;
     private Sprite sprite;
@@ -36,6 +37,12 @@ public class RecluitIconController : MonoBehaviour
         game = FindObjectOfType<Game>();
         cameraRefPoint = Camera.main.transform.GetChild(0);
         EventManager.StartListening(EventName.HIDE_RECLUIT_ICON, OnHide);
+        EventManager.StartListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
+    }
+
+    private void OnEnableClick(EventData arg0)
+    {
+        clickeable = true;
     }
 
     private void OnHide(EventData arg0)
@@ -165,6 +172,7 @@ public class RecluitIconController : MonoBehaviour
     }
     public void DispatchTutorialEvent()
     {
+        clickeable = true;
         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetBool(screenPos.x > 0.5f).SetInt(enemy.id));
     }
     public void Recluit(bool updateFreeSpace)
@@ -195,6 +203,15 @@ public class RecluitIconController : MonoBehaviour
                 EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("error"));
                 EventManager.TriggerEvent(EventName.BOUNCE_RECLUIT_TEXT);
                 BounceButton();
+
+                if (enemy.UseCastRedDotUI)
+                {
+                    LeanTween.delayedCall(gameObject, 0.75f, () =>
+                    {
+                        EventManager.TriggerEvent(EventName.TRY_TRASH_TUTORIAL);
+
+                    });
+                }
                 //enemy.Kill();
                 //FadeOut();
             }
@@ -202,7 +219,8 @@ public class RecluitIconController : MonoBehaviour
     }
     void OnMouseDown()
     {
-        Recluit(true);
+        if (clickeable)
+            Recluit(true);
     }
 
     private void BounceButton()
@@ -258,5 +276,11 @@ public class RecluitIconController : MonoBehaviour
     {
         Sprite = Resources.Load<Sprite>("CharacterIcons/" + name);
         GetComponent<SpriteRenderer>().sprite = Sprite;
+    }
+    private void OnDestroy()
+    {
+        LeanTween.cancel(gameObject);
+        EventManager.StopListening(EventName.HIDE_RECLUIT_ICON, OnHide);
+        EventManager.StopListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
     }
 }

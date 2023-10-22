@@ -84,6 +84,7 @@ public class StateCharacterEnemyRange : StateCharacterEnemy
                 foreach (var item in toHide)
                 {
                     bullet.transform.position = item.transform.position;
+                    
                     LeanTween.cancel(item);
                     LeanTween.scale(item, Vector3.zero, SCALE_TIME);
                     LeanTween.scale(item, Vector3.one, SCALE_TIME).setDelay(SCALE_TIME);

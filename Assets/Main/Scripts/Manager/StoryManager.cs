@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class StoryManager : MonoBehaviour
 {
+    private const float LOOK_ROTATION_SPEED = 0.3f;
     private Story story;
     CharacterStory[] characters;
     private List<List<string>> list;
@@ -60,9 +61,16 @@ public class StoryManager : MonoBehaviour
             current = list[0];
             list.RemoveAt(0);
 
-            Debug.Log("Story: " + (current[0]));
+            //Debug.Log("Story: " + (current[0]));
             SendMessage(current[0]);
         }
+    }
+    private void ChangeTeamNumber()//1-id 2-team
+    {
+        CharacterManager characterManager = FindObjectOfType<CharacterManager>();
+        CharacterStory character = GetCharacter(int.Parse(current[1]));
+        characterManager.ChangeTeam(character, int.Parse(current[2]));
+        CallStory();
     }
     private void KillAll()
     {
@@ -86,7 +94,7 @@ public class StoryManager : MonoBehaviour
     }
     private void SetDelay()
     {
-        LeanTween.delayedCall(float.Parse(current[1]), () => { CallStory(); });
+        LeanTween.delayedCall(gameObject, float.Parse(current[1]), () => { CallStory(); });
     }
     private void WebTrap()//id - 1 on-2
     {
@@ -126,7 +134,7 @@ public class StoryManager : MonoBehaviour
         }
         Vector3 direction = CustomMath.XZNormalize(Vector3.right * int.Parse(current[2]) + Vector3.forward * int.Parse(current[3]));
         LeanTween.cancel(character);
-        LeanTween.rotate(character, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, 0.5f);
+        LeanTween.rotate(character, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, LOOK_ROTATION_SPEED);
         //character.transform.forward = Vector3.right * int.Parse(current[2]) + Vector3.forward * int.Parse(current[3]);
         CallStory();
     }
@@ -135,7 +143,7 @@ public class StoryManager : MonoBehaviour
         CharacterStory character = GetCharacter(int.Parse(current[1]));
         Vector3 direction = CustomMath.XZNormalize(FindObjectOfType<CharacterMain>().transform.position - character.transform.position);
         LeanTween.cancel(character.characterEnemy.model);
-        LeanTween.rotate(character.characterEnemy.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, 0.5f);
+        LeanTween.rotate(character.characterEnemy.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, LOOK_ROTATION_SPEED);
 
         CallStory();
     }
@@ -145,7 +153,7 @@ public class StoryManager : MonoBehaviour
         CharacterStory character = GetCharacter(int.Parse(current[1]));
         Vector3 direction = CustomMath.XZNormalize(character.transform.position - main.transform.position);
         LeanTween.cancel(main.model);
-        LeanTween.rotate(main.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, 1.5f);
+        LeanTween.rotate(main.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, LOOK_ROTATION_SPEED);
 
         CallStory();
     }
@@ -210,12 +218,18 @@ public class StoryManager : MonoBehaviour
     }
     private void CamFollowSpeed()//1-offset
     {
-        FindObjectOfType<CameraHandler>().speed = int.Parse(current[1]);
+        FindObjectOfType<CameraHandler>().speed = int.Parse(current[1]) / 10f;
         CallStory();
     }
     private void CamOffsetZ()//1-offset
     {
         FindObjectOfType<CameraHandler>().OFFSET_Z = int.Parse(current[1]);
+        CallStory();
+    }
+    private void GoAlert()//1-id
+    {
+        CharacterStory character = GetCharacter(int.Parse(current[1]));
+        character.characterEnemy.StateMachine.ChangeState<StateCharacterEnemyAlert>();
         CallStory();
     }
     private void Particle()//1-id 2-indexpos 3- 1 if is world
@@ -326,13 +340,23 @@ public class StoryManager : MonoBehaviour
     }
     private void GoInGame()
     {
-        EventManager.TriggerEvent(EventName.HIDE_RECLUIT_ICON, EventManager.Instance.GetEventData().SetBool(false));
-
         CharacterMain characterMain = FindObjectOfType<CharacterMain>();
         characterMain.StateMachine.ChangeState(typeof(StateCharacterMainIdle));
         characterMain.StateMachine.ChangeState(characterMain.IdleState);
         characterMain.HideArmy(false);
         FindObjectOfType<CameraHandler>().GoInGame(characterMain.gameObject, false);
+        CallStory();
+    }
+    private void DisableRecluitIconClick()//1-enemy id
+    {
+        int id = int.Parse(current[1]);
+        foreach (var item in FindObjectsOfType<RecluitIconController>())
+        {
+            if (item.GetId() == id)
+            {
+                item.clickeable = false;
+            }
+        }
         CallStory();
     }
     private void Fade()//1- bool
@@ -379,7 +403,7 @@ public class StoryManager : MonoBehaviour
             RecluitController rc = FindObjectOfType<RecluitController>();
             var recluitIcons = FindObjectsOfType<RecluitIconController>();
             int enemyId = int.Parse(current[1]);
-            if (!(current[3] == "1" && rc.HasAtLeastOneNormalRecluit()) && rc.CanRecluit())
+            if (rc.HasNoRecluits() || (rc && !(current[3] == "1" && rc.HasAtLeastOneNormalRecluit()) && rc.CanRecluit()))
             {
                 HintSinglePress();
                 foreach (var item in recluitIcons)
@@ -412,6 +436,7 @@ public class StoryManager : MonoBehaviour
                     var hspui = gameObject.AddComponent<HintDragUI>();
                     int tutorialID = int.Parse(current[2]);
                     hspui.SetID(tutorialID);
+                    hspui.DisableSwap();
 
                     int enemyID = int.Parse(current[1]);
                     LeanTween.delayedCall(gameObject, 0.5f, () =>
@@ -438,6 +463,10 @@ public class StoryManager : MonoBehaviour
                     });
                 }
             }
+        }
+        else
+        {
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER);
         }
 
 
@@ -507,6 +536,7 @@ public class StoryManager : MonoBehaviour
                     if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)
                     {
                         rc.iconUI[i].tutorialID = tutorialID;
+                        rc.iconUI[i].tutorialOnClick = true;
                         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetFloat(rc.Enemies[i].transform.position.x).SetFloat2(rc.Enemies[i].transform.position.z).SetTransform(rc.iconUI[i].transform));
                         found = true;
                         break;
@@ -541,5 +571,9 @@ public class StoryManager : MonoBehaviour
         musicManager.StopMusic();
         CallStory();
 
+    }
+    private void OnDestroy()
+    {
+        LeanTween.cancel(gameObject);
     }
 }

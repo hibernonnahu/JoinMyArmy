@@ -74,12 +74,16 @@ public class SkillIconController : MonoBehaviour
             }
         }
         character = FindObjectOfType<CharacterMain>();
+
+        string key = CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + SaveDataKey.CHEST + "_" + skill.GetName();
+        SaveData.GetInstance().Save(key, SaveData.GetInstance().GetValue(key, 0) + 1);
+
         character.SkillController.AddSkill(skill);
         particles.Play();
-        LeanTween.scale(gameObject,  initialScale * 1.3f, 0.3f).setEaseLinear().setOnComplete(
+        LeanTween.scale(gameObject, initialScale * 1.3f, 0.3f).setEaseLinear().setOnComplete(
             () =>
             {
-                LeanTween.scale(gameObject, initialScale*0.5f, 0.5f).setEaseOutBounce();
+                LeanTween.scale(gameObject, initialScale * 0.5f, 0.5f).setEaseOutBounce();
             }
             );
         onUpdate = FollowCharacter;

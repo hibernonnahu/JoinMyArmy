@@ -1,0 +1,173 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Networking;
+
+public class SQLManager : MonoBehaviour
+{
+    private string mainURL = "http://runnerbuilder.dx.am/joinmyarmy";
+    private int userid = -1;
+    public bool newUser = false;
+    public bool alwaysNewGame = false;
+    public bool noStart = false;
+    // Start is called before the first frame update
+    void Start()
+    {
+        if (!noStart)
+        {
+            DontDestroyOnLoad(gameObject);
+
+            int id = PlayerPrefs.GetInt("userid", -1);
+            if (alwaysNewGame)
+                id = -1;
+            //Debug.Log("init id " + id);
+#if !UNITY_EDITOR
+        newUser = false;
+#endif
+            if (newUser || id == -1)
+            {
+                if (!alwaysNewGame)
+                    StartCoroutine(GenerateID());
+                FindObjectOfType<InitGameController>().OnStart("Game");
+                SaveData.GetInstance().SaveNewMetric(SaveDataKey.INSTALL_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
+                SaveData.GetInstance().SaveNewMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
+
+            }
+            else
+            {
+                userid = id;
+                StartCoroutine(LoadUser(userid));
+               
+               
+            }
+        }
+    }
+
+    IEnumerator GenerateID()
+    {
+        using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/GenerateID.php", ""))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success || www.downloadHandler.text == "-1")
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+
+                int userid = -1;
+                if (int.TryParse(www.downloadHandler.text, out userid))
+                {
+                    this.userid = userid;
+                    PlayerPrefs.SetInt("userid", userid);
+                    SaveData.GetInstance().SetNewPlayer();
+                    SaveUser();
+                }
+
+            }
+        }
+
+
+
+    }
+    public void SaveUser()
+    {
+        StartCoroutine(SaveUser(SaveData.GetInstance().Export()));
+    }
+    public IEnumerator SaveUser(string json)
+    {
+        if (userid != -1)
+        {
+            //Debug.Log("save " + json);
+            WWWForm form = new WWWForm();
+            form.AddField("userid", userid);
+            form.AddField("data", json);
+            //form.AddField("userid", SQLUserData.GetInstance().logInID);
+            //form.AddField("icon", icon);
+            //form.AddField("secret", Utils.CreateSecret(new List<string>() { alias, icon.ToString() }));
+            using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/SaveData.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.result != UnityWebRequest.Result.Success || www.downloadHandler.text == "-1")
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+
+                }
+                //        WWW test = new WWW(mainURL + "/SaveData.php", form);
+                //yield return test;
+                //string result = test.text;
+                //Debug.Log("savedata resutl " + result);
+            }
+        }
+    }
+    public IEnumerator LoadUser(int id)
+    {
+        if (userid != -1)
+        {
+            WWWForm form = new WWWForm();
+            form.AddField("userid", id);
+            using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/LoadData.php", form))
+            {
+                yield return www.SendWebRequest();
+
+                if (www.result != UnityWebRequest.Result.Success || www.downloadHandler.text == "-1")
+                {
+                    Debug.Log(www.error);
+                }
+                else
+                {
+                    //Debug.Log("load " + www.downloadHandler.text);
+
+                    SaveData.GetInstance().Import(www.downloadHandler.text);
+
+                    string old= SaveData.GetInstance().GetMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, "");
+                    string currentTime = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000";
+                    if (old != "")
+                    {
+                        float milSecondsOld = float.Parse(old);
+                        float milSecondsNew = float.Parse(currentTime);
+                        SaveData.GetInstance().SaveMetric(SaveDataKey.MINUTES_SINCE_LAST_CONEXION, (Math.Floor((milSecondsNew-milSecondsOld)/1000)).ToString("f0"));
+                    }
+                    SaveData.GetInstance().SaveMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP,currentTime);
+                   // 
+
+                    FindObjectOfType<InitGameController>().OnStart("Main Menu");
+                }
+            }
+
+
+        }
+    }
+
+    public IEnumerator LoadUsers(Action<string> onComplete)
+    {
+
+        WWWForm form = new WWWForm();
+
+        using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/LoadUsers.php", form))
+        {
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success || www.downloadHandler.text == "-1")
+            {
+                Debug.Log(www.error);
+            }
+            else
+            {
+                
+                onComplete(www.downloadHandler.text);
+
+            }
+        }
+
+
+
+    }
+}
+

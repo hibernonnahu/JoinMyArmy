@@ -73,6 +73,12 @@ public class CharacterManager : MonoBehaviour
         }
     }
 
+    internal void ChangeTeam(CharacterStory character, int v)
+    {
+        teamList[character.characterEnemy.team].Remove(character.characterEnemy);
+        teamList[v].Add(character.characterEnemy);
+    }
+
     private void InitJson()
     {
         characterMain = loader.CharacterMain;

@@ -7,7 +7,7 @@ public class StateInGame : StateGame
 {
     private List<Action> extraActions = new List<Action>();
     private float waveTimeCounter;
-
+    
 
 
     public StateInGame(StateMachine<StateGame> stateMachine, Game game) : base(stateMachine, game)
@@ -30,6 +30,8 @@ public class StateInGame : StateGame
         {
             item();
         }
+        game.gameTime += Time.deltaTime;
+        //Debug.Log(game.gameTime);
     }
 
 
