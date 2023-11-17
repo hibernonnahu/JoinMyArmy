@@ -39,7 +39,7 @@ public class CharacterManager : MonoBehaviour
         {
             teamExtraList[i] = new List<Character>();
         }
-
+        loader.EnableCastleDefense();
         InitJson();
     }
 
@@ -113,11 +113,33 @@ public class CharacterManager : MonoBehaviour
     {
         return teamList[v];
     }
+
     public List<Character> GetEnemiesInRange(int attackTeam, float attackDistanceSqr, Vector3 position)
     {
         List<Character> inRange = new List<Character>();
-
-        foreach (var enemyID in teamEnemiesID[attackTeam])
+        List<int> attackers = new List<int>();
+        for (int i = 0; i < teamEnemiesID.Length; i++)
+        {
+            if (i != attackTeam)
+            {
+                foreach (var item in teamEnemiesID[i])
+                {
+                    if (item == attackTeam)
+                    {
+                        attackers.Add(i);
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (var item in teamEnemiesID[i])
+                {
+                    attackers.Add(item);
+                }
+            }
+        }
+        foreach (var enemyID in attackers)
         {
             List<Character> enemiesList = teamList[enemyID];
 
@@ -130,7 +152,7 @@ public class CharacterManager : MonoBehaviour
                 }
             }
         }
-       
+
         foreach (var enemy in GetEnemyExtraListForTeam(attackTeam))
         {
             if (attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
@@ -279,7 +301,7 @@ public class CharacterManager : MonoBehaviour
         else
         {
 
-            if (teamList[character.team].Count == 0)
+            if (NoEnemiesLeft())
             {
                 if ((waveList == null || waveList.Count == 0))
                 {
@@ -294,6 +316,18 @@ public class CharacterManager : MonoBehaviour
             EventManager.TriggerEvent(EventName.ENEMY_KILL, EventManager.Instance.GetEventData().SetInt(teamList[1].Count));
         }
 
+    }
+
+    private bool NoEnemiesLeft()
+    {
+        foreach (var item in teamEnemiesID[0])
+        {
+            if (teamList[item].Count != 0)
+            {
+                return false;
+            }
+        }
+       return true;
     }
 
     public void SpawnNextWave()

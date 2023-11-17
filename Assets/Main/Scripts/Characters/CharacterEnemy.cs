@@ -18,7 +18,7 @@ public class CharacterEnemy : Character
     public int extraAlertRange = 0;
     public int belongToWave = 0;
     public bool isBoss = false;
-   
+
 
     [Header("Other")]
 #if UNITY_EDITOR
@@ -32,7 +32,7 @@ public class CharacterEnemy : Character
     public float followDistance = 1;
     private Vector3 returnPosition;
     public Vector3 ReturnPosition { get { return returnPosition; } set { returnPosition = value; } }
-   
+
     private Type attackState;
     public Type AttackState { get => attackState; set => attackState = value; }
     private bool canBeRecluit = false;
@@ -85,6 +85,15 @@ public class CharacterEnemy : Character
 
 
     }
+
+    internal void SetColliderLayer(int layer)
+    {
+        if (collider != null)
+        {
+            collider.gameObject.layer = layer;
+        }
+    }
+
     internal void ForceIdle()
     {
         NextState = IdleState;
@@ -191,9 +200,9 @@ public class CharacterEnemy : Character
     {
         return xp;
     }
-    public int GetCoins()
+    public int GetCoins(int levelOffset = 0)
     {
-        return (coins * level);
+        return (coins * (level + levelOffset));
     }
 
 

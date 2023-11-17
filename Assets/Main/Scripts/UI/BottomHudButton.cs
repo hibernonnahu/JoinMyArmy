@@ -6,6 +6,7 @@ public class BottomHudButton : MonoBehaviour
 {
     public GameObject[] toActivate;
     public GameObject[] toDiActivate;
+    public bool isActive;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,6 +15,7 @@ public class BottomHudButton : MonoBehaviour
 
     public void OnClick()
     {
+        isActive = true;
         foreach (var item in toDiActivate)
         {
             item.SetActive(false);

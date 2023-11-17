@@ -35,7 +35,8 @@ public class RecluitIconController : MonoBehaviour
         transform.localScale = Vector3.zero;
         enemy = GetComponentInParent<CharacterEnemy>();
         game = FindObjectOfType<Game>();
-        cameraRefPoint = Camera.main.transform.GetChild(0);
+        if (Camera.main != null)
+            cameraRefPoint = Camera.main.transform.GetChild(0);
         EventManager.StartListening(EventName.HIDE_RECLUIT_ICON, OnHide);
         EventManager.StartListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
     }

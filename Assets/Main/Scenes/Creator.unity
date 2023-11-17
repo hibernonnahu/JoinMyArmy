@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731715, g: 0.13414735, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1187,7 +1187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 903ca59c8d0eaf1428c33d24d89d8a1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cinematicWaitTime: 10
   defaultSize: 25
   offsetSize: 5
   speedSize: 5
@@ -1961,6 +1960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa217bf7882e2d438b3e1c79b576349, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameTypeEnum: 0
   multiplier: 0.1
   isCreator: 1
   book: 1
@@ -1968,6 +1968,7 @@ MonoBehaviour:
   level: 1
   forceVariation: 0
   floor: {fileID: 1462155460}
+  loadWithExtraLevel: 0
 --- !u!4 &1321057635
 Transform:
   m_ObjectHideFlags: 0
@@ -2808,6 +2809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 475bd1e8a9a48e54ea62b152e89e0821, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameType: 
   book: 1
   chapter: 1
   level: 1
@@ -2815,6 +2817,9 @@ MonoBehaviour:
   floor: 0
   time: -1
   waveTime: -1
+  castleDefenseEnemy: -1
+  extraEnemyLevel: 0
+  coinsMultiplier: 10
   storyJsonFileName: 
   wavesFolders:
   - {fileID: 1476429030}

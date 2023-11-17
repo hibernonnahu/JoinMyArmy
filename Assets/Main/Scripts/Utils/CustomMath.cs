@@ -20,6 +20,22 @@ public class CustomMath
         return x;
     }
 
+    internal static float Average(List<int> values)
+    {
+        float sum = 0;
+        float count = 0;
+        foreach (var n in values)
+        {
+            sum += n;
+            count++;
+        }
+        if (count == 0)
+        {
+            return 0;
+        }
+        return sum / count;
+    }
+
     internal static Vector3 Vector3NotNew(float x, float y, float z)
     {
         return Vector3.right * x + Vector3.up * y + Vector3.forward * z;

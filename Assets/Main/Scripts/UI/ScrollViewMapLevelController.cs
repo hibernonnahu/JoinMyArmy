@@ -25,7 +25,13 @@ public class ScrollViewMapLevelController : MonoBehaviour
         rect = transform.GetComponent<RectTransform>();
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         var prefabs = Resources.LoadAll<Sprite>(resourcesFolder);
-        currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER, 1);
+        currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1);
+        int max = GameConfig.GetInstance().maxChapterEnable[CurrentPlaySingleton.GetInstance().book-1];
+        if (currentChapter > max)
+        {
+            currentChapter = max;
+            CurrentPlaySingleton.GetInstance().animateTransition = false;
+        }
         var sortMaps = new Sprite[prefabs.Length];
         for (int i = 0; i < prefabs.Length; i++)
         {
@@ -44,7 +50,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
         }
         cellSpace = gridLayoutGroup.cellSize.x + gridLayoutGroup.spacing.x;
 
-        if (CurrentPlaySingleton.GetInstance().animateTransition)
+        if (CurrentPlaySingleton.GetInstance().animateTransition && SaveData.GetInstance().GetMetric(SaveDataKey.GAME_TYPE, "Campaign") == "Campaign")
         {
             hud.anchoredPosition = Vector2.zero;
             mapSelect[currentChapter - 1].button.interactable = false;

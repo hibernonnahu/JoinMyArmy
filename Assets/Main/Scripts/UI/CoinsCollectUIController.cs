@@ -19,6 +19,7 @@ public class CoinsCollectUIController : MonoBehaviour
     public GameObject extraCoins;
     private bool win;
     private int coinsTemp = 0;
+    private int showPopupMultiplier = 2;
 #if UNITY_EDITOR
     public bool forceReward = false;
 #endif
@@ -26,8 +27,8 @@ public class CoinsCollectUIController : MonoBehaviour
     {
 
         rewardContainer.gameObject.SetActive(false);
-        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT);
         coinsTemp = CurrentPlaySingleton.GetInstance().coins;
+        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT, EventManager.Instance.GetEventData().SetInt(-coinsTemp));
         coinsTempText.text = coinsTemp.ToString();
 
     }
@@ -66,6 +67,7 @@ public class CoinsCollectUIController : MonoBehaviour
         totalCoinsText.transform.position -= Vector3.right * Screen.width;
         LeanTween.move(totalCoinsText.gameObject, pos, 0.5f).setDelay(walletDelay).setEaseInOutElastic();
         totalCoinsText.gameObject.SetActive(true);
+        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT, EventManager.Instance.GetEventData().SetInt(-coinsTemp));
 
     }
 
@@ -91,7 +93,7 @@ public class CoinsCollectUIController : MonoBehaviour
         miniPopup.SetAcceptAction(AcceptReward);
         miniPopup.Open();
     }
-    
+
     public void AcceptRewardLate()
     {
         string levelKey = SaveDataKey.REWARD_AD_LATE + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
@@ -100,14 +102,14 @@ public class CoinsCollectUIController : MonoBehaviour
     }
     private void AcceptReward()
     {
-        string levelKey = SaveDataKey.REWARD_AD + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
+        string levelKey = SaveDataKey.REWARD_AD + "_" + CurrentPlaySingleton.GetInstance().GameType() + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
         SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
 
         coinsTempContainer.gameObject.transform.position = coinstToDuplicateText.transform.position;
         rewardContainer.gameObject.SetActive(false);
         CurrentPlaySingleton.GetInstance().coins = coinsTemp;
         SaveData.GetInstance().SaveRam();
-        coinsTempText.text = (coinsTemp * 2).ToString();
+        coinsTempText.text = (coinsTemp * showPopupMultiplier).ToString();
         coinsTempContainer.gameObject.SetActive(true);
         AnimateCoinsToBag(2);
 
@@ -142,7 +144,7 @@ public class CoinsCollectUIController : MonoBehaviour
     {
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("coins"));
 
-        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT);
+        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT, EventManager.Instance.GetEventData().SetInt(0));
         coinsTempContainer.gameObject.SetActive(false);
         LeanTween.scale(totalCoinsText, Vector3.one * 1.5f, 0.3f).setEaseLinear().setOnComplete(
            () =>
@@ -153,9 +155,13 @@ public class CoinsCollectUIController : MonoBehaviour
     }
     void MoveReward()
     {
-        LeanTween.scale(totalCoinsText, Vector3.one, 0.7f).setEaseOutBounce();
-        LeanTween.scale(rewardContainer.gameObject, Vector3.one * 0.6f, 1);
-        LeanTween.move(rewardContainer.gameObject, topReference.transform.position, 0.4f).setEaseInCubic().setOnComplete(ShowUpgrades);
+        showPopupMultiplier = 1;
+        coinsTempContainer.gameObject.SetActive(true);
+        AnimateCoinsToBag(1);
+        float delay = 2;
+        LeanTween.scale(totalCoinsText, Vector3.one, 0.7f).setDelay(delay).setEaseOutBounce();
+        LeanTween.scale(rewardContainer.gameObject, Vector3.one * 0.6f, 1).setDelay(delay);
+        LeanTween.move(rewardContainer.gameObject, topReference.transform.position, 0.4f).setDelay(delay).setEaseInCubic().setOnComplete(ShowUpgrades);
     }
 
     void ShowUpgrades()

@@ -272,7 +272,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
   m_AnchoredPosition: {x: 0, y: 150.63}
-  m_SizeDelta: {x: 693.83, y: 300}
+  m_SizeDelta: {x: 1034.4, y: 376.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &845359814
 MonoBehaviour:
@@ -295,19 +295,19 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 462a5605cd4f4de48821603c760ce4a6, type: 3}
-    m_FontSize: 91
+    m_Font: {fileID: 12800000, guid: 010b82bc895978049b69aaf4b855d7ab, type: 3}
+    m_FontSize: 78
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 4
-    m_MaxSize: 91
+    m_MaxSize: 127
     m_Alignment: 1
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: JOIN MY ARMY
+  m_Text: TALES of CONTROL and DOMINATION
 --- !u!222 &845359815
 CanvasRenderer:
   m_ObjectHideFlags: 0

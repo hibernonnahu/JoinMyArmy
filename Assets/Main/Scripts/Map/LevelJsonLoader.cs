@@ -7,10 +7,10 @@ public class LevelJsonLoader : MonoBehaviour
 {
     public enum GameType
     {
-        Campaign,CastleDefense
+        Campaign, CastleDefense
     }
     public GameType gameTypeEnum;
-    
+
 
     public float multiplier = 1;
     public bool isCreator = false;
@@ -25,10 +25,10 @@ public class LevelJsonLoader : MonoBehaviour
     public CharacterMain CharacterMain { get => characterMain; }
     private Level lvl;
     public Level Lvl { get { return lvl; } }
-
+    public bool loadWithExtraLevel = true;
     public void Awake()
     {
-       
+
         var characters = Resources.LoadAll<CharacterEnemy>("Prefabs/InGame/Enemies");
         enemiesResources = new CharacterEnemy[characters.Length];
         foreach (var item in characters)
@@ -49,11 +49,11 @@ public class LevelJsonLoader : MonoBehaviour
         string gameType = gameTypeEnum.ToString();
         if (!isCreator)
         {
-            gameType = CurrentPlaySingleton.GetInstance().gameType;
+            gameType = SaveData.GetInstance().GetMetric(SaveDataKey.GAME_TYPE, "Campaign");
         }
         Debug.Log(gameType);
         DeleteAll();
-        var variations = Resources.LoadAll<TextAsset>("Maps/"+ gameType + "/Book" + book + "/Chapter" + chapter + "/Level" + level);
+        var variations = Resources.LoadAll<TextAsset>("Maps/" + gameType + "/Book" + book + "/Chapter" + chapter + "/Level" + level);
         if (forceVariation == -1)
         {
             lvl = ParseString(variations[Random.Range(0, variations.Length)].text);
@@ -70,11 +70,60 @@ public class LevelJsonLoader : MonoBehaviour
             creator.floor = lvl.floor;
             creator.time = lvl.time;
             creator.waveTime = lvl.waveTime;
+            creator.extraEnemyLevel = lvl.extraEnemyLevel;
+            creator.coinsMultiplier = lvl.coinsMultiplier;
             creator.storyJsonFileName = lvl.storyJsonFileName;
             creator.teamEnemiesID = lvl.teamEnemiesID;
+            creator.castleDefenseEnemy = lvl.castleDefenseEnemy;
         }
 
 
+    }
+
+    public void EnableCastleDefense()
+    {
+        if (!isCreator && lvl.castleDefenseEnemy != -1)
+        {
+
+            CharacterEnemy lastCharacterEnemy = GameObject.Instantiate<CharacterEnemy>(enemiesResources[lvl.castleDefenseEnemy]);
+            lastCharacterEnemy.transform.position = Vector3.right * characterMain.transform.position.x + Vector3.forward * (characterMain.transform.position.z - 3);
+            lastCharacterEnemy.model.transform.rotation = Quaternion.Euler(0, 90, 0);
+            lastCharacterEnemy.team = 0;
+            lastCharacterEnemy.barScale = 3;
+
+            lastCharacterEnemy.Rigidbody.isKinematic = true;
+            lastCharacterEnemy.HealthBarController.ForceScale(2.1f);
+
+            lastCharacterEnemy.enabled = true;
+            lastCharacterEnemy.HealthBarController.UpdateBarColor(lastCharacterEnemy);
+
+            lastCharacterEnemy.CurrentHealth = lastCharacterEnemy.baseHealth = 909;
+            lastCharacterEnemy.UpdateStatsOnLevel(1, true, true);
+            lastCharacterEnemy.HealthBarController.UpdateBar();
+            lastCharacterEnemy.HealthBarController.ShowBarAgain();
+            lastCharacterEnemy.HealthBarController.EnableText();
+            foreach (var enemy in enemies)
+            {
+                enemy.extraAlertRange = 99999;
+                enemy.triggerOnDeath = "";
+
+            }
+            lastCharacterEnemy.team = 2;
+            lastCharacterEnemy.GetComponentInChildren<Collider>().gameObject.layer = 16;//Ally
+            lastCharacterEnemy.gameObject.layer = 16;//Ally
+            lastCharacterEnemy.SetAnimation("castledefense");
+            var esod = lastCharacterEnemy.gameObject.AddComponent<EnemyStateOnDead>();
+            esod.SetAction(
+                () =>
+                {
+                    FindObjectOfType<Game>().OnDead("Fail", "castledead");
+                    FindObjectOfType<CameraHandler>().FollowGameObject(lastCharacterEnemy.gameObject, false);
+                }
+                );
+            esod.Init(lastCharacterEnemy);
+            var cm = GameObject.FindObjectOfType<CharacterManager>();
+            cm.AddCharacterEnemy(lastCharacterEnemy, characterMain);
+        }
     }
 
     private void DeleteAll()
@@ -95,7 +144,7 @@ public class LevelJsonLoader : MonoBehaviour
         {
             var lvl = JsonUtility.FromJson<Level>(tempString);
             floor.material = Resources.Load<Material>("Prefabs/InGame/FloorMaterial/" + lvl.floor);
-            LoadMainCharacter(lvl.main);
+            LoadMainCharacter(lvl.main,lvl.coinsMultiplier);
             var game = GetComponent<Game>();
             if (game != null)
             {
@@ -117,7 +166,7 @@ public class LevelJsonLoader : MonoBehaviour
                 game.waveTime = lvl.waveTime;
             }
 
-            LoadMap(lvl.enemies, lvl.obstacles);
+            LoadMap(lvl.enemies, lvl.obstacles, lvl.extraEnemyLevel);
             return lvl;
         }
         return null;
@@ -129,10 +178,11 @@ public class LevelJsonLoader : MonoBehaviour
         go.transform.position = characterMain.transform.position + position;
     }
 
-    private void LoadMainCharacter(int[] main)
+    private void LoadMainCharacter(int[] main,int coinsMultiplier)
     {
         characterMain = Instantiate<CharacterMain>(Resources.Load<CharacterMain>("Prefabs/InGame/Characters/CharacterMain" + main[0])).GetComponent<CharacterMain>();
         characterMain.transform.position = Vector3.right * main[1] + Vector3.forward * main[2];
+        characterMain.CoinsMultiplier = (float)(coinsMultiplier) / 10f;
         characterMain.enabled = false;
         var cam = FindObjectOfType<CameraHandler>();
         cam.transform.position = characterMain.transform.position.x * Vector3.right + characterMain.transform.position.z * Vector3.forward + Vector3.up * cam.transform.position.y;
@@ -152,8 +202,12 @@ public class LevelJsonLoader : MonoBehaviour
         return obstaclesResources[index];
     }
 
-    private void LoadMap(int[] charactersInfo, int[] obstaclesInfo)
+    private void LoadMap(int[] charactersInfo, int[] obstaclesInfo, int extraEnemyLevel)
     {
+        if (!loadWithExtraLevel)
+        {
+            extraEnemyLevel =0;
+        }
         List<CharacterEnemy> enemiesList = new List<CharacterEnemy>();
         for (int i = 0; i < obstaclesInfo.Length; i += 9)//0-x , 1-z, 2-id ,3-ratation , 4-size , 5-collider,6,7,8
         {
@@ -173,13 +227,14 @@ public class LevelJsonLoader : MonoBehaviour
             {
                 CharacterEnemy go = Instantiate<CharacterEnemy>(prefab, (Vector3.right * charactersInfo[i] + Vector3.forward * charactersInfo[i + 1]), Quaternion.identity);
                 CharacterEnemy enemy = go.GetComponent<CharacterEnemy>();
-                enemy.SetLevel(charactersInfo[i + 3]);
+                enemy.SetLevel(charactersInfo[i + 3] + extraEnemyLevel);
                 enemy.team = charactersInfo[i + 4];
                 enemy.behaviour = charactersInfo[i + 5];
                 enemy.extraAlertRange = charactersInfo[i + 6];
                 enemy.belongToWave = charactersInfo[i + 7];
                 enemy.enabled = false;
                 enemiesList.Add(enemy);
+
                 if (isCreator)
                 {
                     AddToParent(enemy);

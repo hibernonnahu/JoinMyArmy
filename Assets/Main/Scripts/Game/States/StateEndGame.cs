@@ -32,14 +32,14 @@ public class StateEndGame : StateGame
             game.coinsCollectUIController.gameObject.SetActive(true);
             SaveData.GetInstance().SaveRam(false);
             EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString("Chapter " + stats.chapter + " complete!"));
-            if (stats.chapter < 4)
+            if (stats.chapter < 20)
             {
                 stats.chapter++;
-                int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER, 1);
+                int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1);
                 if (stats.chapter > currentChapter)
                 {
                     CurrentPlaySingleton.GetInstance().animateTransition = true;
-                    SaveData.GetInstance().Save(SaveDataKey.CURRENT_CHAPTER, stats.chapter);
+                    SaveData.GetInstance().Save(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, stats.chapter);
                 }
             }
             else
@@ -48,7 +48,7 @@ public class StateEndGame : StateGame
             }
             stats.SaveGamePlay(characterMain);
             stats.Reset();
-            SaveData.GetInstance().SaveNewMetric(SaveDataKey.ARMY, CurrentPlaySingleton.GetInstance().GetArmyString());
+            SaveData.GetInstance().SaveMetric(SaveDataKey.ARMY, CurrentPlaySingleton.GetInstance().GetArmyString());
 
             ChangeState(typeof(StateGameChapterFinish));
 

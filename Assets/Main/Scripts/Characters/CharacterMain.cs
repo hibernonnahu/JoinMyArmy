@@ -20,15 +20,36 @@ public class CharacterMain : Character
     public bool IsMoving { get => isMoving; set => isMoving = value; }
     private bool isMoving = false;
 
+    private float coinsMultiplier = 1;
+    public float CoinsMultiplier
+    {
+        set { coinsMultiplier = value; }
+        get { return coinsMultiplier; }
+    }
     private int maxRecluits = 8;
 
     public StateMachine<StateCharacter> StateMachine { get { return stateMachine; } }
 
     protected override void Awake()
     {
+        UpdateStats();
         base.Awake();
         xpController = new XpController();
     }
+
+    private void UpdateStats()
+    {
+        string key = SaveDataKey.STATS + "_" + CurrentPlaySingleton.GetInstance().book + "_Strength";
+        strength += SaveData.GetInstance().GetValue(key);
+
+        key = SaveDataKey.STATS + "_" + CurrentPlaySingleton.GetInstance().book + "_Health";
+        baseHealth += SaveData.GetInstance().GetValue(key) * 4;
+
+        key = SaveDataKey.STATS + "_" + CurrentPlaySingleton.GetInstance().book + "_Defense";
+        defense += SaveData.GetInstance().GetValue(key);
+
+    }
+
     private void Start()
     {
         Init();
@@ -141,7 +162,7 @@ public class CharacterMain : Character
 
     public void HideArmy(bool hide)
     {
-        recluitController.HideArmy(hide,this);
+        recluitController.HideArmy(hide, this);
 
     }
     internal void ArmyOffset(int v)

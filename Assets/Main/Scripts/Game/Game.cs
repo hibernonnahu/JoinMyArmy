@@ -15,9 +15,10 @@ public class Game : MonoBehaviour
     private CharacterManager characterManager;
 
     private StateMachine<StateGame> stateMachine;
+    public StateMachine<StateGame> StateMachine { get { return stateMachine; } }
 
     public ToRecluitManager toRecluitManager;
-    public float gameTime =0;
+    public float gameTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -53,8 +54,27 @@ public class Game : MonoBehaviour
         {
             EventManager.TriggerEvent(EventName.EXIT_OPEN);
         }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            CurrentPlaySingleton.GetInstance().level = 50;
+            EventManager.TriggerEvent(EventName.EXIT_OPEN);
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            foreach (var item in FindObjectsOfType<CharacterEnemy>())
+            {
+                if (item.team == 1)
+                {
+                    item.Kill();
+                }
+            }
+        }
+        else if (Input.GetKeyDown(KeyCode.L))
+        {
+            FindObjectOfType<CharacterMain>().Heal(-9999);
+        }
 #endif
-        stateMachine.Update();
+            stateMachine.Update();
     }
     internal void OnExitTrigger(Vector3 exitPosition)
     {
@@ -64,14 +84,18 @@ public class Game : MonoBehaviour
         stateMachine.ChangeState(typeof(StateEndGame));
         characterMain.OnLevelEnd(exitPosition);
     }
-    public void OnDead()
+    public void OnDead(string msg = "You died!", string extra = "")
     {
+        var stats = CurrentPlaySingleton.GetInstance();
+        string levelKey = SaveDataKey.BOOK_CHAPTER_LEVEL_DEAD + "_" + stats.GameType() + "_" + extra + "_" + stats.book + "_" + stats.chapter + "_" + stats.level;
+
+        SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
         var sql = GameObject.FindObjectOfType<SQLManager>();
         if (sql != null)
             sql.SaveUser();
         coinsCollectUIController.gameObject.SetActive(true);
         SaveData.GetInstance().SaveRam(false);
-        EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString("You died!"));
+        EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString(msg));
 
         stateMachine.AddState(new StateGameChapterFinish(stateMachine, this, false, "lose", 2));
         stateMachine.ChangeState(typeof(StateGameChapterFinish));
@@ -101,8 +125,10 @@ public class Game : MonoBehaviour
     public void ResetAndMain()
     {
         CurrentPlaySingleton.GetInstance().Reset();
+        var sql = GameObject.FindObjectOfType<SQLManager>();
+        if (sql != null)
+            sql.SaveUser();
         MainMenuScene();
-
     }
     public void Continue()
     {

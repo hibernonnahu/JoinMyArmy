@@ -36,6 +36,18 @@ public class StateCharacterEnemyRange : StateCharacterEnemy
     }
     public override void Awake()
     {
+        if ((enemy.transform.position - enemy.lastEnemyTarget.transform.position).sqrMagnitude < enemy.attackDistanceSqr)
+        {
+            LoadAttack();
+        }
+        else
+        {
+            enemy.NextState = typeof(StateCharacterEnemyRange);
+            ChangeState(typeof(StateCharacterEnemyChase));
+        }
+    }
+    private void LoadAttack()
+    {
         enemy.animator.SetFloat("attackspeed", enemy.AttackSpeed);
         if (preCast != null)
         {
@@ -56,7 +68,6 @@ public class StateCharacterEnemyRange : StateCharacterEnemy
         }
         AttackInit();
     }
-
     private void AttackInit()
     {
         enemy.Rigidbody.velocity = Vector3.zero;

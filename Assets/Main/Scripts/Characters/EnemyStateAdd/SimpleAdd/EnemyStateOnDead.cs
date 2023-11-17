@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class EnemyStateOnDead : MonoBehaviour, IEnemySimpleAdd
 {
-  
+    private Action onDead;
    
     public void Init(CharacterEnemy characterEnemy)
     {
@@ -13,7 +13,11 @@ public class EnemyStateOnDead : MonoBehaviour, IEnemySimpleAdd
     }
     protected virtual void ExecuteOnDead()
     {
-
+        onDead();
+    }
+    public void SetAction(Action action)
+    {
+        onDead = action;
     }
    
 }

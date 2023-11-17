@@ -16,6 +16,7 @@ public class SQLManager : MonoBehaviour
     {
         if (!noStart)
         {
+            Debug.Log("LocalSave " + PlayerPrefs.GetString("LocalSave"));
             DontDestroyOnLoad(gameObject);
 
             int id = PlayerPrefs.GetInt("userid", -1);
@@ -27,8 +28,14 @@ public class SQLManager : MonoBehaviour
 #endif
             if (newUser || id == -1)
             {
-                if (!alwaysNewGame)
+                if (alwaysNewGame)
+                {
+                    SaveData.GetInstance().SetNewPlayer();
+                }
+                else
+                {
                     StartCoroutine(GenerateID());
+                }
                 FindObjectOfType<InitGameController>().OnStart("Game");
                 SaveData.GetInstance().SaveNewMetric(SaveDataKey.INSTALL_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
                 SaveData.GetInstance().SaveNewMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
@@ -38,8 +45,8 @@ public class SQLManager : MonoBehaviour
             {
                 userid = id;
                 StartCoroutine(LoadUser(userid));
-               
-               
+
+
             }
         }
     }
@@ -80,10 +87,14 @@ public class SQLManager : MonoBehaviour
     {
         if (userid != -1)
         {
-            //Debug.Log("save " + json);
+            PlayerPrefs.SetString("LocalSave", json);
+            var list= new List<string>();
+            list.Add(json);
+            int secret = Utils.CreateSecret(list);
             WWWForm form = new WWWForm();
             form.AddField("userid", userid);
             form.AddField("data", json);
+            form.AddField("secret", secret);
             //form.AddField("userid", SQLUserData.GetInstance().logInID);
             //form.AddField("icon", icon);
             //form.AddField("secret", Utils.CreateSecret(new List<string>() { alias, icon.ToString() }));
@@ -97,7 +108,7 @@ public class SQLManager : MonoBehaviour
                 }
                 else
                 {
-
+                    Debug.Log(www.downloadHandler.text);
                 }
                 //        WWW test = new WWW(mainURL + "/SaveData.php", form);
                 //yield return test;
@@ -110,8 +121,13 @@ public class SQLManager : MonoBehaviour
     {
         if (userid != -1)
         {
+            var list = new List<string>();
+            list.Add(id.ToString());
+            int secret = Utils.CreateSecret(list);
             WWWForm form = new WWWForm();
             form.AddField("userid", id);
+            form.AddField("secret", secret);
+
             using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/LoadData.php", form))
             {
                 yield return www.SendWebRequest();
@@ -120,22 +136,26 @@ public class SQLManager : MonoBehaviour
                 {
                     Debug.Log(www.error);
                 }
+                else if (www.downloadHandler.text == "-2")
+                {
+                    Debug.Log("secret error");
+                }
                 else
                 {
                     //Debug.Log("load " + www.downloadHandler.text);
 
-                    SaveData.GetInstance().Import(www.downloadHandler.text);
+                    SaveData.GetInstance().Import(www.downloadHandler.text, true);
 
-                    string old= SaveData.GetInstance().GetMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, "");
+                    string old = SaveData.GetInstance().GetMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, "");
                     string currentTime = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000";
                     if (old != "")
                     {
                         float milSecondsOld = float.Parse(old);
                         float milSecondsNew = float.Parse(currentTime);
-                        SaveData.GetInstance().SaveMetric(SaveDataKey.MINUTES_SINCE_LAST_CONEXION, (Math.Floor((milSecondsNew-milSecondsOld)/1000)).ToString("f0"));
+                        SaveData.GetInstance().SaveMetric(SaveDataKey.MINUTES_SINCE_LAST_CONEXION, (Math.Floor((milSecondsNew - milSecondsOld) / 1000)).ToString("f0"));
                     }
-                    SaveData.GetInstance().SaveMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP,currentTime);
-                   // 
+                    SaveData.GetInstance().SaveMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, currentTime);
+                    // 
 
                     FindObjectOfType<InitGameController>().OnStart("Main Menu");
                 }
@@ -160,7 +180,7 @@ public class SQLManager : MonoBehaviour
             }
             else
             {
-                
+
                 onComplete(www.downloadHandler.text);
 
             }

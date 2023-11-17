@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class CollectTimeOffController : MonoBehaviour
 {
+    private const float COINS_MULTIPLIER = 0.7f;
     public RectTransform totalCoinsText;
     public RectTransform totalCoinsGO;
     public Text coinsTempText;
@@ -32,7 +33,8 @@ public class CollectTimeOffController : MonoBehaviour
                     minutesSinceLastConexion = 1440;
 
                 }
-                coinsTemp = (int)(minutesSinceLastConexion * SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_CHAPTER, 1));
+                coinsTemp = (int)(minutesSinceLastConexion * SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1));
+                coinsTemp = (int)(coinsTemp * COINS_MULTIPLIER);
                 miniPopup = GameObject.FindObjectOfType<MiniPopup>();
                 miniPopup.text.text = "Welcome back! have " + coinsTemp.ToString() + " coins!";
                 miniPopup.SetImage("ads");
@@ -45,7 +47,7 @@ public class CollectTimeOffController : MonoBehaviour
 
     private void AcceptReward()
     {
-        string levelKey = SaveDataKey.REWARD_TIME_AWAY_AD + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
+        string levelKey = SaveDataKey.REWARD_TIME_AWAY_AD + "_" + CurrentPlaySingleton.GetInstance().GameType() + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
         SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
 
         coinsTempContainer.gameObject.transform.position = miniPopup.transform.position;
@@ -75,7 +77,7 @@ public class CollectTimeOffController : MonoBehaviour
     {
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("coins"));
 
-        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT);
+        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT, EventManager.Instance.GetEventData().SetInt(0));
         coinsTempContainer.gameObject.SetActive(false);
         LeanTween.scale(totalCoinsText, Vector3.one * 1.5f, 0.3f).setEaseLinear().setOnComplete(
            () =>

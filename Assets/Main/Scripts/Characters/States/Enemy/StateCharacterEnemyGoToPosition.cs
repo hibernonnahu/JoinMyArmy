@@ -43,7 +43,7 @@ public class StateCharacterEnemyGoToPosition : StateCharacterEnemy
     public override void Sleep()
     {
         enemy.Rigidbody.drag = 100;
-        enemy.EnableCollider();
+        //enemy.EnableCollider();
     }
 
     public override void Update()

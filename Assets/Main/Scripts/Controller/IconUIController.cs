@@ -252,15 +252,7 @@ public class IconUIController : MonoBehaviour
 
         if (redDot == null)
         {
-            GameObject NewObj = new GameObject(); //Create the GameObject
-            NewObj.name = "redDot";
-            redDot = NewObj.AddComponent<Image>();
-            redDot.color = Color.red;
-            var rect = redDot.GetComponent<RectTransform>();
-            rect.SetParent(transform);
-            redDot.sprite = Resources.Load<Sprite>("Texture/circle");
-            rect.anchoredPosition = Vector2.one * 50;
-            rect.localScale = Vector2.one * 0.5f;
+           redDot= Utils.CreateRedDot(transform,redDot);
 
         }
         redDot.gameObject.SetActive(true);

@@ -23,7 +23,9 @@ public class EnemyStateAddAttackSpawn : EnemyStateAddAttack
             {
                 spawnEnemies[i] = GameObject.Instantiate<CharacterEnemy>(characterManager.Loader.GetCharacter(spawnEnemiesIds[UnityEngine.Random.Range(0, spawnEnemiesIds.Length)]));
                 spawnEnemies[i].extra = true;
+                spawnEnemies[i].extraAlertRange = characterEnemy.extraAlertRange;
                 spawnEnemies[i].xp = 0;
+                spawnEnemies[i].team = characterEnemy.team;
                 spawnEnemies[i].coins = 0;
                 spawnEnemies[i].level = characterEnemy.level;
                 spawnEnemies[i].CurrentHealth = 0;

@@ -31,7 +31,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+
         name = asset;
         image.sprite = Resources.Load<Sprite>("CharacterIcons/" + name);
         if (image.sprite == null)
@@ -49,7 +49,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
     {
         SaveData.GetInstance().coins -= price;
         level = SaveData.GetInstance().AddEnemyLocalLevel(id);
-        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT);
+        EventManager.TriggerEvent(EventName.UPDATE_COINS_TEXT, EventManager.Instance.GetEventData().SetInt(0));
         UpdateTextAnimation();
         EventManager.TriggerEvent(EventName.SHAKE_CAM_POS, EventManager.Instance.GetEventData().SetFloat(0.2f));
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("pum"));
@@ -64,6 +64,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
         if (!button.interactable)
         {
             Destroy(GetComponent<Pulse>());
+            levelTextContainer.gameObject.transform.localScale = Vector3.one * initialSize;
         }
     }
 
@@ -74,14 +75,14 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
         priceText.text = price.ToString();
 
         //stats
-        healthText.text = "HEALTH: " + Character.CalculateHealth(level, baseHealth).ToString("f1");
-        damageText.text = "ATTACK: " + Character.CalculateBaseDamage(level, strength).ToString("f1");
-        defenseText.text = "DEFENSE: " + Character.GetBaseDefense(defense, level).ToString("f1");
+        healthText.text = "HEALTH: " + (Character.CalculateHealth(level, baseHealth) * 10).ToString("f0");
+        damageText.text = "ATTACK: " + (Character.CalculateBaseDamage(level, strength) * 10).ToString("f0");
+        defenseText.text = "DEFENSE: " + (Character.GetBaseDefense(defense, level) * 10).ToString("f0");
     }
     private void UpdateTextAnimation()
     {
         LeanTween.cancel(levelTextContainer.gameObject);
-       
+
         LeanTween.scale(levelTextContainer.gameObject, Vector3.one * initialSize * 1.5f, 0.3f).setEaseLinear().setOnComplete(
            () =>
            {

@@ -69,6 +69,11 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
                     spawnEnemy.UpdateColor(!spawnEnemy.IsEnemy());
                     spawnEnemy.RecluitIconHandler.Restore();
                     spawnEnemy.gameObject.layer = enemy.gameObject.layer;
+                    spawnEnemy.SetColliderLayer(enemy.gameObject.layer);
+                    foreach (var item in spawnEnemy.GetComponentsInChildren<MaterialOnTeam>())
+                    {
+                        item.UpdateMaterial();
+                    }
                     spawnEnemy.gameObject.SetActive(true);
                     enemy.CharacterManager.AddCharacterEnemy(spawnEnemy, enemy.CharacterMain);
                     spawnEnemy.enabled = true;

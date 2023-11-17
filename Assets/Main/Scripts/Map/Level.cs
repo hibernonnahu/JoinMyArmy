@@ -13,4 +13,6 @@ public class Level  {
     public int waveTime = 10;
     public string storyJsonFileName = "";
     public int castleDefenseEnemy = -1;
+    public int extraEnemyLevel = 0;
+    public int coinsMultiplier = 10;
 }

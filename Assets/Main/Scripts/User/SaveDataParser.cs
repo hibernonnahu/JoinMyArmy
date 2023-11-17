@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveDataParser 
+public class SaveDataParser
 {
     public int coins = 0;
     public Dictionary<int, int> enemyLocalLevel = new Dictionary<int, int>();//id level
@@ -12,20 +12,22 @@ public class SaveDataParser
 
     public SaveDataParser(string data)
     {
+       // Debug.Log(data);
         data = data.Substring(1, data.Length - 2);
-        //"\"enemyLocalLevel\":{\"12\":5},\"coins\":100"
+
         data = data.Replace("\"", "");
         string[] split = data.Split("},");
         foreach (var item in split)
         {
-            string[] subSplit = item.Split(':',2);
+            string[] subSplit = item.Split(':', 2);
             if (subSplit[0] == "coins")//esto es kk pero bue
             {
                 coins = int.Parse(subSplit[1]);
             }
             else if (subSplit[0] == "enemyLocalLevel")//esto es kk pero bue
             {
-                enemyLocalLevel = ParseInt2Int(subSplit[1]);
+                if (subSplit[1].Length > 1)
+                    enemyLocalLevel = ParseInt2Int(subSplit[1]);
             }
             else if (subSplit[0] == "other")//esto es kk pero bue
             {

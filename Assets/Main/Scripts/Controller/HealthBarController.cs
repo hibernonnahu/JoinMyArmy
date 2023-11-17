@@ -14,6 +14,7 @@ public class HealthBarController : MonoBehaviour
     private Action<float> updateBar = (x) => { };
     private Character character;
     private Vector3 initScale;
+    private Vector3 defaultBarScale;
     private Action onUpdateText = () => { };
 
     public void Init(Character character)
@@ -21,16 +22,13 @@ public class HealthBarController : MonoBehaviour
         this.character = character;
         red = transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material;
         currentHealthBar = transform.GetChild(0).gameObject;
+        defaultBarScale = transform.localScale;
         transform.localScale *= character.barScale;
         transform.position += Vector3.up * character.barOffset;
         initScale = transform.localScale;
         if (character.useBarText)
         {
-            onUpdateText = () =>
-            {
-                text.text = ((int)(character.CurrentHealth)).ToString();
-            };
-            text.text = character.Health.ToString();
+            EnableText();
         }
     }
     public void UpdateBarColor(Character character)
@@ -44,11 +42,15 @@ public class HealthBarController : MonoBehaviour
         {
             transform.GetChild(0).GetComponentInChildren<MeshRenderer>().material = green;
         }
-       
+
     }
-    public void ShowBarAgain()
+    public void ForceScale(float value)
     {
-        LeanTween.scale(gameObject, initScale, HEALTHBAR_FADEOUT_TIME).setEaseInExpo();
+        initScale = defaultBarScale * value; ;
+    }
+    public void ShowBarAgain(float multiplier = 1)
+    {
+        LeanTween.scale(gameObject, initScale * multiplier, HEALTHBAR_FADEOUT_TIME).setEaseInExpo();
     }
     internal void UpdateBar()
     {
@@ -80,5 +82,14 @@ public class HealthBarController : MonoBehaviour
     internal void UpdateXpBar(float result)
     {
         currentXpBar.transform.localScale = Vector3.forward + Vector3.up + Vector3.right * result;
+    }
+
+    internal void EnableText()
+    {
+        onUpdateText = () =>
+        {
+            text.text = ((int)(character.CurrentHealth)).ToString("f0");
+        };
+        text.text = character.Health.ToString("f0");
     }
 }

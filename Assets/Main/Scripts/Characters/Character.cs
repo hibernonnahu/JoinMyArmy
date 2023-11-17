@@ -67,7 +67,7 @@ public class Character : MonoBehaviour
         animator.CrossFade(name, crossTime, layer);
     }
 
-    private float health;
+    protected float health;
     public float Health
     {
         get { return health; }
@@ -246,6 +246,7 @@ public class Character : MonoBehaviour
 
         NextState = idleState;
         VulnerableTime = 1.6f;
+        LeanTween.delayedCall(gameObject, vulnerableTime, () => { transform.position += model.transform.forward; });
         SetAnimation("wall hit", 0.02f);
         generalParticleHandler.wallHit.Play();
         GoVulnerable();

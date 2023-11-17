@@ -33,4 +33,16 @@ public class Pulse : MonoBehaviour
     {
         LeanTween.cancel(gameObject);
     }
+    public void Pause(bool v)
+    {
+        if (v)
+        {
+            LeanTween.cancel(gameObject);
+            LeanTween.scale(gameObject, initialScale, 0).setIgnoreTimeScale(true);
+        }
+        else
+        {
+            PulseIn();
+        }
+    }
 }

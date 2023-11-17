@@ -1,8 +1,8 @@
 ﻿
 using System;
-
+using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 
 public class Utils
 {
@@ -137,4 +137,42 @@ public class Utils
         return r * vr + g * vg + b * vb + va * a;
     }
 
+    public static int CreateSecret(List<string> list)
+    {
+        int secret = 762636;
+        int len = 0;
+        foreach (var str in list)
+        {
+            var lowStr = str.ToLower();
+
+            var charArray = System.Text.Encoding.ASCII.GetBytes(lowStr);
+            foreach (var item in charArray)
+            {
+                len++;
+                // Debug.Log(item);
+                secret += item;
+            }
+
+        }
+        secret = secret % 100000;
+        //Debug.Log("secret " + secret);
+        //Debug.Log("list.Count " + list.Count);
+        //Debug.Log("len " + len);
+       
+        return (secret * list.Count * len);
+    }
+
+    internal static Image CreateRedDot(Transform transform,Image redDot)
+    {
+        GameObject NewObj = new GameObject(); //Create the GameObject
+        NewObj.name = "redDot";
+        redDot = NewObj.AddComponent<Image>();
+        redDot.color = Color.red;
+        var rect = redDot.GetComponent<RectTransform>();
+        rect.SetParent(transform);
+        redDot.sprite = Resources.Load<Sprite>("Texture/circle");
+        rect.anchoredPosition = Vector2.one * 50;
+        rect.localScale = Vector2.one * 0.5f;
+        return redDot;
+    }
 }

@@ -12,12 +12,12 @@ public class CoinsGlobalUIController : MonoBehaviour
     private void Awake()
     {
         EventManager.StartListening(EventName.UPDATE_COINS_TEXT, OnUpdateText);
-        OnUpdateText(null);
+        OnUpdateText(EventManager.Instance.GetEventData().SetInt(0));
     }
 
     private void OnUpdateText(EventData arg0)
     {
-        text.text = SaveData.GetInstance().coins.ToString();
+        text.text = (SaveData.GetInstance().coins+arg0.intData).ToString();
     }
 
     private void OnDestroy()

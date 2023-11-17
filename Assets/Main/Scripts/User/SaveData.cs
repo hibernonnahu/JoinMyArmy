@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class SaveData
 {
@@ -67,7 +68,7 @@ public class SaveData
             metric[name] = value;
         }
     }
-    public string GetMetric(string name,string returnValue)
+    public string GetMetric(string name, string returnValue)
     {
         if (!metric.ContainsKey(name))
         {
@@ -159,7 +160,7 @@ public class SaveData
         return data;
     }
 
-    internal void Import(string data)
+    internal void Import(string data, bool forceSave = false)
     {
         SaveDataParser sdp = new SaveDataParser(data);
         coins = sdp.coins;
@@ -167,7 +168,15 @@ public class SaveData
         other = sdp.other;
         metric = sdp.metric;
         if (metric.ContainsKey(SaveDataKey.ARMY))
-            CurrentPlaySingleton.GetInstance().UpdateArmy(metric[SaveDataKey.ARMY]);
+            CurrentPlaySingleton.GetInstance().UpdateArmy(metric[SaveDataKey.ARMY], forceSave);
+    }
+    public string[] GetAllMetricKeys()
+    {
+        return metric.Keys.ToArray();
+    }
+    public string[] GetAllIntKeys()
+    {
+        return other.Keys.ToArray();
     }
 }
 

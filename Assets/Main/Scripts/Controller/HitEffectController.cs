@@ -38,6 +38,7 @@ public class HitEffectController
             {
 
                 Vector3 dir = CustomMath.Normalize(enemy.transform.position - hitterPosition);
+                
                 if (toSide != Vector3.zero)
                 {
                     dir = (toSide.z * Vector3.right + Vector3.back * toSide.x) * PUSH_STR * dmgPercent *
@@ -47,7 +48,7 @@ public class HitEffectController
                 {
                     dir = dir * PUSH_STR * dmgPercent;
                 }
-                Ray ray = new Ray(enemy.transform.position + Vector3.up, dir);
+                Ray ray = new Ray(enemy.transform.position , dir);
                 //Debug.DrawRay(enemy.transform.position + Vector3.up, dir, Color.red, 3);
                 //Debug.Log(enemy.transform.position + " " + dir);
                 RaycastHit hit;

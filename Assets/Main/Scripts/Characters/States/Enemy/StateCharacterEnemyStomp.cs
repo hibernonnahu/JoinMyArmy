@@ -4,7 +4,7 @@ using System;
 
 public class StateCharacterEnemyStomp : StateCharacterEnemy
 {
-    private const float DAMAGE_SQR_DISTANCE = 150;
+    private const float DAMAGE_SQR_DISTANCE = 250;
     private const float DAMAGE_MULTIPLIER = 1f;
     private ParticleSystem particle;
 

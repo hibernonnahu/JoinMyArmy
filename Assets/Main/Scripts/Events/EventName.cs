@@ -15,8 +15,9 @@ public class EventName
     public static string HIDE_CHARACTER_UI = "hideCharacterUI";
     public static string HIDE_CHARACTER_JOYSTICK = "hideCharacterJoystick";
     public static string HIDE_RECLUIT_ICON = "hideRecluitIcon";
-    public static string NEXT_WAVE = "nextWave";
     public static string MAIN_TEXT = "mainText";
+    public static string MENU_BUTTON = "menuButton";
+    public static string NEXT_WAVE = "nextWave";
     public static string POPUP_OPEN = "popupOpen";
     public static string POPUP_CLOSE = "popupClose";
     public static string POPUP_CLOSE_ALL = "popupAll";

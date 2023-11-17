@@ -19,6 +19,8 @@ public class JsonMapCreator : MonoBehaviour
     public int time = -1;
     public int waveTime = -1;
     public int castleDefenseEnemy = -1;
+    public int extraEnemyLevel = 0;
+    public int coinsMultiplier = 10;
     public string storyJsonFileName = "";
     public GameObject[] wavesFolders;
     public int[] teamEnemiesID = new int[] { 1, 0 };
@@ -43,7 +45,7 @@ public class JsonMapCreator : MonoBehaviour
         CharacterEnemy[] enemies = FindObjectsOfType<CharacterEnemy>();
         List<int> auxList = new List<int>();
 
-
+        int coinsTotal = 0;
         foreach (var enemy in enemies)
         {
             auxList.Add((int)(enemy.transform.position.x));
@@ -57,8 +59,10 @@ public class JsonMapCreator : MonoBehaviour
             auxList.Add(enemy.belongToWave);
             auxList.Add(0);
             auxList.Add(0);
-
+            coinsTotal += (int)(enemy.GetCoins(extraEnemyLevel) * coinsMultiplier * 0.1f);
         }
+        Debug.Log("Total Coins enemies "+coinsTotal);
+       
         lvl.enemies = auxList.ToArray();
 
     }
@@ -108,6 +112,8 @@ public class JsonMapCreator : MonoBehaviour
         lvl.floor = floor;
         lvl.time = time;
         lvl.waveTime = waveTime;
+        lvl.extraEnemyLevel = extraEnemyLevel;
+        lvl.coinsMultiplier = coinsMultiplier;
         lvl.storyJsonFileName = storyJsonFileName;
         lvl.castleDefenseEnemy = castleDefenseEnemy;
         mapJson = JsonMapper.ToJson(lvl);

@@ -19,7 +19,7 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
         if (!enemy.IsDead && !enemy.IsKnocked && enemy.team != enemy.CharacterMain.team)
         {
             enemy.CharacterMain.AddXP(enemy.GetXp());
-            enemy.CharacterMain.coinsUIController.AddCoins(enemy.GetCoins(), enemy.transform.position);
+            enemy.CharacterMain.coinsUIController.AddCoins((int)(enemy.GetCoins() * enemy.CharacterMain.CoinsMultiplier), enemy.transform.position);
             if (enemy.triggerOnDeath != "")
             {
                 EventManager.TriggerEvent(enemy.triggerOnDeath);
@@ -29,7 +29,7 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
                 item();
             }
         }
-       
+
         enemy.IsDead = true;
     }
 
@@ -46,5 +46,5 @@ public class StateCharacterEnemyDead : StateCharacterEnemy
     {
 
     }
- 
+
 }

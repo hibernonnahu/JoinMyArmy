@@ -206,9 +206,12 @@ public class RecluitController : MonoBehaviour
                 iconUIController.BounceAnimation(() =>
                 {
                     LeanTween.scale(trash.gameObject, Vector3.zero, 0.5f).setEaseOutElastic().setOnComplete(() =>
-                    {
-                        enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
-                        Remove(enemies[iconUIController.IndexPosition]);
+                    {//bug
+                        if (enemies[iconUIController.IndexPosition] != null)
+                        {
+                            enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
+                            Remove(enemies[iconUIController.IndexPosition]);
+                        }
                         iconUIController.ReturnToOriginalPosition(false, false);
 
                         SaveData.GetInstance().Save(SaveDataKey.TRASH, SaveData.GetInstance().GetValue(SaveDataKey.TRASH, 0) + 1);

@@ -119,6 +119,22 @@ public class StoryManager : MonoBehaviour
         character.characterEnemy.model.transform.forward = character2.transform.position - character.transform.position;
         CallStory();
     }
+    private void Equip()//1-id 2-weapon 3-node
+    {
+        int id = int.Parse(current[1]);
+        Character character;
+        if (id != -1)
+        {
+            character = GetCharacter(id).characterEnemy;
+        }
+        else
+        {
+            character = FindObjectOfType<CharacterMain>();
+
+        }
+        character.GetComponent<CharacterEquip>().Equip(current[2], int.Parse(current[3]));
+        CallStory();
+    }
     private void LookDirection()//1-id 2-x -3-z
     {
         int id = int.Parse(current[1]);
@@ -336,6 +352,12 @@ public class StoryManager : MonoBehaviour
         lastCharacterEnemy.transform.position = Vector3.right * float.Parse(current[2]) + Vector3.forward * float.Parse(current[3]);
         lastCharacterEnemy.model.transform.rotation = Quaternion.Euler(0, float.Parse(current[4]), 0);
         lastCharacterEnemy.team = int.Parse(current[5]);
+        CallStory();
+    }
+    private void SpawnNextWave()
+    {
+        CharacterManager characterManager = FindObjectOfType<CharacterManager>();
+        characterManager.SpawnNextWave();
         CallStory();
     }
     private void GoInGame()
@@ -572,8 +594,24 @@ public class StoryManager : MonoBehaviour
         CallStory();
 
     }
+    private void SetCastleDefenseMode()
+    {
+        EventManager.StartListening(EventName.EXIT_OPEN, OnCastleDefenseWin);
+    }
+
+    private void OnCastleDefenseWin(EventData arg0)
+    {
+        EventManager.StopListening(EventName.EXIT_OPEN, OnCastleDefenseWin);
+
+        Game game = FindObjectOfType<Game>();
+        game.StateMachine.AddState(new StateEndCastleDefense(game.StateMachine, game));
+        game.StateMachine.AddState(new StateGameChapterFinish(game.StateMachine, game, true, "chapter complete"));
+        game.StateMachine.ChangeState(typeof(StateEndCastleDefense));
+    }
+
     private void OnDestroy()
     {
+        EventManager.StopListening(EventName.EXIT_OPEN, OnCastleDefenseWin);
         LeanTween.cancel(gameObject);
     }
 }

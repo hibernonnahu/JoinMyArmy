@@ -8,7 +8,7 @@ public class CurrentPlaySingleton
     public int book = 1;
     public int chapter = 1;
     public int level = 1;
-    public string gameType= "Campaign";
+
     private List<int> party;
     private int[] characterMainStats;
     private SkillController skillController;
@@ -50,21 +50,31 @@ public class CurrentPlaySingleton
         }
         return code;
     }
-    public void UpdateArmy(string code)
+    public string GameType()
     {
-        string[] split = code.Split("_");
-        party = new List<int>();
-        foreach (var item in split)
+        return SaveData.GetInstance().GetMetric(SaveDataKey.GAME_TYPE, "Campaign");
+    }
+    public void UpdateArmy(string code,bool forceSave=false)
+    {
+        if (GameType() == "Campaign"|| forceSave)
         {
-            if (item != "")
-                party.Add(int.Parse(item));
+            string[] split = code.Split("_");
+            party = new List<int>();
+            foreach (var item in split)
+            {
+                if (item != "")
+                    party.Add(int.Parse(item));
+            }
         }
     }
 
     internal void SaveGamePlay(CharacterMain characterMain)
     {
-        SaveMainCharacter(characterMain);
-        SaveParty();
+        if (GameType() == "Campaign")
+        {
+            SaveMainCharacter(characterMain);
+            SaveParty();
+        }
     }
 
     private void SaveMainCharacter(CharacterMain characterMain)
@@ -121,8 +131,11 @@ public class CurrentPlaySingleton
 
     public void LoadGamePlay(CharacterMain characterMain)
     {
-        LoadMainCharacter(characterMain);
-        LoadParty(characterMain);
+        if (GameType() == "Campaign")
+        {
+            LoadMainCharacter(characterMain);
+            LoadParty(characterMain);
+        }
     }
     public void AddSkill<T>(Type type) where T : ISkill
     {
@@ -185,6 +198,5 @@ public class CurrentPlaySingleton
         enemy.CurrentHealth = party[i + 1];
         enemy.HealthBarController.UpdateBar();
         enemy.model.transform.forward = Vector3.forward;
-
     }
 }

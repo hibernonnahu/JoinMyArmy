@@ -10,12 +10,14 @@ public class EnemyStateAddAttackRange : EnemyStateAddAttack
     public float bulletSpeed = 2;
     public BulletPool bulletPool;
     public GameObject[] hideOnShot;
+    public float forceIdleAfterSeconds = 5;
+
     public override IEnemyStateAddAttack InitStates(CharacterEnemy characterEnemy) //where Type : StateCharacter
     {
         this.characterEnemy = characterEnemy;
         characterEnemy.AttackState = typeof(StateCharacterEnemyRange);
 
-      
+        characterEnemy.StateMachine.AddState(new StateCharacterEnemyChase(characterEnemy.StateMachine, characterEnemy, GetComponent<EnemyStateAddDefaultInitAlert>().alertDistanceSqr, forceIdleAfterSeconds));
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyRange(characterEnemy.StateMachine, characterEnemy, bulletPool, hideOnShot, bulletSpeed, preCast, castExpulsion, expulsionSqrRange));
 
         return this;
