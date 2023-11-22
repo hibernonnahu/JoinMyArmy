@@ -27,7 +27,10 @@ public class SkillVampiric : ISkill
     {
         return 0;
     }
-
+    public float ExtraSpeed()
+    {
+        return 0;
+    }
     public int ExtraDefense()
     {
         return 0;
@@ -53,7 +56,7 @@ public class SkillVampiric : ISkill
         return "Vampiric";
     }
 
-    public bool IsAvailable()
+    public bool IsAvailable(RecluitController recluitController)
     {
         return true;
     }

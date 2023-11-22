@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5478442391114705416}
   - component: {fileID: 7756731090779186745}
   - component: {fileID: 8240590168371156081}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 4461929224120590642}
   - component: {fileID: 5793690770370811025}
   - component: {fileID: 5820623507695420646}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: currentHealth (dont scale)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 1965690385074620139}
   - component: {fileID: 1283624975845082748}
   - component: {fileID: 8158178519908748720}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: level Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,16 +281,16 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5997322679043561938}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.038}
-  m_LocalScale: {x: 0.25, y: 1, z: 0.08145887}
+  m_LocalPosition: {x: 0, y: 0, z: -0.01799969}
+  m_LocalScale: {x: 0.32467535, y: 0.39840636, z: 0.08145886}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4365892619714710274}
-  m_RootOrder: 5
+  m_Father: {fileID: 266271965727815742}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.415, y: 0.9299998}
+  m_AnchoredPosition: {x: 0.16363636, y: 0.14740926}
   m_SizeDelta: {x: 6.65, y: 5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!23 &1283624975845082748
@@ -440,7 +440,7 @@ GameObject:
   - component: {fileID: 960565422280873946}
   - component: {fileID: -1680593479892417947}
   - component: {fileID: 6684359529301135727}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -464,7 +464,6 @@ Transform:
   - {fileID: 6186078876827419924}
   - {fileID: 5478442391114705416}
   - {fileID: 266271965727815742}
-  - {fileID: 1965690385074620139}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
@@ -534,6 +533,7 @@ MonoBehaviour:
   levelText: {fileID: 8158178519908748720}
   green: {fileID: 2100000, guid: eb498c3e502283c43be91242ae649387, type: 2}
   currentXpBar: {fileID: 6610462513292922592}
+  level: {fileID: 9070393220946024651}
 --- !u!114 &6684359529301135727
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,7 +558,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1354539137606383526}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: currentXP
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -590,7 +590,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 107006673109110834}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: currentHealth(this goes as first child)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -624,7 +624,7 @@ GameObject:
   - component: {fileID: 3727317565270368005}
   - component: {fileID: 6385069429972174978}
   - component: {fileID: 4960439461153554752}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: currentXP (dont scale)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 266271965727815742}
   - component: {fileID: 6040474907942475357}
   - component: {fileID: 5100447018060703077}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Level Img
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -725,7 +725,8 @@ Transform:
   m_LocalPosition: {x: -0.541, y: 0.56, z: -0.02}
   m_LocalScale: {x: 0.77, y: 2.51, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1965690385074620139}
   m_Father: {fileID: 4365892619714710274}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -790,7 +791,7 @@ GameObject:
   - component: {fileID: 6186078876827419924}
   - component: {fileID: 2688775792170174295}
   - component: {fileID: 5463102550170471064}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Black
   m_TagString: Untagged
   m_Icon: {fileID: 0}

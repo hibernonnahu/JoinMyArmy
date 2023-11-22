@@ -1,5 +1,9 @@
 {
   "story": [
+    "PlayMusic",
+    "sucubus",
+    "50",
+    "&",
     "LookAtCharacter",
     "14",
     "&",
@@ -16,12 +20,18 @@
     "Wait4Trigger",
     "nextWave3",
     "&",
+    "TutorialText",
+    "Use STOMP when surrounded",
+    "&",
     "HintSinglePressUI",
     "3",
     "5",
     "&",
+
     "Wait4Trigger",
     "exitOpen",
+    "&",
+    "HideArmy",
     "&",
     "BlockCharacter",
     "&",
@@ -64,7 +74,11 @@
     "Wait4Trigger",
     "storyArrive",
     "&",
-    "GoInGame"
+    "GoInGame",
+    "&",
+    "PlayMusic",
+    "game1",
+    "80"
 
   ]
 }

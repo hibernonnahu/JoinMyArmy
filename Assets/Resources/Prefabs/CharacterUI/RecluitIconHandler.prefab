@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3700835925224085228}
   - component: {fileID: 2346812864715531602}
   - component: {fileID: 1423610021}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: RecluitIconHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mask: {fileID: 7972369020929448300}
-  totalTime: 7
 --- !u!65 &1423610021
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -124,7 +123,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6239355034972929951}
   - component: {fileID: 2806565317117619337}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Sprite Mask
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -207,7 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2758281258876704447}
   - component: {fileID: 1520190651542244221}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: redCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}

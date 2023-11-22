@@ -1,0 +1,27 @@
+{
+  "story": [
+
+    "PlayMusic",
+    "boss1",
+    "80",
+    "&",
+    "SpawnCharacter",
+    "17",
+    "0",
+    "0",
+    "0",
+    "0",
+    "&",
+    "ForceFollowMain",
+    "17",
+    "90",
+    "&",
+    "Wait4Trigger",
+    "exitOpen",
+    "&",
+    "Wait4Trigger",
+    "exitOpen",
+    "&",
+    "StopMusic"
+  ]
+}

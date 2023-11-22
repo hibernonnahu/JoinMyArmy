@@ -1,0 +1,14 @@
+{
+  "story": [
+    "Wait4Trigger",
+    "recluitIconPop",
+    "&",
+    "Wait4Trigger",
+    "recluitIconPop",
+    "&",
+    "HintForceRecluit",
+    "3",
+    "53"
+
+  ]
+}

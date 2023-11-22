@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2941814218169843095}
   - component: {fileID: -8697666455317532582}
   - component: {fileID: 2941814218169843088}
-  - component: {fileID: 3046534008791164106}
   - component: {fileID: -1915557930144245254}
   - component: {fileID: 5338046921779178389}
+  - component: {fileID: 5216196622464354975}
   m_Layer: 9
   m_Name: Chest3
   m_TagString: Untagged
@@ -70,6 +70,7 @@ MonoBehaviour:
   criticalMultiplier: 1.2
   healWhenKill: 50
   lastEnemyTarget: {fileID: 0}
+  destiny: {x: 0, y: 0, z: 0}
   baseHealth: 75
   speed: 5
   strength: 5
@@ -79,6 +80,7 @@ MonoBehaviour:
   coins: 0
   extraAlertRange: 0
   belongToWave: 0
+  isBoss: 0
   debug: 0
   triggerOnDeath: 
   followDistance: 1
@@ -98,19 +100,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 116
   m_CollisionDetection: 0
---- !u!114 &3046534008791164106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2941814218169843093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5de4f072e4c9a6842a286e1349b5057a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skillsAmount: 3
 --- !u!114 &-1915557930144245254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -141,6 +130,20 @@ MonoBehaviour:
   uIColdDown: 0
   weight: 1
   removeWhenRecluted: 0
+--- !u!114 &5216196622464354975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2941814218169843093}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5de4f072e4c9a6842a286e1349b5057a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skillIconController: {fileID: 6922887187410948009, guid: 98c105cb738ccf243b7133a28e0d1032, type: 3}
+  skillsAmount: 3
 --- !u!1 &5987132981062529556
 GameObject:
   m_ObjectHideFlags: 0

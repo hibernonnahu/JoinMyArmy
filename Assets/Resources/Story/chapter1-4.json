@@ -1,0 +1,22 @@
+{
+  "story": [
+    "Wait4Trigger",
+    "recluitIconPop",
+    "&",
+    "HintSinglePress",
+    "0",
+    "52",
+    "&",
+    "Wait4Trigger",
+    "recluitIconArrive",
+    "&",
+    "TutorialText",
+    "Use HEALING skill",
+    "&",
+    "HintSinglePressUI",
+    "0",
+    "2"
+
+
+  ]
+}

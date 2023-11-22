@@ -4854,6 +4854,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3407809472990863789}
     m_Modifications:
+    - target: {fileID: -9048517947679542951, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: -7268518656192969154, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7268518656192969154, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_ReceiveShadows
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7268518656192969154, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: a816b4fb5c5469445b9f9602dd1ad0ad, type: 2}
     - target: {fileID: -6057140222963153312, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
       propertyPath: m_Controller
       value: 
@@ -4905,6 +4921,18 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
       propertyPath: m_Name
       value: Koi
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133985671257971221, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133985671257971221, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 270
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133985671257971221, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7ab2b42542290b44fbd6bc960dcb2bd3, type: 3}

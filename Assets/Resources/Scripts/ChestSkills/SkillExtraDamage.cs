@@ -30,7 +30,10 @@ public class SkillExtraDamage : ISkill
     {
         return 1;
     }
-
+    public float ExtraSpeed()
+    {
+        return 0;
+    }
     public int ExtraDefense()
     {
         return 0;
@@ -51,7 +54,7 @@ public class SkillExtraDamage : ISkill
         return "Strength";
     }
 
-    public bool IsAvailable()
+    public bool IsAvailable(RecluitController recluitController)
     {
         return true;
     }

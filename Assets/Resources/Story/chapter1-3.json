@@ -1,0 +1,18 @@
+{
+  "story": [
+    "Wait4Trigger",
+    "recluitIconPop",
+    "&",
+    "HintSinglePress",
+    "10",
+    "51",
+    "&",
+    "Wait4Trigger",
+    "recluitIconArrive",
+    "&",
+    "HintDragUI",
+    "10",
+    "3"
+
+  ]
+}

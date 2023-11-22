@@ -1,0 +1,19 @@
+{
+  "story": [
+    "SpawnCharacter",
+    "17",
+    "0",
+    "0",
+    "0",
+    "0",
+    "&",
+    "Equip",
+    "17",
+    "DarkBook",
+    "0",
+    "&",
+    "ForceFollowMain",
+    "17",
+    "90"
+  ]
+}

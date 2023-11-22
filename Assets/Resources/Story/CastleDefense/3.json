@@ -1,0 +1,9 @@
+{
+  "story": [
+    "PlayMusic",
+    "desert",
+    "80",
+    "&",
+    "SetCastleDefenseMode"
+  ]
+}

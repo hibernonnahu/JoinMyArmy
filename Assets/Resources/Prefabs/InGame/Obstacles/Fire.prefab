@@ -123,6 +123,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: P_PROP_campfire_dungeon_02
       objectReference: {fileID: 0}
+    - target: {fileID: 5996246538776048836, guid: 8ea93ed62cb526f46a06d6066ed26dea, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764199459729136853, guid: 8ea93ed62cb526f46a06d6066ed26dea, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8926915899362778071, guid: 8ea93ed62cb526f46a06d6066ed26dea, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -179,7 +187,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5101364487562013579, guid: 8ea93ed62cb526f46a06d6066ed26dea, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8ea93ed62cb526f46a06d6066ed26dea, type: 3}
 --- !u!4 &1463783952384667614 stripped
 Transform:

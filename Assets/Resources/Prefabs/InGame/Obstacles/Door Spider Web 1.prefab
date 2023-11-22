@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 240508714436343696}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.122, z: -21.91}
+  m_LocalPosition: {x: 0, y: 3.122, z: -21.61}
   m_LocalScale: {x: 3.4653, y: 7.3230495, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -110,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b664fa727c6a4ca4e99a9ce6a4fef17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pause: 0
 --- !u!1 &3952973009668435056
 GameObject:
   m_ObjectHideFlags: 0
@@ -631,19 +632,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19861624, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.972549
+      value: 0.75114155
       objectReference: {fileID: 0}
     - target: {fileID: 19864916, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19864916, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
+      propertyPath: InitialModule.startColor.maxColor.b
+      value: 0.45181632
+      objectReference: {fileID: 0}
+    - target: {fileID: 19864916, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.93442965
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 19864916, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 19868312, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: playOnAwake
@@ -655,7 +660,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19868312, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.96996236
+      value: 0.2901961
       objectReference: {fileID: 0}
     - target: {fileID: 19894408, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: playOnAwake
@@ -663,15 +668,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19894408, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0
+      value: 0.21434161
       objectReference: {fileID: 0}
     - target: {fileID: 19894408, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.5943396
+      value: 0.59607846
       objectReference: {fileID: 0}
     - target: {fileID: 19894408, guid: 31bea997407d42b4c815aff8926295bb, type: 3}
       propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.5780244
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31bea997407d42b4c815aff8926295bb, type: 3}

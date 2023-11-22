@@ -70,6 +70,7 @@ MonoBehaviour:
   criticalMultiplier: 1.2
   healWhenKill: 50
   lastEnemyTarget: {fileID: 0}
+  destiny: {x: 0, y: 0, z: 0}
   baseHealth: 50
   speed: 3
   strength: 5
@@ -79,6 +80,7 @@ MonoBehaviour:
   coins: 0
   extraAlertRange: 0
   belongToWave: 0
+  isBoss: 0
   debug: 0
   triggerOnDeath: 
   followDistance: 1
@@ -139,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5de4f072e4c9a6842a286e1349b5057a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillIconController: {fileID: 6922887187410948009, guid: 98c105cb738ccf243b7133a28e0d1032, type: 3}
   skillsAmount: 2
 --- !u!1 &5987132981062529556
 GameObject:

@@ -1,0 +1,19 @@
+{
+  "story": [
+    "SpawnCharacter",
+    "17",
+    "0",
+    "0",
+    "0",
+    "0",
+    "&",
+    "ForceFollowMain",
+    "17",
+    "90",
+    "&",
+    "PlayMusic",
+    "cutscene1",
+    "80"
+
+  ]
+}

@@ -54,10 +54,9 @@ public class SkillExtraSpeed : ISkill
         return "Attack Speed";
     }
 
-    public bool IsAvailable()
+    public bool IsAvailable(RecluitController recluitController)
     {
         return true;
     }
-
 
 }

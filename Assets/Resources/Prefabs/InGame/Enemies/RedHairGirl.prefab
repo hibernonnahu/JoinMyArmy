@@ -1314,6 +1314,103 @@ Transform:
   m_Father: {fileID: 8095485694733431662}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &4883256335797960766
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6185437225886899059}
+  - component: {fileID: 8117778775992984274}
+  - component: {fileID: 1823129084525175463}
+  - component: {fileID: 572386906314388997}
+  m_Layer: 9
+  m_Name: Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6185437225886899059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4883256335797960766}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6859496078760912050}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &8117778775992984274
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4883256335797960766}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &1823129084525175463
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4883256335797960766}
+  m_Enabled: 0
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!135 &572386906314388997
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4883256335797960766}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5278150568582340768
 GameObject:
   m_ObjectHideFlags: 0
@@ -1778,7 +1875,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4968983039398471438
 Transform:
   m_ObjectHideFlags: 0
@@ -2129,6 +2226,7 @@ GameObject:
   - component: {fileID: 6859496078760912044}
   - component: {fileID: 6859496078760912047}
   - component: {fileID: -8123994582699560103}
+  - component: {fileID: 6818332589222744639}
   m_Layer: 0
   m_Name: RedHairGirl
   m_TagString: Untagged
@@ -2149,6 +2247,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 472088829645972677}
+  - {fileID: 6185437225886899059}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2187,6 +2286,7 @@ MonoBehaviour:
   barOffset: 0
   useBarText: 0
   generalParticleYOffset: 0
+  generalParticleScale: 1
   id: 17
   level: 1
   team: 0
@@ -2211,9 +2311,11 @@ MonoBehaviour:
   belongToWave: 0
   isBoss: 0
   debug: 0
-  stearingRotation: 50
+  autoCast: 0
+  stearingRotationOffset: 0
   triggerOnDeath: 
   followDistance: 0.5
+  useCastRedDotUI: 0
 --- !u!114 &6859496078760912047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2238,7 +2340,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48db06fbcec3b0247b3e49c67a9d7ded, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ignoreColliders: 1
   characterEnemy: {fileID: 0}
+  particles: []
+--- !u!114 &6818332589222744639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6859496078760912040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cbd8fd73e655b64d9e38592e9677070, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  node:
+  - {fileID: 1779528770993847526}
 --- !u!1 &6910462661210239157
 GameObject:
   m_ObjectHideFlags: 0

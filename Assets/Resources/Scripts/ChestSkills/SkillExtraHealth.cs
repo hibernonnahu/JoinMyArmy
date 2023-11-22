@@ -30,7 +30,10 @@ public class SkillExtraHealth : ISkill
     {
         return 0;
     }
-
+    public float ExtraSpeed()
+    {
+        return 0;
+    }
     public int ExtraDefense()
     {
         return 0;
@@ -51,7 +54,7 @@ public class SkillExtraHealth : ISkill
         return "Health";
     }
 
-    public bool IsAvailable()
+    public bool IsAvailable(RecluitController recluitController)
     {
         return true;
     }

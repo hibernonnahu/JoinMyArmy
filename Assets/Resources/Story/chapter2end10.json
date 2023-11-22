@@ -14,8 +14,17 @@
     "Wait4Trigger",
     "nextWave3",
     "&",
+    "TutorialText",
+    "Spawn SPIDER EGGS",
+    "&",
     "HintSinglePressUI",
     "11",
-    "6"
+    "6",
+    "&",
+
+    "Wait4Trigger",
+    "exitOpen",
+    "&",
+    "StopMusic"
   ]
 }

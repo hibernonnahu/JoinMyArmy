@@ -30,7 +30,10 @@ public class SkillExtraRecluit : ISkill
     {
         return 0;
     }
-
+    public float ExtraSpeed()
+    {
+        return 0;
+    }
     public int ExtraDefense()
     {
         return 0;
@@ -51,8 +54,8 @@ public class SkillExtraRecluit : ISkill
         return "Extra Recluit";
     }
 
-    public bool IsAvailable()
+    public bool IsAvailable(RecluitController recluitController)
     {
-        return GameObject.FindAnyObjectByType<RecluitController>().Max < 8;
+        return false&&recluitController.Max < 8;
     }
 }

@@ -1,0 +1,10 @@
+{
+  "story": [
+    "PlayMusic",
+    "dungeon",
+    "80",
+    "&",
+    "SetCastleDefenseMode"
+
+  ]
+}
