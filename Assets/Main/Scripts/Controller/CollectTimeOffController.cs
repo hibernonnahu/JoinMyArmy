@@ -39,7 +39,7 @@ public class CollectTimeOffController : MonoBehaviour
                 miniPopup.text.text = "Welcome back! have " + coinsTemp.ToString() + " coins!";
                 miniPopup.SetImage("ads");
 
-                miniPopup.SetAcceptAction(AcceptReward);
+                miniPopup.SetAcceptAction(()=> { AdsController.instance.adHandler.RewardAd(AcceptReward, ()=> { miniPopup.OnCancel(); }); });
                 miniPopup.Open();
             }
         }

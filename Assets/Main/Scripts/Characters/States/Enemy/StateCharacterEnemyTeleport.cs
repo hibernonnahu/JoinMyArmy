@@ -12,12 +12,13 @@ public class StateCharacterEnemyTeleport : StateCharacterEnemy
     private int mask;
     private float counter;
     private Vector3 initialLocal;
+    private Vector3 initialPosition;
     private bool smoke;
     public StateCharacterEnemyTeleport(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy) : base(stateMachine, characterEnemy)
     {
         mask = LayerMask.GetMask(new string[] { "Bound", "Wall", "Water" });
         initialLocal = enemy.GeneralParticleHandler.wallHit.transform.localPosition;
-
+        initialPosition = characterEnemy.transform.position;
     }
     public override void Awake()
     {
@@ -72,7 +73,14 @@ public class StateCharacterEnemyTeleport : StateCharacterEnemy
 
             enemy.GeneralParticleHandler.wallHit.transform.localPosition = initialLocal;
 
-            enemy.transform.position = Vector3.right * UnityEngine.Random.Range(minX, maxX) + Vector3.back * UnityEngine.Random.Range(minZ, mmaxZ);
+            if (UnityEngine.Random.Range(0, 10) < 2)
+            {
+                enemy.transform.position = initialPosition;
+            }
+            else
+            {
+                enemy.transform.position = Vector3.right * UnityEngine.Random.Range(minX, maxX) + Vector3.back * UnityEngine.Random.Range(minZ, mmaxZ);
+            }
             enemy.GeneralParticleHandler.wallHit.Stop();
             EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("pop"));
 

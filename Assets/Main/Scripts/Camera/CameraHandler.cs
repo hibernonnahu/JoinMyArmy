@@ -121,6 +121,7 @@ public class CameraHandler : MonoBehaviour
 
     public void GoInGame(GameObject gameObject, bool warp = true)
     {
+        speed = 2;
         camera.cullingMask = LAYER_ALL;
         var exit = FindObjectOfType<ExitController>();
         if (exit != null)

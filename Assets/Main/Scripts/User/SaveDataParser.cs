@@ -61,13 +61,16 @@ public class SaveDataParser
     {
         code = code.Substring(1, code.Length - 1);
         Dictionary<string, int> dic = new Dictionary<string, int>();
-        string[] split = code.Split(',');
-        foreach (var item in split)
+        if (code != "")
         {
-            string[] tuple = item.Split(':');
-            dic.Add(tuple[0], int.Parse(tuple[1]));
-        }
+            string[] split = code.Split(',');
+            foreach (var item in split)
+            {
+                string[] tuple = item.Split(':');
+                dic.Add(tuple[0], int.Parse(tuple[1]));
+            }
 
+        }
         return dic;
     }
 

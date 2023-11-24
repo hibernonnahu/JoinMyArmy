@@ -8,7 +8,7 @@ using System;
 
 public class JsonMapCreator : MonoBehaviour
 {
-    JsonData mapJson;
+    string mapJson;
     Level lvl;
     public string gameType;
     public int book = 1;

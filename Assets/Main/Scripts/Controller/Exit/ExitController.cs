@@ -16,10 +16,7 @@ public class ExitController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        if (triggerExit.active)
-        {
-            throw new Exception("exit already enabled ");
-        }
+        triggerExit.SetActive(false);
         EventManager.StartListening(EventName.EXIT_OPEN, OnExitOpen);
 
     }

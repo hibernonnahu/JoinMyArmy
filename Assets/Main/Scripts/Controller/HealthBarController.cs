@@ -16,7 +16,7 @@ public class HealthBarController : MonoBehaviour
     private Vector3 initScale;
     private Vector3 defaultBarScale;
     private Action onUpdateText = () => { };
-
+    public GameObject level;
     public void Init(Character character)
     {
         this.character = character;
@@ -30,6 +30,10 @@ public class HealthBarController : MonoBehaviour
         {
             EnableText();
         }
+    }
+    public void DisableLevel()
+    {
+        level.SetActive(false);
     }
     public void UpdateBarColor(Character character)
     {

@@ -2418,6 +2418,7 @@ MonoBehaviour:
   level: 1
   forceVariation: -1
   floor: {fileID: 7116314709101946225}
+  loadWithExtraLevel: 1
 --- !u!114 &768239173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3441,7 +3442,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: -30
+  near clip plane: -44
   far clip plane: 100
   field of view: 60
   orthographic: 1

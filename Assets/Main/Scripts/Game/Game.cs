@@ -74,7 +74,7 @@ public class Game : MonoBehaviour
             FindObjectOfType<CharacterMain>().Heal(-9999);
         }
 #endif
-            stateMachine.Update();
+        stateMachine.Update();
     }
     internal void OnExitTrigger(Vector3 exitPosition)
     {
@@ -106,12 +106,16 @@ public class Game : MonoBehaviour
     }
     public void Reset()
     {
+        AdsController.instance.adHandler.RewardAd(OnReset, () => { });
+    }
+    private void OnReset()
+    {
         string levelKey = SaveDataKey.RESET_AD + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
         SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
 
         //CurrentPlaySingleton.GetInstance().ResetStats();
-        CurrentPlaySingleton.GetInstance().AddSkill<SkillExtraDamage>(typeof(SkillExtraDamage));
-        CurrentPlaySingleton.GetInstance().AddSkill<SkillExtraDefense>(typeof(SkillExtraDefense));
+        //CurrentPlaySingleton.GetInstance().AddSkill<SkillExtraDamage>(typeof(SkillExtraDamage));
+        // CurrentPlaySingleton.GetInstance().AddSkill<SkillExtraDefense>(typeof(SkillExtraDefense));
         CurrentPlaySingleton.GetInstance().RefillHP();
         var mm = FindObjectOfType<MusicManager>();
         if (mm != null)
@@ -120,7 +124,6 @@ public class Game : MonoBehaviour
         }
         Time.timeScale = 1;
         SceneManager.LoadScene("Game");
-
     }
     public void ResetAndMain()
     {

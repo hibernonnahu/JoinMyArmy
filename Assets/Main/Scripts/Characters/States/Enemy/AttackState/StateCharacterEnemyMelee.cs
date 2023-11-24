@@ -9,11 +9,13 @@ public class StateCharacterEnemyMelee : StateCharacterEnemy
     private ParticleSystem hitParticle;
     private AudioSource swing;
     private AudioSource hitSound;
+    private HitGameObject hitGameObject;
     public StateCharacterEnemyMelee(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, ParticleSystem hitParticle, AudioSource swing, AudioSource hit) : base(stateMachine, characterEnemy)
     {
         this.hitSound = hit;
         this.hitParticle = hitParticle;
         this.swing = swing;
+        hitGameObject = characterEnemy.transform.GetComponentInChildren<HitGameObject>();
     }
     public override void Awake()
     {
@@ -51,6 +53,10 @@ public class StateCharacterEnemyMelee : StateCharacterEnemy
             {
                 if (enemy.lastEnemyTarget.CurrentHealth > 0 && enemy.team != enemy.lastEnemyTarget.team && (enemy.transform.position - enemy.lastEnemyTarget.transform.position).sqrMagnitude < enemy.attackDistanceSqr)
                 {
+                    if (hitGameObject != null)
+                    {
+                        hitGameObject.Play(enemy.lastEnemyTarget.transform.position);
+                    }
                     if (hitSound != null)
                     {
                         hitSound.Play();

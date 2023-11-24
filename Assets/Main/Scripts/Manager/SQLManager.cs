@@ -11,12 +11,13 @@ public class SQLManager : MonoBehaviour
     public bool newUser = false;
     public bool alwaysNewGame = false;
     public bool noStart = false;
+    public bool localSave = false;
     // Start is called before the first frame update
     void Start()
     {
         if (!noStart)
         {
-            Debug.Log("LocalSave " + PlayerPrefs.GetString("LocalSave"));
+            EventManager.StartListening(EventName.SAVE_USER_DELAY, OnDelaySave);
             DontDestroyOnLoad(gameObject);
 
             int id = PlayerPrefs.GetInt("userid", -1);
@@ -28,11 +29,11 @@ public class SQLManager : MonoBehaviour
 #endif
             if (newUser || id == -1)
             {
-                if (alwaysNewGame)
-                {
-                    SaveData.GetInstance().SetNewPlayer();
-                }
-                else
+
+
+                SaveData.GetInstance().SetNewPlayer();
+
+                if (!alwaysNewGame)
                 {
                     StartCoroutine(GenerateID());
                 }
@@ -44,12 +45,21 @@ public class SQLManager : MonoBehaviour
             else
             {
                 userid = id;
-                StartCoroutine(LoadUser(userid));
+                if (localSave)
+                {
+                    Init(PlayerPrefs.GetString("LocalSave", ""));
+                }
+                else
+                {
+                    StartCoroutine(LoadUser(userid));
+                }
 
 
             }
         }
     }
+
+   
 
     IEnumerator GenerateID()
     {
@@ -79,16 +89,22 @@ public class SQLManager : MonoBehaviour
 
 
     }
+    private void OnDelaySave(EventData arg0)
+    {
+        LeanTween.cancel(gameObject);
+        LeanTween.delayedCall(gameObject, 2, SaveUser);
+    }
     public void SaveUser()
     {
         StartCoroutine(SaveUser(SaveData.GetInstance().Export()));
     }
     public IEnumerator SaveUser(string json)
     {
+        PlayerPrefs.SetString("LocalSave", json);
         if (userid != -1)
         {
-            PlayerPrefs.SetString("LocalSave", json);
-            var list= new List<string>();
+           
+            var list = new List<string>();
             list.Add(json);
             int secret = Utils.CreateSecret(list);
             WWWForm form = new WWWForm();
@@ -144,27 +160,36 @@ public class SQLManager : MonoBehaviour
                 {
                     //Debug.Log("load " + www.downloadHandler.text);
 
-                    SaveData.GetInstance().Import(www.downloadHandler.text, true);
-
-                    string old = SaveData.GetInstance().GetMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, "");
-                    string currentTime = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000";
-                    if (old != "")
-                    {
-                        float milSecondsOld = float.Parse(old);
-                        float milSecondsNew = float.Parse(currentTime);
-                        SaveData.GetInstance().SaveMetric(SaveDataKey.MINUTES_SINCE_LAST_CONEXION, (Math.Floor((milSecondsNew - milSecondsOld) / 1000)).ToString("f0"));
-                    }
-                    SaveData.GetInstance().SaveMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, currentTime);
-                    // 
-
-                    FindObjectOfType<InitGameController>().OnStart("Main Menu");
+                    Init(www.downloadHandler.text);
                 }
             }
 
 
         }
     }
+    private void Init(string toParse)
+    {
+        if (toParse == "")
+        {
+            SaveData.GetInstance().SetNewPlayer();
+        }
+        else
+        {
+            SaveData.GetInstance().Import(toParse, true);
+        }
+        string old = SaveData.GetInstance().GetMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, "");
+        string currentTime = new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000";
+        if (old != "")
+        {
+            float milSecondsOld = float.Parse(old);
+            float milSecondsNew = float.Parse(currentTime);
+            SaveData.GetInstance().SaveMetric(SaveDataKey.MINUTES_SINCE_LAST_CONEXION, (Math.Floor((milSecondsNew - milSecondsOld) / 1000)).ToString("f0"));
+        }
+        SaveData.GetInstance().SaveMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, currentTime);
+        // 
 
+        FindObjectOfType<InitGameController>().OnStart("Main Menu");
+    }
     public IEnumerator LoadUsers(Action<string> onComplete)
     {
 

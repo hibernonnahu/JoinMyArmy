@@ -29,7 +29,7 @@ public class Utils
         return m + ":" + s + ":" + ms;
     }
 
-    internal static void AdapteToResolution(RectTransform rectTransform, Transform transform, RectTransform canvasParent, bool onlyWidth = false)
+    internal static void AdapteToResolution(RectTransform rectTransform, Transform transform, RectTransform canvasParent, bool onlyWidth = false, bool adjustPivot = true)
     {
 
         Transform[] childs = new Transform[transform.childCount];
@@ -62,7 +62,8 @@ public class Utils
         {
             container.transform.localScale = Vector3.one * scale;
         }
-        container.pivot = Vector2.right * (0.5f / scaleFactor) + Vector2.up * 0.5f;
+        if (adjustPivot)
+            container.pivot = Vector2.right * (0.5f / scaleFactor) + Vector2.up * 0.5f;
         container.anchoredPosition = Vector2.zero;
 
     }
@@ -158,11 +159,11 @@ public class Utils
         //Debug.Log("secret " + secret);
         //Debug.Log("list.Count " + list.Count);
         //Debug.Log("len " + len);
-       
+
         return (secret * list.Count * len);
     }
 
-    internal static Image CreateRedDot(Transform transform,Image redDot)
+    internal static Image CreateRedDot(Transform transform, Image redDot)
     {
         GameObject NewObj = new GameObject(); //Create the GameObject
         NewObj.name = "redDot";

@@ -90,7 +90,7 @@ public class CoinsCollectUIController : MonoBehaviour
         miniPopup.text.text = "Get extra " + coinsTemp.ToString() + " coins!";
         miniPopup.SetImage("ads");
         miniPopup.SetCancelAction(MoveReward);
-        miniPopup.SetAcceptAction(AcceptReward);
+        miniPopup.SetAcceptAction(() => { AdsController.instance.adHandler.RewardAd(AcceptReward, () => { miniPopup.OnCancel(); }); });
         miniPopup.Open();
     }
 
@@ -98,7 +98,8 @@ public class CoinsCollectUIController : MonoBehaviour
     {
         string levelKey = SaveDataKey.REWARD_AD_LATE + "_" + CurrentPlaySingleton.GetInstance().book + "_" + CurrentPlaySingleton.GetInstance().chapter + "_" + CurrentPlaySingleton.GetInstance().level;
         SaveData.GetInstance().Save(levelKey, SaveData.GetInstance().GetValue(levelKey, 0) + 1);
-        AcceptReward();
+        AdsController.instance.adHandler.RewardAd(AcceptReward, () => { });
+
     }
     private void AcceptReward()
     {

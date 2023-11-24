@@ -30,6 +30,7 @@ public class EnemyStateAddJustAnimate : EnemyStateAddAttack
         }
         if (lenght == -1)
         {
+            Debug.Log(characterEnemy.id);
             throw new Exception("animation name not found " + animationName);
         }
 

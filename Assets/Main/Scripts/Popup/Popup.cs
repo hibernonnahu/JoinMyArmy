@@ -15,7 +15,7 @@ public class Popup : MonoBehaviour
     {
         rectTransform = GetComponent<RectTransform>();
         graphicRaycaster = GetComponentInParent<GraphicRaycaster>();
-        Utils.AdapteToResolution(rectTransform, transform, GetComponentInParent<Canvas>().GetComponent<RectTransform>());
+        Utils.AdapteToResolution(rectTransform, transform, GetComponentInParent<Canvas>().GetComponent<RectTransform>(), false, false);
 
         EventManager.StartListening(EventName.POPUP_OPEN, OnOpen);
         EventManager.StartListening(EventName.POPUP_CLOSE, OnCloseCheck);

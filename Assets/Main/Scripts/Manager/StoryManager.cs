@@ -182,6 +182,12 @@ public class StoryManager : MonoBehaviour
         CallStory();
     }
 
+    private void SetKinematic()//1 - 2 - 1==true
+    {
+        CharacterStory character = GetCharacter(int.Parse(current[1]));
+        character.characterEnemy.SetKinematic(current[2] != "0");
+        CallStory();
+    }
     private void LevelEnd()
     {
         var main = FindObjectOfType<CharacterMain>();

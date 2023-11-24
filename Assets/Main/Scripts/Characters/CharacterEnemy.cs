@@ -67,6 +67,7 @@ public class CharacterEnemy : Character
     }
     public override void Init()
     {
+        
         model.transform.forward = Vector3.back;
 
         base.Init();
@@ -205,6 +206,10 @@ public class CharacterEnemy : Character
         return (coins * (level + levelOffset));
     }
 
+    internal void SetKinematic(bool v)
+    {
+        Rigidbody.isKinematic = v;
+    }
 
     protected override void GoVulnerable()
     {

@@ -19,7 +19,11 @@ public class LastEnemiesController : MonoBehaviour
 
     private void OnEnemyAmountChange(EventData arg0)
     {
-        int count = character.CharacterManager.GetTeam(1).Count;
+        int count = 0;
+        foreach (var item in character.CharacterManager.teamEnemiesID[0])
+        {
+            count += character.CharacterManager.GetTeam(item).Count;
+        }
         if (count <= arrows.Length)
         {
             for (int i = 0; i < arrows.Length; i++)
@@ -37,18 +41,20 @@ public class LastEnemiesController : MonoBehaviour
             onUpdate = Empty;
         }
     }
-   
+
     private void Empty()
-    {     
+    {
     }
     private void UpdateArrows()
     {
         int i = 0;
-       
-        foreach (var item in character.CharacterManager.GetTeam(1))
+        foreach (var id in character.CharacterManager.teamEnemiesID[0])
         {
-            arrows[i].transform.forward = item.transform.position - character.transform.position;
-            i++;
+            foreach (var item in character.CharacterManager.GetTeam(id))
+            {
+                arrows[i].transform.forward = item.transform.position - character.transform.position;
+                i++;
+            }
         }
     }
 

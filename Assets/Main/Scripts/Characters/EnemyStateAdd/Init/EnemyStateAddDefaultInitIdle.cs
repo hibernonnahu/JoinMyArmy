@@ -6,6 +6,7 @@ public class EnemyStateAddDefaultInitIdle : EnemyStateAddDefaultInit
     {
         this.character = characterEnemy;
         characterEnemy.IdleState = typeof(StateCharacterEnemyIdle);
+        characterEnemy.AttackState = typeof(StateCharacterEnemyIdle);
         characterEnemy.StateMachine.AddState(new StateCharacterEnemyIdle(characterEnemy.StateMachine, characterEnemy));
     }
     public override void SetDefaultInit()

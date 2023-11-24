@@ -24,6 +24,7 @@ public class EventName
     public static string PLAY_FX = "playFx";
     public static string RECLUIT_ICON_ARRIVE = "recluitIconArrive";
     public static string RECLUIT_ICON_POP = "recluitIconPop";
+    public static string SAVE_USER_DELAY = "saveUserDelay";
     public static string SHAKE_CAM_POS = "shakeCamPos";
     public static string SHUFFLE_SKILL = "shuffleSkill";
     public static string SPAWN_WAVE = "spawnWave";

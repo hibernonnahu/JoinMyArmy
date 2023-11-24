@@ -19,9 +19,11 @@ public class ButtonUpgradeStatsUI : MonoBehaviour
     private Button button;
     private int price;
     private string key;
+    private SQLManager sqlManager;
     private void Awake()
     {
         initialSize = levelTextContainer.transform.localScale.x;
+        
     }
     void Start()
     {
@@ -47,6 +49,7 @@ public class ButtonUpgradeStatsUI : MonoBehaviour
         EventManager.TriggerEvent(EventName.SHAKE_CAM_POS, EventManager.Instance.GetEventData().SetFloat(0.2f));
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("pum"));
         EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(4));
+        EventManager.TriggerEvent(EventName.SAVE_USER_DELAY);
     }
     private void UpdateText()
     {

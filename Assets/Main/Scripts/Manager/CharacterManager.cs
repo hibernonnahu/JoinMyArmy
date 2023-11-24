@@ -146,7 +146,7 @@ public class CharacterManager : MonoBehaviour
             foreach (var enemy in enemiesList)
             {
 
-                if (attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
+                if (!enemy.invulnerable && attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
                 {
                     inRange.Add(enemy);
                 }
@@ -155,7 +155,7 @@ public class CharacterManager : MonoBehaviour
 
         foreach (var enemy in GetEnemyExtraListForTeam(attackTeam))
         {
-            if (attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
+            if (!enemy.invulnerable && attackDistanceSqr > (position - enemy.transform.position).sqrMagnitude)
             {
                 inRange.Add(enemy);
             }
@@ -184,7 +184,7 @@ public class CharacterManager : MonoBehaviour
         foreach (var enemy in enemyList)
         {
             float dist = (position - enemy.transform.position).sqrMagnitude;
-            if (dist < attackDistanceSqr && dist < closest)
+            if (!enemy.invulnerable && dist < attackDistanceSqr && dist < closest)
             {
                 closest = dist;
                 current = enemy;
@@ -194,7 +194,7 @@ public class CharacterManager : MonoBehaviour
         foreach (var enemy in enemyList)
         {
             float dist = (position - enemy.transform.position).sqrMagnitude;
-            if (dist < attackDistanceSqr && dist < closest)
+            if (!enemy.invulnerable && dist < attackDistanceSqr && dist < closest)
             {
                 closest = dist;
                 current = enemy;

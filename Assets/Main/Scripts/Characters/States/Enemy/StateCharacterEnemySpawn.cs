@@ -68,6 +68,8 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
                     spawnEnemy.HealthBarController.UpdateBarColor(spawnEnemy);
                     spawnEnemy.UpdateColor(!spawnEnemy.IsEnemy());
                     spawnEnemy.RecluitIconHandler.Restore();
+                    spawnEnemy.extraAlertRange = enemy.extraAlertRange;
+
                     spawnEnemy.gameObject.layer = enemy.gameObject.layer;
                     spawnEnemy.SetColliderLayer(enemy.gameObject.layer);
                     foreach (var item in spawnEnemy.GetComponentsInChildren<MaterialOnTeam>())

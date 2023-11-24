@@ -49,6 +49,7 @@ public class Character : MonoBehaviour
     public Character lastEnemyTarget;
     public Vector3 destiny;
 
+    public bool invulnerable = false;
     protected int[] enemyLayer;
     public int[] EnemyLayer { get { return enemyLayer; } }
     private float vulnerableTime;

@@ -8,7 +8,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
 
     public Text levelText;
     public RectTransform levelTextContainer;
-    private float initialSize;
+    private Vector3 initialScale;
     public Text priceText;
 
     public Button button;
@@ -26,7 +26,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
     public Text defenseText;
     private void Awake()
     {
-        initialSize = levelTextContainer.transform.localScale.x;
+        initialScale = transform.localScale;
     }
     // Start is called before the first frame update
     void Start()
@@ -54,6 +54,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
         EventManager.TriggerEvent(EventName.SHAKE_CAM_POS, EventManager.Instance.GetEventData().SetFloat(0.2f));
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("pum"));
         EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(4));
+        EventManager.TriggerEvent(EventName.SAVE_USER_DELAY);
     }
 
 
@@ -63,8 +64,9 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
         button.interactable = SaveData.GetInstance().coins >= price;
         if (!button.interactable)
         {
+            LeanTween.cancel(gameObject);
             Destroy(GetComponent<Pulse>());
-            levelTextContainer.gameObject.transform.localScale = Vector3.one * initialSize;
+            transform.localScale = initialScale;
         }
     }
 
@@ -81,12 +83,12 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
     }
     private void UpdateTextAnimation()
     {
-        LeanTween.cancel(levelTextContainer.gameObject);
+        LeanTween.cancel(gameObject);
 
-        LeanTween.scale(levelTextContainer.gameObject, Vector3.one * initialSize * 1.5f, 0.3f).setEaseLinear().setOnComplete(
+        LeanTween.scale(gameObject, initialScale * 1.5f, 0.3f).setEaseLinear().setOnComplete(
            () =>
            {
-               LeanTween.scale(levelTextContainer.gameObject, Vector3.one * initialSize, 0.7f).setEaseOutBounce();
+               LeanTween.scale(gameObject, initialScale, 0.7f).setEaseOutBounce();
            }
            );
         UpdateText();

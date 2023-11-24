@@ -84,9 +84,22 @@ public class LevelJsonLoader : MonoBehaviour
     {
         if (!isCreator && lvl.castleDefenseEnemy != -1)
         {
-
-            CharacterEnemy lastCharacterEnemy = GameObject.Instantiate<CharacterEnemy>(enemiesResources[lvl.castleDefenseEnemy]);
-            lastCharacterEnemy.transform.position = Vector3.right * characterMain.transform.position.x + Vector3.forward * (characterMain.transform.position.z - 3);
+            int castleDefenseId = lvl.castleDefenseEnemy;
+            CharacterEnemy lastCharacterEnemy = null;
+            foreach (var item in enemies)
+            {
+                if (item.id == castleDefenseId)
+                {
+                    lastCharacterEnemy = item;
+                    break;
+                }
+            }
+            if (lastCharacterEnemy == null)
+            {
+                lastCharacterEnemy = GameObject.Instantiate<CharacterEnemy>(enemiesResources[castleDefenseId]);
+                lastCharacterEnemy.transform.position = Vector3.right * characterMain.transform.position.x + Vector3.forward * (characterMain.transform.position.z - 3);
+                lastCharacterEnemy.SetAnimation("castledefense");
+            }
             lastCharacterEnemy.model.transform.rotation = Quaternion.Euler(0, 90, 0);
             lastCharacterEnemy.team = 0;
             lastCharacterEnemy.barScale = 3;
@@ -102,6 +115,7 @@ public class LevelJsonLoader : MonoBehaviour
             lastCharacterEnemy.HealthBarController.UpdateBar();
             lastCharacterEnemy.HealthBarController.ShowBarAgain();
             lastCharacterEnemy.HealthBarController.EnableText();
+            lastCharacterEnemy.HealthBarController.DisableLevel();
             foreach (var enemy in enemies)
             {
                 enemy.extraAlertRange = 99999;
@@ -111,7 +125,7 @@ public class LevelJsonLoader : MonoBehaviour
             lastCharacterEnemy.team = 2;
             lastCharacterEnemy.GetComponentInChildren<Collider>().gameObject.layer = 16;//Ally
             lastCharacterEnemy.gameObject.layer = 16;//Ally
-            lastCharacterEnemy.SetAnimation("castledefense");
+           
             var esod = lastCharacterEnemy.gameObject.AddComponent<EnemyStateOnDead>();
             esod.SetAction(
                 () =>
@@ -144,7 +158,7 @@ public class LevelJsonLoader : MonoBehaviour
         {
             var lvl = JsonUtility.FromJson<Level>(tempString);
             floor.material = Resources.Load<Material>("Prefabs/InGame/FloorMaterial/" + lvl.floor);
-            LoadMainCharacter(lvl.main,lvl.coinsMultiplier);
+            LoadMainCharacter(lvl.main, lvl.coinsMultiplier);
             var game = GetComponent<Game>();
             if (game != null)
             {
@@ -178,7 +192,7 @@ public class LevelJsonLoader : MonoBehaviour
         go.transform.position = characterMain.transform.position + position;
     }
 
-    private void LoadMainCharacter(int[] main,int coinsMultiplier)
+    private void LoadMainCharacter(int[] main, int coinsMultiplier)
     {
         characterMain = Instantiate<CharacterMain>(Resources.Load<CharacterMain>("Prefabs/InGame/Characters/CharacterMain" + main[0])).GetComponent<CharacterMain>();
         characterMain.transform.position = Vector3.right * main[1] + Vector3.forward * main[2];
@@ -206,7 +220,7 @@ public class LevelJsonLoader : MonoBehaviour
     {
         if (!loadWithExtraLevel)
         {
-            extraEnemyLevel =0;
+            extraEnemyLevel = 0;
         }
         List<CharacterEnemy> enemiesList = new List<CharacterEnemy>();
         for (int i = 0; i < obstaclesInfo.Length; i += 9)//0-x , 1-z, 2-id ,3-ratation , 4-size , 5-collider,6,7,8
