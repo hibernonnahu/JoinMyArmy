@@ -22,15 +22,21 @@ public class SQLManager : MonoBehaviour
 
             int id = PlayerPrefs.GetInt("userid", -1);
             if (alwaysNewGame)
+            {
                 id = -1;
-            //Debug.Log("init id " + id);
+                PlayerPrefs.SetString("LocalSave", "");
+            }
+            int timesPlayed = PlayerPrefs.GetInt("timesPlayed", 0);
+            timesPlayed++;
+            PlayerPrefs.SetInt("timesPlayed", timesPlayed);
+            Debug.Log("timesPlayed " + timesPlayed);
 #if !UNITY_EDITOR
         newUser = false;
 #endif
-            if (newUser || id == -1)
+            if (newUser || (id == -1&&!localSave)|| timesPlayed==1 )
             {
 
-
+                Debug.Log("init " + newUser + " " + id+" "+ localSave + " " + (timesPlayed == 1));
                 SaveData.GetInstance().SetNewPlayer();
 
                 if (!alwaysNewGame)
@@ -59,33 +65,35 @@ public class SQLManager : MonoBehaviour
         }
     }
 
-   
+
 
     IEnumerator GenerateID()
     {
-        using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/GenerateID.php", ""))
+        if (!localSave)
         {
-            yield return www.SendWebRequest();
-
-            if (www.result != UnityWebRequest.Result.Success || www.downloadHandler.text == "-1")
+            using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/GenerateID.php", ""))
             {
-                Debug.Log(www.error);
-            }
-            else
-            {
+                yield return www.SendWebRequest();
 
-                int userid = -1;
-                if (int.TryParse(www.downloadHandler.text, out userid))
+                if (www.result != UnityWebRequest.Result.Success || www.downloadHandler.text == "-1")
                 {
-                    this.userid = userid;
-                    PlayerPrefs.SetInt("userid", userid);
-                    SaveData.GetInstance().SetNewPlayer();
-                    SaveUser();
+                    Debug.Log(www.error);
                 }
+                else
+                {
 
+                    int userid = -1;
+                    if (int.TryParse(www.downloadHandler.text, out userid))
+                    {
+                        this.userid = userid;
+                        PlayerPrefs.SetInt("userid", userid);
+                        SaveData.GetInstance().SetNewPlayer();
+                        SaveUser();
+                    }
+
+                }
             }
         }
-
 
 
     }
@@ -103,7 +111,7 @@ public class SQLManager : MonoBehaviour
         PlayerPrefs.SetString("LocalSave", json);
         if (userid != -1)
         {
-           
+
             var list = new List<string>();
             list.Add(json);
             int secret = Utils.CreateSecret(list);
@@ -169,12 +177,14 @@ public class SQLManager : MonoBehaviour
     }
     private void Init(string toParse)
     {
+        Debug.Log("load len " + toParse.Length);
         if (toParse == "")
         {
             SaveData.GetInstance().SetNewPlayer();
         }
         else
         {
+
             SaveData.GetInstance().Import(toParse, true);
         }
         string old = SaveData.GetInstance().GetMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, "");

@@ -17200,6 +17200,7 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 93
   speed: 11
   strength: 10

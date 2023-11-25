@@ -33,6 +33,10 @@ public class InitGameController : MonoBehaviour
     }
     public void OnStart(string scene)
     {
+        int test= PlayerPrefs.GetInt("test", 0);
+        test++;
+        PlayerPrefs.SetInt("test", test);
+        
         CheckExpired(() =>
         {
             AdsController.Init();
