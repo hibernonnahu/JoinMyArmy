@@ -24,6 +24,9 @@ public class SaveDataKey
     public static string RECLUIT_SWAP = "recluitSwap";
     public static string RED_DOT = "redDot";
     public static string STATS = "stats";
+    public static string TIMES_PLAYED = "timesPlayed";
     public static string TUTORIAL = "tutorial";
     public static string TRASH = "trash";
+    public static string URL = "url";
+    public static string VERSION = "version";
 }

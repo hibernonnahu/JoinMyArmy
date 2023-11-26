@@ -104,6 +104,7 @@ public class LevelJsonLoader : MonoBehaviour
             lastCharacterEnemy.team = 0;
             lastCharacterEnemy.barScale = 3;
 
+
             lastCharacterEnemy.Rigidbody.isKinematic = true;
             lastCharacterEnemy.HealthBarController.ForceScale(2.1f);
 
@@ -125,7 +126,7 @@ public class LevelJsonLoader : MonoBehaviour
             lastCharacterEnemy.team = 2;
             lastCharacterEnemy.GetComponentInChildren<Collider>().gameObject.layer = 16;//Ally
             lastCharacterEnemy.gameObject.layer = 16;//Ally
-           
+
             var esod = lastCharacterEnemy.gameObject.AddComponent<EnemyStateOnDead>();
             esod.SetAction(
                 () =>
@@ -137,6 +138,8 @@ public class LevelJsonLoader : MonoBehaviour
             esod.Init(lastCharacterEnemy);
             var cm = GameObject.FindObjectOfType<CharacterManager>();
             cm.AddCharacterEnemy(lastCharacterEnemy, characterMain);
+            var cdih = Instantiate<CastleDefenseIconHandler>(Resources.Load<CastleDefenseIconHandler>("Prefabs/CharacterUI/CastleDefenseIconHandler"));
+            cdih.Init(lastCharacterEnemy);
         }
     }
 

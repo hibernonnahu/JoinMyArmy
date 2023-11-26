@@ -33,6 +33,11 @@ public class Analitycs : MonoBehaviour
             if (users[i] != "")
             {
                 string[] data = users[i].Split("|");//0 data / 1 id / 2 timestamp
+                if(i==24)
+                {
+                    Debug.Log("");
+                }
+                Debug.Log(users[i].Length+" i"+i);
                 Debug.Log("download user " + data[1]);
                 Debug.Log(data[0]);
                 string fullPath = path + "/" + data[1] + ".json";

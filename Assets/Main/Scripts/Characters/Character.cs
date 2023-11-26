@@ -1,5 +1,6 @@
 
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -68,6 +69,7 @@ public class Character : MonoBehaviour
         animator.CrossFade(name, crossTime, layer);
     }
 
+    private List<Action> onHitActions = new List<Action>();
     protected float health;
     public float Health
     {
@@ -136,7 +138,10 @@ public class Character : MonoBehaviour
         generalParticleHandler.transform.localScale = Vector3.one * generalParticleScale;
         generalParticleHandler.transform.localPosition += Vector3.up * generalParticleYOffset;
     }
-
+    public void AddOnHitAction(Action onHit)
+    {
+        onHitActions.Add(onHit);
+    }
     protected virtual void LoadResources()
     {
         textShortHandler = Instantiate<TextShortController>(Resources.Load<TextShortController>("Prefabs/CharacterUI/TextShortHandler"), transform);
@@ -172,6 +177,10 @@ public class Character : MonoBehaviour
             else if (getDissy)
             {
                 GoDissy();
+            }
+            foreach (var item in onHitActions)
+            {
+                item();
             }
             return percent;
         }
@@ -282,6 +291,7 @@ public class Character : MonoBehaviour
         {
             return false;
         }
+        if(characterManager!=null)
         foreach (var enemyId in characterManager.teamEnemiesID[0])
         {
             if (enemyId == team)

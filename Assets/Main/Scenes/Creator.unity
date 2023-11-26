@@ -1964,8 +1964,8 @@ MonoBehaviour:
   multiplier: 0.1
   isCreator: 1
   book: 1
-  chapter: 5
-  level: 7
+  chapter: 1
+  level: 1
   forceVariation: 0
   floor: {fileID: 1462155460}
   loadWithExtraLevel: 0

@@ -54,18 +54,26 @@ public class Game : MonoBehaviour
         {
             EventManager.TriggerEvent(EventName.EXIT_OPEN);
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (Input.GetKeyDown(KeyCode.E))
         {
             CurrentPlaySingleton.GetInstance().level = 50;
             EventManager.TriggerEvent(EventName.EXIT_OPEN);
         }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            FindObjectOfType<CharacterMain>().coinsUIController.AddCoins(100, Vector3.one);
+
+
+        }
         else if (Input.GetKeyDown(KeyCode.K))
         {
+            var character = FindObjectOfType<CharacterMain>();
             foreach (var item in FindObjectsOfType<CharacterEnemy>())
             {
-                if (item.team == 1)
+                foreach (var team in character.CharacterManager.teamEnemiesID[0])
                 {
-                    item.Kill();
+                    if (team == item.team)
+                        item.Kill();
                 }
             }
         }
@@ -141,5 +149,15 @@ public class Game : MonoBehaviour
     private void OnDestroy()
     {
         EventManager.Instance.ClearAll();
+    }
+
+    public void OnLeave()
+    {
+        var miniPopup = GameObject.FindObjectOfType<MiniPopup>();
+        miniPopup.text.text = "Go main menu?";
+        miniPopup.SetImage("RegularPresetsIcons_9");
+
+        miniPopup.SetAcceptAction(Continue);
+        miniPopup.Open();
     }
 }

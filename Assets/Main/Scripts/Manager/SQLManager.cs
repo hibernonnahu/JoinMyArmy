@@ -6,12 +6,13 @@ using UnityEngine.Networking;
 
 public class SQLManager : MonoBehaviour
 {
-    private string mainURL = "http://runnerbuilder.dx.am/joinmyarmy";
+    private string mainURL = "https://runnerbuilder.dx.am/joinmyarmy";
     private int userid = -1;
     public bool newUser = false;
     public bool alwaysNewGame = false;
     public bool noStart = false;
     public bool localSave = false;
+    private int timesPlayed = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,17 +27,20 @@ public class SQLManager : MonoBehaviour
                 id = -1;
                 PlayerPrefs.SetString("LocalSave", "");
             }
-            int timesPlayed = PlayerPrefs.GetInt("timesPlayed", 0);
+            timesPlayed = PlayerPrefs.GetInt("timesPlayed", 0);
             timesPlayed++;
             PlayerPrefs.SetInt("timesPlayed", timesPlayed);
             Debug.Log("timesPlayed " + timesPlayed);
 #if !UNITY_EDITOR
+
         newUser = false;
+#else
+            Debug.Log("id " + id);
 #endif
-            if (newUser || (id == -1&&!localSave)|| timesPlayed==1 )
+            if (newUser || (id == -1 && !localSave) || timesPlayed == 1)
             {
 
-                Debug.Log("init " + newUser + " " + id+" "+ localSave + " " + (timesPlayed == 1));
+                //Debug.Log("init " + newUser + " " + id+" "+ localSave + " " + (timesPlayed == 1));
                 SaveData.GetInstance().SetNewPlayer();
 
                 if (!alwaysNewGame)
@@ -45,8 +49,7 @@ public class SQLManager : MonoBehaviour
                 }
                 FindObjectOfType<InitGameController>().OnStart("Game");
                 SaveData.GetInstance().SaveNewMetric(SaveDataKey.INSTALL_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
-                SaveData.GetInstance().SaveNewMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
-
+                SaveGenericMetrics();
             }
             else
             {
@@ -65,7 +68,13 @@ public class SQLManager : MonoBehaviour
         }
     }
 
-
+    private void SaveGenericMetrics()
+    {
+        SaveData.GetInstance().SaveNewMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString() + "000");
+        SaveData.GetInstance().SaveNewMetric(SaveDataKey.VERSION, Application.version);
+        SaveData.GetInstance().SaveNewMetric(SaveDataKey.URL, Application.absoluteURL.Replace("-","").Replace("|", "").Replace("&", "").Replace("_", "").Replace("%", "").Replace(":", "").Replace("/", ""));
+        SaveData.GetInstance().SaveNewMetric(SaveDataKey.TIMES_PLAYED, timesPlayed.ToString());
+    }
 
     IEnumerator GenerateID()
     {
@@ -177,7 +186,7 @@ public class SQLManager : MonoBehaviour
     }
     private void Init(string toParse)
     {
-        Debug.Log("load len " + toParse.Length);
+        //Debug.Log("load len " + toParse.Length);
         if (toParse == "")
         {
             SaveData.GetInstance().SetNewPlayer();
@@ -195,7 +204,8 @@ public class SQLManager : MonoBehaviour
             float milSecondsNew = float.Parse(currentTime);
             SaveData.GetInstance().SaveMetric(SaveDataKey.MINUTES_SINCE_LAST_CONEXION, (Math.Floor((milSecondsNew - milSecondsOld) / 1000)).ToString("f0"));
         }
-        SaveData.GetInstance().SaveMetric(SaveDataKey.LAST_LOGIN_TIMESTAMP, currentTime);
+        SaveGenericMetrics();
+
         // 
 
         FindObjectOfType<InitGameController>().OnStart("Main Menu");

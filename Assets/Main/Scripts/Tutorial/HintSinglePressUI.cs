@@ -38,14 +38,14 @@ public class HintSinglePressUI : MonoBehaviour
             started = true;
             background.transform.position = Vector3.zero;
             handSprite.SetActive(true);
-            handSprite.transform.position = Vector3.right * Screen.width * (0.5f + 0.2f * arg0.intData2) + Vector3.up * Screen.height * 0.5f;
+            handSprite.transform.position =  arg0.transformData.position;
            
             point.transform.SetParent(handSprite.transform.parent);
             handSprite.transform.SetParent(point.transform.parent);
 
             point.transform.position = handSprite.transform.position;
             LeanTween.scale(point, Vector3.one * 1.5f,0.9f).setDelay(0.5f).setIgnoreTimeScale(true).setRepeat(REPEAT);
-            LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.52f, 0.3f).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
+            LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.02f, 0.3f).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
              {
                  handSprite.SetActive(false);
              });

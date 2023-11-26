@@ -19,6 +19,7 @@ public class CameraHandler : MonoBehaviour
     public float OFFSET_Z = 6;
     public float speed = 0.5f;
     public MMWiggle mMWiggle;
+    private float portraitOffset = 0;
 
     private new Rigidbody rigidbody;
     private Action onUpdate = () => { };
@@ -30,10 +31,13 @@ public class CameraHandler : MonoBehaviour
     private Vector3 toFollowInitialPos;
     private GameObject hud;
 
-
     // Start is called before the first frame update
     void Start()
     {
+        if (Screen.width > Screen.height)
+        {
+            portraitOffset = -3.8f;
+        }
         LAYER_ALL = ~0;
         LAYER_UI = ~(1 << 5);
         originalBarSize = cinematicBars.localScale.x;
@@ -44,6 +48,8 @@ public class CameraHandler : MonoBehaviour
         initialY = transform.position.y;
         initialRotation = transform.localRotation.eulerAngles.x;
         camera.cullingMask = LAYER_ALL;
+        if (Screen.width < Screen.height)
+            defaultSize *= ((float)Screen.height / Screen.width);
     }
 
     private void OnShakeCam(EventData arg0)
@@ -92,6 +98,8 @@ public class CameraHandler : MonoBehaviour
             timeStill += Time.deltaTime;
 
         }
+
+
         camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, defaultSize + currentOffsetSize, Time.deltaTime);
     }
 
@@ -159,7 +167,7 @@ public class CameraHandler : MonoBehaviour
         {
             exit.Pause(true);
         }
-        cinematicOffsetSize = cameraSize;
+        cinematicOffsetSize = cameraSize +portraitOffset;
         toFollow = gameObject.transform;
         if (warp)
         {

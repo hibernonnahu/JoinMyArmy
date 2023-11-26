@@ -58,7 +58,7 @@ public class ButtonEnemyLocalLevel : MonoBehaviour
     }
 
 
-    private void CalculateCost(EventData arg0 = null)
+    public void CalculateCost(EventData arg0 = null)
     {
         price = (int)(baseCost + baseCost * level * 0.90f);
         button.interactable = SaveData.GetInstance().coins >= price;

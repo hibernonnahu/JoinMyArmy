@@ -35,7 +35,7 @@ public class CoinsCollectUIController : MonoBehaviour
     private void Start()
     {
         totalCoinsText.gameObject.SetActive(false);
-        Utils.AdapteToResolution(GetComponent<RectTransform>(), transform, GetComponentInParent<Canvas>().GetComponent<RectTransform>());
+        Utils.AdapteToResolution(GetComponent<RectTransform>(), transform, GetComponentInParent<Canvas>().GetComponent<RectTransform>(), false, false);
 
     }
 
