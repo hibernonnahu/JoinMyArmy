@@ -23,6 +23,8 @@ public class HintDragUITrash : HintDragUI
             recluitController.trash.transform.SetParent(null);
             recluitController.trash.transform.SetParent(parent);
             recluitController.trash.transform.position = pos;
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(false));
+
         }
     }
     private void TryTrashTutorial(EventData arg0)

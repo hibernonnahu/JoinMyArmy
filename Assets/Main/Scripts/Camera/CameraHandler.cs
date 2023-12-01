@@ -153,11 +153,11 @@ public class CameraHandler : MonoBehaviour
 
         LeanTween.moveLocalY(this.gameObject, initialY, CINEMATIC_TRANSITION_TIME);
         LeanTween.rotateX(this.gameObject, initialRotation, CINEMATIC_TRANSITION_TIME);
-        LeanTween.delayedCall(CINEMATIC_TRANSITION_TIME + 0.5f, () =>
-        {
-            EventManager.TriggerEvent(EventName.HIDE_RECLUIT_ICON, EventManager.Instance.GetEventData().SetBool(false));
-            EventManager.TriggerEvent(EventName.STORY_CAM_GOBACK);
-        });
+        LeanTween.delayedCall(this.gameObject, CINEMATIC_TRANSITION_TIME + 0.5f, () =>
+         {
+             EventManager.TriggerEvent(EventName.HIDE_RECLUIT_ICON, EventManager.Instance.GetEventData().SetBool(false));
+             LeanTween.delayedCall(this.gameObject, 0.5f, () => { EventManager.TriggerEvent(EventName.STORY_CAM_GOBACK); });
+         });
     }
     public void GoCinematicStory(GameObject gameObject, bool warp, float cameraSize)
     {
@@ -167,7 +167,7 @@ public class CameraHandler : MonoBehaviour
         {
             exit.Pause(true);
         }
-        cinematicOffsetSize = cameraSize +portraitOffset;
+        cinematicOffsetSize = cameraSize + portraitOffset;
         toFollow = gameObject.transform;
         if (warp)
         {

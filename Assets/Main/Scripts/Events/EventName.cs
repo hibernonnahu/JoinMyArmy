@@ -5,6 +5,7 @@ public class EventName
 {
     public static string BOUNCE_RECLUIT_TEXT = "bounceRecluitText";
     public static string ENABLE_ICON_CONTROLLER = "enableIconController";
+    public static string ENABLE_ICON_CONTROLLER_COLLIDER = "enableIconControllerCollider";
     public static string ENEMY_KILL = "enemyKill";
     public static string ENEMIES_REMAIN = "enemiesRemain";
     public static string EXIT_OPEN = "exitOpen";

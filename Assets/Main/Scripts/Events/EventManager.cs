@@ -145,7 +145,7 @@ public class EventManager
             }
         }
     }
-
+   
     public static void TriggerEvent(string eventName, EventData eventData = null)
     {
         //Debug.Log("TriggerEvent "+eventName);

@@ -73,7 +73,7 @@ public class Game : MonoBehaviour
                 foreach (var team in character.CharacterManager.teamEnemiesID[0])
                 {
                     if (team == item.team)
-                        item.Kill();
+                        item.KillDebug();
                 }
             }
         }

@@ -1,9 +1,23 @@
 {
   "story": [
-   
+
     "PlayMusic",
     "dungeon",
-    "80"
+    "80",
+    "&",
+    "Wait4Trigger",
+    "nextWave2",
+    "&",
+    "SetDelay",
+    "1",
+    "&",
+    "TutorialText",
+    "Use STOMP when surrounded",
+    "&",
+    "HintSinglePressUI",
+    "3",
+    "5"
+
 
   ]
 }

@@ -73,7 +73,7 @@ public class StateCharacterEnemyTeleport : StateCharacterEnemy
 
             enemy.GeneralParticleHandler.wallHit.transform.localPosition = initialLocal;
 
-            if (UnityEngine.Random.Range(0, 10) < 2)
+            if (UnityEngine.Random.Range(0, 5) < 2)
             {
                 enemy.transform.position = initialPosition;
             }

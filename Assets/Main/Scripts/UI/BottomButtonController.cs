@@ -30,7 +30,7 @@ public class BottomButtonController : MonoBehaviour
                     buttons[i].GetComponent<Button>().onClick.Invoke();
                 }
                 LeanTween.scale(buttons[i].gameObject, Vector3.one * 1.15f, 0.5f);
-                buttons[i].GetComponentInChildren<Text>().color = Color.black;
+                buttons[i].GetComponentInChildren<Text>().color = Color.white;
             }
             else
             {

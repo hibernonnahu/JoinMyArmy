@@ -424,10 +424,18 @@ public class StoryManager : MonoBehaviour
         };
         EventManager.StartListening(eventName, CallStory);
     }
+    private void DisableWorldIconCollder()
+    {
+        EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(false));
+
+        CallStory();
+    }
     private void HintForceRecluit()//1 CharacterId //2 tutorial id 3-force swap
     {
         if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
         {
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(true));
+
             RecluitController rc = FindObjectOfType<RecluitController>();
             var recluitIcons = FindObjectsOfType<RecluitIconController>();
             int enemyId = int.Parse(current[1]);

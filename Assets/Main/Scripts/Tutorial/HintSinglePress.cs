@@ -36,6 +36,7 @@ public class HintSinglePress : MonoBehaviour
         {
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
             EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(true));
 
             FindObjectOfType<CharacterMain>().floatingJoystick.OnPointerUp(null);
 
@@ -45,8 +46,9 @@ public class HintSinglePress : MonoBehaviour
             LeanTween.cancel(handSprite);
             handSprite.SetActive(false);
 
-            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
             GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(true));
 
             Time.timeScale = 1;
             Destroy(this);
@@ -69,7 +71,7 @@ public class HintSinglePress : MonoBehaviour
             }
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
             EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
-
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
             background.transform.position = Vector3.up * (arg0.floatData2 - 0.7f);
             LeanTween.moveLocalZ(handSprite, arg0.floatData3, 1).setIgnoreTimeScale(true).setRepeat(REPEAT).setOnComplete(() =>
             {

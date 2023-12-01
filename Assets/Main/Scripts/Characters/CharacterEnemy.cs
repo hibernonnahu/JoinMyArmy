@@ -170,6 +170,12 @@ public class CharacterEnemy : Character
             }
         }
     }
+    public void KillDebug()
+    {
+        currentHealth = 0;
+        stateMachine.CurrentState.GetHit(1, characterMain);
+
+    }
     public void Kill()
     {
         currentHealth = 0;

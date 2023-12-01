@@ -44,8 +44,9 @@ public class HintDragUI : MonoBehaviour
             handSprite.SetActive(false);
             LeanTween.cancel(point);
             GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
-            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
             FindObjectOfType<RecluitController>().canSwap = true;
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(true));
             Destroy(this);
         }
     }
@@ -68,7 +69,7 @@ public class HintDragUI : MonoBehaviour
             background.transform.position = Vector3.up * Screen.height;
             LeanTween.cancel(handSprite);
             handSprite.SetActive(true);
-
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
             handSprite.transform.position = arg0.transformData.position + Vector3.up * 25;
 
             LeanTween.move(handSprite, Vector3.up * arg0.floatData + Vector3.right * arg0.floatData2, TIME).setDelay(1).setIgnoreTimeScale(true).setRepeat(REPEAT).setOnComplete(() =>

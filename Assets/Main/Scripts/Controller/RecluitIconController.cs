@@ -39,6 +39,12 @@ public class RecluitIconController : MonoBehaviour
             cameraRefPoint = Camera.main.transform.GetChild(0);
         EventManager.StartListening(EventName.HIDE_RECLUIT_ICON, OnHide);
         EventManager.StartListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
+        EventManager.StartListening(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, OnEnableCollider);
+    }
+
+    private void OnEnableCollider(EventData arg0)
+    {
+        GetComponent<Collider>().enabled = arg0.boolData;
     }
 
     private void OnEnableClick(EventData arg0)
@@ -132,6 +138,7 @@ public class RecluitIconController : MonoBehaviour
         onUpdate = () => { };
         LeanTween.scale(this.gameObject, Vector3.zero, FADE_TIME).setEaseOutExpo().setOnComplete(() => { Disable(); gameObject.SetActive(false); });
     }
+   
     public void DisableButtonOnly()
     {
         disabled = true;
@@ -283,5 +290,7 @@ public class RecluitIconController : MonoBehaviour
         LeanTween.cancel(gameObject);
         EventManager.StopListening(EventName.HIDE_RECLUIT_ICON, OnHide);
         EventManager.StopListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
+        EventManager.StopListening(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, OnEnableCollider);
+
     }
 }

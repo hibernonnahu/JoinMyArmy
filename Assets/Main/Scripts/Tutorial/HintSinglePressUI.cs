@@ -42,7 +42,7 @@ public class HintSinglePressUI : MonoBehaviour
            
             point.transform.SetParent(handSprite.transform.parent);
             handSprite.transform.SetParent(point.transform.parent);
-
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
             point.transform.position = handSprite.transform.position;
             LeanTween.scale(point, Vector3.one * 1.5f,0.9f).setDelay(0.5f).setIgnoreTimeScale(true).setRepeat(REPEAT);
             LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.02f, 0.3f).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
@@ -78,7 +78,7 @@ public class HintSinglePressUI : MonoBehaviour
 
             LeanTween.cancel(handSprite);
             handSprite.SetActive(false);
-            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
+            SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
             FindObjectOfType<CameraHandler>().GoToPositionOnNoScaleTime(camPosX, camPosZ);
             Destroy(this);
         }
