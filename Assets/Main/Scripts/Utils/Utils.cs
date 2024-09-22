@@ -176,4 +176,21 @@ public class Utils
         rect.localScale = Vector2.one * 0.5f;
         return redDot;
     }
+
+    internal static Vector4 GetCharacterTextColor(string v)
+    {
+        switch (v)
+        {
+            case "RedHairGirl":
+                return CustomMath.Vector4NotNew(1f, 0.3f, 0f, 1);
+            case "CharacterMain0":
+                return CustomMath.Vector4NotNew(0.64f, 1f, 0.72f, 1);
+            case "Succubus":
+                return CustomMath.Vector4NotNew(0.75f, 0.0f, 1f, 1);
+            case "LibraryGirl":
+                return CustomMath.Vector4NotNew(0.85f, 3.0f, 1f, 1);
+            default:
+                return CustomMath.Vector4NotNew(0.7f, 0.7f, 0.4f, 1);
+        }
+    }
 }

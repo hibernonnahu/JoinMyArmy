@@ -41,12 +41,13 @@ public class HintDragUI : MonoBehaviour
             point.SetActive(false);
             background.transform.position = Vector3.right * 3000;
             LeanTween.cancel(handSprite);
-            handSprite.SetActive(false);
+            handSprite.transform.position -= Vector3.right * 99999;
+
             LeanTween.cancel(point);
             GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
             FindObjectOfType<RecluitController>().canSwap = true;
-            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(true));
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(true));
             Destroy(this);
         }
     }

@@ -53,10 +53,22 @@ public class EventData
         boolData = b;
         return this;
     }
+    public bool boolData2 = false;
+    public EventData SetBool2(bool b)
+    {
+        boolData2 = b;
+        return this;
+    }
     public string stringData;
     public EventData SetString(string s)
     {
         stringData = s;
+        return this;
+    }
+    public string stringData2;
+    public EventData SetString2(string s)
+    {
+        stringData2 = s;
         return this;
     }
     public Transform transformData;

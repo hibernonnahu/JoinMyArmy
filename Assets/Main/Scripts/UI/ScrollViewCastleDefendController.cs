@@ -25,7 +25,7 @@ public class ScrollViewCastleDefendController : MonoBehaviour
         rect = transform.GetComponent<RectTransform>();
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         var prefabs = Resources.LoadAll<Sprite>(resourcesFolder);
-        int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1);
+        int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
         string maxCastleKey = SaveDataKey.CASTLE_DEFENSE_BOOK_CHAPTER_LEVEL_WIN + "_" + CurrentPlaySingleton.GetInstance().book;
         currentCastle = SaveData.GetInstance().GetValue(maxCastleKey, 1);
         int max = GameConfig.GetInstance().maxChapterEnable[CurrentPlaySingleton.GetInstance().book - 1];

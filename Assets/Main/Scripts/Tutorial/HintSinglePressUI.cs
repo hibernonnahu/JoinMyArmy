@@ -77,7 +77,7 @@ public class HintSinglePressUI : MonoBehaviour
             GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";
 
             LeanTween.cancel(handSprite);
-            handSprite.SetActive(false);
+            handSprite.transform.position -= Vector3.right * 99999;
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
             FindObjectOfType<CameraHandler>().GoToPositionOnNoScaleTime(camPosX, camPosZ);
             Destroy(this);

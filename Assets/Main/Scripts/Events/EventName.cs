@@ -32,6 +32,7 @@ public class EventName
     public static string STORY_ARRIVE = "storyArrive";
     public static string STORY_CAM_ARRIVE = "storyCamArrive";
     public static string STORY_CAM_GOBACK = "storyCamGoBack";
+    public static string STORY_TEXT = "storyText";
     public static string TRY_TRASH_TUTORIAL = "tryTrashTutorial";
     public static string TUTORIAL_START = "tutorialStart";
     public static string TUTORIAL_END = "tutorialEnd";

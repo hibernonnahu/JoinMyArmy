@@ -42,7 +42,10 @@ public class CharacterManager : MonoBehaviour
         loader.EnableCastleDefense();
         InitJson();
     }
-
+    public void ForceEnemiesID(int team, List<int> enemiesID)
+    {
+        this.teamEnemiesID[team] =enemiesID;
+    }
     private void ParseTeamEnemiesIDs(int[] teamEnemiesID)
     {
         this.teamEnemiesID = new List<int>[teamEnemiesID.Length];

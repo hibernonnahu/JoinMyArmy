@@ -11,7 +11,7 @@ public class EnableButtonOn : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + book, 1) >= chapter)
+        if (SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + book, CurrentPlaySingleton.GetInstance().initialChapter) >= chapter)
         {
             GetComponent<Button>().interactable = true;
 

@@ -12,7 +12,7 @@ public class StateCharacterEnemyGoToPosition : StateCharacterEnemy
     private float counter;
     private int normalMask;
     private int emptyMask;
-   
+    public string animation = "walkstory";
     public StateCharacterEnemyGoToPosition(StateMachine<StateCharacterEnemy> stateMachine, CharacterEnemy characterEnemy, bool ignoreColliders) : base(stateMachine, characterEnemy)
     {
         this.ignoreColliders = ignoreColliders;
@@ -34,7 +34,7 @@ public class StateCharacterEnemyGoToPosition : StateCharacterEnemy
             stearingMask = normalMask;  
         }
 
-        enemy.SetAnimation("walkstory");
+        enemy.SetAnimation(animation);
         enemy.Rigidbody.drag = 0;
        
         lastposition = enemy.transform.position + Vector3.right * 1000;

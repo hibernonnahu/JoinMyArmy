@@ -96,6 +96,18 @@ public class StoryManager : MonoBehaviour
     {
         LeanTween.delayedCall(gameObject, float.Parse(current[1]), () => { CallStory(); });
     }
+    private void ForceCastleDefenseEnemy()//id
+    {
+        FindObjectOfType<LevelJsonLoader>().ForceCastleDefense(int.Parse(current[1]));
+        CallStory();
+    }
+    private void ChangeAttackTeam()//id attacker //id def
+    {
+        var list = new List<int>();
+        list.Add(int.Parse(current[2]));
+        FindObjectOfType<CharacterManager>().ForceEnemiesID(int.Parse(current[1]), list);
+        CallStory();
+    }
     private void WebTrap()//id - 1 on-2
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
@@ -305,6 +317,11 @@ public class StoryManager : MonoBehaviour
         character.characterEnemy.DisableCollider();
         CallStory();
     }
+    private void HideCastleDefenseIcon()
+    {
+        FindObjectOfType<CastleDefenseIconHandler>().gameObject.SetActive(false);
+        CallStory();
+    }
     private void Animation()//1-id 2-animation
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
@@ -327,7 +344,12 @@ public class StoryManager : MonoBehaviour
     private void GoToPositionStory()//1-id 2-pos x 3-pos z 4-speed
     {
         CharacterStory character = GetCharacter(int.Parse(current[1]));
-        character.GoToPosition(float.Parse(current[2]), float.Parse(current[3]), float.Parse(current[4]));
+        string animation = "";
+        if (current.Count > 5)
+        {
+            animation = current[5];
+        }
+        character.GoToPosition(float.Parse(current[2]), float.Parse(current[3]), float.Parse(current[4]), animation);
         CallStory();
 
     }
@@ -426,7 +448,8 @@ public class StoryManager : MonoBehaviour
     }
     private void DisableWorldIconCollder()
     {
-        EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(false));
+      
+        EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(false));
 
         CallStory();
     }
@@ -434,7 +457,7 @@ public class StoryManager : MonoBehaviour
     {
         if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
         {
-            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool(true));
+
 
             RecluitController rc = FindObjectOfType<RecluitController>();
             var recluitIcons = FindObjectsOfType<RecluitIconController>();
@@ -505,6 +528,14 @@ public class StoryManager : MonoBehaviour
             EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER);
         }
 
+
+        CallStory();
+    }
+    private void StoryText()
+    {
+       
+       
+        EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString(current[2]).SetString2(current[1]).SetVec4(Utils.GetCharacterTextColor(current[1])).SetFloat(float.Parse( current[3])));
 
         CallStory();
     }

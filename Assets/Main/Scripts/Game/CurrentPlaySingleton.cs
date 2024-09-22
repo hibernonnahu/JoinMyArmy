@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class CurrentPlaySingleton
 {
+#if UNITY_EDITOR
+    public int initialChapter = 6;
+#else
+    public int initialChapter = 1;
+
+#endif
     public int book = 1;
     public int chapter = 1;
     public int level = 1;

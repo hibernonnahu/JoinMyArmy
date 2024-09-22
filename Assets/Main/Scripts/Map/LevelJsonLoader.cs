@@ -79,7 +79,11 @@ public class LevelJsonLoader : MonoBehaviour
 
 
     }
-
+    public void ForceCastleDefense(int id)
+    {
+        lvl.castleDefenseEnemy = id;
+        EnableCastleDefense();
+    }
     public void EnableCastleDefense()
     {
         if (!isCreator && lvl.castleDefenseEnemy != -1)

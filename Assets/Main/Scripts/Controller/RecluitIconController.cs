@@ -14,6 +14,7 @@ public class RecluitIconController : MonoBehaviour
     private Vector3 maskOriginalPosition;
     private bool disabled = false;
     public bool clickeable = true;
+   
     private Transform originalParent;
     private Vector3 originalLocalPosition;
     private Sprite sprite;
@@ -44,7 +45,7 @@ public class RecluitIconController : MonoBehaviour
 
     private void OnEnableCollider(EventData arg0)
     {
-        GetComponent<Collider>().enabled = arg0.boolData;
+        GetComponent<Collider>().enabled = arg0.boolData2;
     }
 
     private void OnEnableClick(EventData arg0)
@@ -138,7 +139,7 @@ public class RecluitIconController : MonoBehaviour
         onUpdate = () => { };
         LeanTween.scale(this.gameObject, Vector3.zero, FADE_TIME).setEaseOutExpo().setOnComplete(() => { Disable(); gameObject.SetActive(false); });
     }
-   
+
     public void DisableButtonOnly()
     {
         disabled = true;
@@ -181,7 +182,12 @@ public class RecluitIconController : MonoBehaviour
     public void DispatchTutorialEvent()
     {
         clickeable = true;
+       
         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetBool(screenPos.x > 0.5f).SetInt(enemy.id));
+        LeanTween.delayedCall(gameObject, 1, () =>
+        {
+            GetComponent<Collider>().enabled = true;
+        }).setIgnoreTimeScale(true);
     }
     public void Recluit(bool updateFreeSpace)
     {

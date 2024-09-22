@@ -15,7 +15,8 @@ public class CastleDefenseIconHandler : MonoBehaviour
     private Action onUpdate = () => { };
     private Transform cameraRefPoint;
     private float originalYPosition = -1;
-
+    private string characterName;
+   
     void Awake()
     {
         originalWarningSize = warning.transform.localScale;
@@ -35,6 +36,8 @@ public class CastleDefenseIconHandler : MonoBehaviour
         {
             LeanTween.scale(warning, Vector3.zero, WARNING_TIME).setEaseOutQuad();
         });
+            EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString("Help me!").SetString2(characterName).SetVec4(Utils.GetCharacterTextColor(characterName)).SetFloat(1));
+        
     }
 
     private void OnHide(EventData arg0)
@@ -100,6 +103,8 @@ public class CastleDefenseIconHandler : MonoBehaviour
         imageRenderer.sprite = Sprite;
         onUpdate = UpdatePosition;
         enemy.AddOnHitAction(OnHit);
+        characterName = this.enemy.name.Replace("(Clone)", "");
+
     }
     private void OnDestroy()
     {

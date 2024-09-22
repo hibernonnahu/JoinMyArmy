@@ -25,7 +25,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
         rect = transform.GetComponent<RectTransform>();
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         var prefabs = Resources.LoadAll<Sprite>(resourcesFolder);
-        currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1);
+        currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
         int max = GameConfig.GetInstance().maxChapterEnable[CurrentPlaySingleton.GetInstance().book-1];
         if (currentChapter > max)
         {

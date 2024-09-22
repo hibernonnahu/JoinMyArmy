@@ -1,6 +1,6 @@
 {
   "story": [
-   
+
     "HideArmy",
     "&",
     "TriggerEvent",
@@ -17,6 +17,11 @@
     "ForceFollowMain",
     "20",
     "90",
+    "&",
+    "StoryText",
+    "RedHairGirl",
+    "When I was a child, one day I went to pick flowers.",
+    "7",
     "&",
     "Wait4Trigger",
     "nextWave2",
@@ -53,6 +58,11 @@
     "&",
     "SetDelay",
     "1",
+    "&",
+    "StoryText",
+    "RedHairGirl",
+    "Then my father told me to stop, that I was going to disturb the spirits.",
+    "7",
     "&",
     "CallExpresion",
     "20",
@@ -127,6 +137,11 @@
     "&",
     "Fade",
     "1",
+    "&",
+    "StoryText",
+    "RedHairGirl",
+    "A demon captured him and took him to the ancient demon portal.",
+    "8",
     "&",
     "Wait4Trigger",
     "fadeInComplete",

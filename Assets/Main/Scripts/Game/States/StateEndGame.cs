@@ -35,7 +35,7 @@ public class StateEndGame : StateGame
             if (stats.chapter < 20)
             {
                 stats.chapter++;
-                int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1);
+                int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
                 if (stats.chapter > currentChapter)
                 {
                     CurrentPlaySingleton.GetInstance().animateTransition = true;

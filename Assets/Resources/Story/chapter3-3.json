@@ -1,0 +1,32 @@
+{
+  "story": [
+    "SpawnCharacter",
+    "17",
+    "0",
+    "0",
+    "0",
+    "0",
+    "&",
+    "ForceFollowMain",
+    "17",
+    "90",
+    "&",
+    "SetDelay",
+    "3",
+    "&",
+    "StoryText",
+    "",
+    "The young man believe that if he help her...",
+    "6",
+    "&",
+    "StoryText",
+    "",
+    "...eventually she will fall in love.",
+    "6",
+    "&",
+    "StoryText",
+    "",
+    "...what a SIMP!",
+    "6"
+  ]
+}

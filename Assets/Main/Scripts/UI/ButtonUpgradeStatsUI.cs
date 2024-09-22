@@ -65,7 +65,7 @@ public class ButtonUpgradeStatsUI : MonoBehaviour
             price = costCap;
         }
 
-        int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, 1);
+        int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
         button.interactable = SaveData.GetInstance().coins >= price && level < currentChapter;
         if (!button.interactable)
         {

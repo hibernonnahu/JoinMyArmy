@@ -32,7 +32,7 @@ public class StateEndCastleDefense : StateGame
         {
             maxCastle++;
             SaveData.GetInstance().Save(maxCastleKey, maxCastle);
-            if (maxCastle <= SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + stats.book, 1))
+            if (maxCastle <= SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + stats.book, CurrentPlaySingleton.GetInstance().initialChapter))
                 CurrentPlaySingleton.GetInstance().animateTransition = true;
         }
 

@@ -144,6 +144,7 @@ public class CharacterEnemy : Character
         HealthBarController.UpdateBar();
         SetAnimation("getup", 0.1f);
         UpdateStatesToFollow();
+
     }
 
     public void UpdateStatesToFollow()

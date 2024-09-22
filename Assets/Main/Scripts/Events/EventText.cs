@@ -6,17 +6,23 @@ using UnityEngine.UI;
 
 public class EventText : MonoBehaviour
 {
-    private const float TEXT_DELAY = 5f;
-    private Text text;
-    private List<string> queue = new List<string>();
+    protected  float TEXT_DELAY = 5f;
+    protected Text text;
+    protected List<string> queue = new List<string>();
+    protected string code;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
+    {
+        code = EventName.MAIN_TEXT;
+
+    }
+    public virtual void Start()
     {
         text = GetComponentInChildren<Text>();
-        EventManager.StartListening(EventName.MAIN_TEXT, PlayText);
+        EventManager.StartListening(code, PlayText);
     }
 
-    private void PlayText(EventData arg0)
+    protected virtual void PlayText(EventData arg0)
     {
         if (arg0.stringData == "")
         {
@@ -40,7 +46,7 @@ public class EventText : MonoBehaviour
         LeanTween.delayedCall(text.gameObject,TEXT_DELAY, RemoveFirst).setIgnoreTimeScale(true);
     }
 
-    private void RemoveFirst()
+    protected virtual void RemoveFirst()
     {
         queue.RemoveAt(0);
         if (queue.Count > 0)
@@ -55,6 +61,6 @@ public class EventText : MonoBehaviour
     private void OnDestroy()
     {
         LeanTween.cancel(text.gameObject);
-        EventManager.StopListening(EventName.MAIN_TEXT, PlayText);
+        EventManager.StopListening(code, PlayText);
     }
 }

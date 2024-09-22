@@ -13,9 +13,15 @@ public class SQLManager : MonoBehaviour
     public bool noStart = false;
     public bool localSave = false;
     private int timesPlayed = 0;
+    public bool forceMenu = false;
+    public bool clearSave = false;
     // Start is called before the first frame update
     void Start()
     {
+        if (clearSave)
+        {
+            PlayerPrefs.DeleteAll();
+        }
         if (!noStart)
         {
             EventManager.StartListening(EventName.SAVE_USER_DELAY, OnDelaySave);
@@ -37,7 +43,7 @@ public class SQLManager : MonoBehaviour
 #else
             Debug.Log("id " + id);
 #endif
-            if (newUser || (id == -1 && !localSave) || timesPlayed == 1)
+            if (!forceMenu&&(newUser || (id == -1 && !localSave) || timesPlayed == 1))
             {
 
                 //Debug.Log("init " + newUser + " " + id+" "+ localSave + " " + (timesPlayed == 1));
