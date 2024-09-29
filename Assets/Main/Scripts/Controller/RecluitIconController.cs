@@ -45,6 +45,7 @@ public class RecluitIconController : MonoBehaviour
 
     private void OnEnableCollider(EventData arg0)
     {
+
         GetComponent<Collider>().enabled = arg0.boolData2;
     }
 
@@ -186,6 +187,7 @@ public class RecluitIconController : MonoBehaviour
         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetFloat(transform.position.x).SetFloat2(transform.position.y).SetFloat3(transform.position.z).SetBool(screenPos.x > 0.5f).SetInt(enemy.id));
         LeanTween.delayedCall(gameObject, 1, () =>
         {
+
             GetComponent<Collider>().enabled = true;
         }).setIgnoreTimeScale(true);
     }

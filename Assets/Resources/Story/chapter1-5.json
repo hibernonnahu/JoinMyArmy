@@ -60,7 +60,8 @@
     "17",
     "crouch",
     "&",
-
+    "SpawnNextWave",
+    "&",
     "Follow",
     "17",
     "0",
@@ -79,13 +80,14 @@
     "RedHairGirl",
     "Help!!!",
     "7",
+    "RedHairGirl_help",
     "&",
-    "SpawnNextWave",
-    "&",
+
 
     "Wait4Trigger",
     "storyArrive",
     "&",
+
     "PlayMusic",
     "bossjungle",
     "80",
@@ -113,12 +115,8 @@
 
     "GoInGame",
     "&",
-
-    "Wait4Trigger",
-    "nextWave8",
-    "&",
     "SetDelay",
-    "2",
+    "3",
     "&",
     "TutorialText",
     "Use STOMP when surrounded",
@@ -127,6 +125,7 @@
     "3",
     "5",
     "&",
+
     "Wait4Trigger",
     "exitOpen",
     "&",
@@ -167,6 +166,7 @@
     "RedHairGirl",
     "Well done! Byeee!!",
     "7",
+    "Greta_Voice_12",
     "&",
     "Wait4Trigger",
     "storyArrive",

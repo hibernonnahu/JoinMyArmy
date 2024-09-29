@@ -16,6 +16,7 @@ public class StateEndCastleDefense : StateGame
     public override void Awake()
     {
         var stats = CurrentPlaySingleton.GetInstance();
+        EventManagerGlobal.TriggerEvent(QudoCustomEvents.ACHIEVEMENT, EventManagerGlobal.Instance.GetEventData().SetString("defense" + stats.chapter).SetString2(""));
 
         EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
 

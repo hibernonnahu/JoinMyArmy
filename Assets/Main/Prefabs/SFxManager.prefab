@@ -61,13 +61,13 @@ MonoBehaviour:
     audio: {fileID: 8300000, guid: 5624ebbb9e0ee1444b6ced508af447a6, type: 3}
     volume: 1
   - key: recluit1
-    audio: {fileID: 8300000, guid: bb0da1e392076ed4cbd3c2ac746659e9, type: 3}
+    audio: {fileID: 8300000, guid: e6accdbe7fc35b74da8ff27ae7299cbd, type: 3}
     volume: 0.8
   - key: recluit2
-    audio: {fileID: 8300000, guid: d311ea72093752c4c918c728baa34b53, type: 3}
+    audio: {fileID: 8300000, guid: a0e5760f561055a4a9cdcfa22902691d, type: 3}
     volume: 0.8
   - key: recluit3
-    audio: {fileID: 8300000, guid: 843c30ea5d426d143bf2289e2325cc5a, type: 3}
+    audio: {fileID: 8300000, guid: c8206f4e7d547d148a47bd658bd550dd, type: 3}
     volume: 0.8
   - key: taunt
     audio: {fileID: 8300000, guid: eaea38ea745ce1b4ea2d4937b0f7a6b4, type: 3}
@@ -82,7 +82,7 @@ MonoBehaviour:
     audio: {fileID: 8300000, guid: 856bb76f5ad097e448d63b648cffc8d8, type: 3}
     volume: 1
   - key: level up
-    audio: {fileID: 8300000, guid: dee013bf03c632045891ce5363ee2daf, type: 3}
+    audio: {fileID: 8300000, guid: e01a2127bfc4c45458556bc278058ec5, type: 3}
     volume: 1
   - key: coins
     audio: {fileID: 8300000, guid: 4a0b487980122bd48947c540e9a07592, type: 3}
@@ -106,7 +106,7 @@ MonoBehaviour:
     audio: {fileID: 8300000, guid: 6b406e98fca194847a1f39f9f562f7ff, type: 3}
     volume: 1
   - key: haha
-    audio: {fileID: 8300000, guid: 67d1204e215da5c4d9daeb758f6d5181, type: 3}
+    audio: {fileID: 8300000, guid: 83ed698a62e0e614293285048cbc843d, type: 3}
     volume: 1
   - key: heal
     audio: {fileID: 8300000, guid: 8cd016695e49bc84c8ca4aacd816d079, type: 3}

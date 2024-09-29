@@ -51,7 +51,7 @@ public class LevelJsonLoader : MonoBehaviour
         {
             gameType = SaveData.GetInstance().GetMetric(SaveDataKey.GAME_TYPE, "Campaign");
         }
-        Debug.Log(gameType);
+       
         DeleteAll();
         var variations = Resources.LoadAll<TextAsset>("Maps/" + gameType + "/Book" + book + "/Chapter" + chapter + "/Level" + level);
         if (forceVariation == -1)

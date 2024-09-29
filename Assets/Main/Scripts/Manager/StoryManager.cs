@@ -53,6 +53,7 @@ public class StoryManager : MonoBehaviour
 
     public void CallStory(EventData arg = null)
     {
+
         nextAction();
         BlankNextAction();
 
@@ -319,7 +320,7 @@ public class StoryManager : MonoBehaviour
     }
     private void HideCastleDefenseIcon()
     {
-        FindObjectOfType<CastleDefenseIconHandler>().gameObject.SetActive(false);
+        FindObjectOfType<CastleDefenseIconHandler>().Disable();
         CallStory();
     }
     private void Animation()//1-id 2-animation
@@ -440,6 +441,9 @@ public class StoryManager : MonoBehaviour
     private void Wait4Trigger()
     {
         string eventName = current[1];
+#if UNITY_EDITOR
+        Debug.Log("Wait4Trigger " + eventName);
+#endif
         nextAction = () =>
         {
             EventManager.StopListening(eventName, CallStory);
@@ -514,6 +518,7 @@ public class StoryManager : MonoBehaviour
                         if (minIndex != -1)
                         {
                             worldIconTemp.DisableButtonOnly();
+                            worldIconTemp.GetComponent<Collider>().enabled = true;
                             var uiPos = Camera.main.WorldToViewportPoint(worldIconTemp.transform.position);
                             Vector2 destiny = uiPos.x * rc.canvas.rect.width * Vector3.right * rc.canvas.localScale.x + uiPos.y * rc.canvas.rect.height * Vector3.up * rc.canvas.localScale.y;
                             EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[minIndex].transform).SetFloat(destiny.y).SetFloat2(destiny.x));
@@ -526,16 +531,28 @@ public class StoryManager : MonoBehaviour
         else
         {
             EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER);
+
+            Debug.Log("invoke tutoriale");
+            LeanTween.delayedCall(gameObject, 2f, TutorialEnd);
+
         }
 
 
         CallStory();
     }
+    private void TutorialEnd()
+    {
+        Debug.Log("call tutoriale");
+
+        EventManager.TriggerEvent(EventName.TUTORIAL_END, null);
+    }
     private void StoryText()
     {
+        string audio = "";
+        if (current.Count > 4)
+            audio = current[4];
        
-       
-        EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString(current[2]).SetString2(current[1]).SetVec4(Utils.GetCharacterTextColor(current[1])).SetFloat(float.Parse( current[3])));
+        EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString(current[2]).SetString2(current[1]).SetString3(audio).SetVec4(Utils.GetCharacterTextColor(current[1])).SetFloat(float.Parse( current[3])));
 
         CallStory();
     }
@@ -598,6 +615,7 @@ public class StoryManager : MonoBehaviour
             LeanTween.delayedCall(gameObject, 0.5f, () =>
             {
                 bool found = false;
+                if(rc!=null)
                 for (int i = 0; i < rc.iconUI.Length; i++)
                 {
                     if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)

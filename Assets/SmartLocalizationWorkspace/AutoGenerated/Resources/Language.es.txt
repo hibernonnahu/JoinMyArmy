@@ -1,0 +1,918 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root><!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+	<data name="&lt;BOUNCE&gt;JUMP" xml:space="preserve">
+		<value>&lt;BOUNCE&gt;SALTA!</value>
+	</data>
+	<data name="Accept" xml:space="preserve">
+		<value>Aceptar</value>
+	</data>
+	<data name="ACHIEVEMENTS" xml:space="preserve">
+		<value>LOGROS</value>
+	</data>
+	<data name="All time" xml:space="preserve">
+		<value>Todos los tiempos</value>
+	</data>
+	<data name="ARE YOU SURE" xml:space="preserve">
+		<value>Estás Seguro?</value>
+	</data>
+	<data name="Are you sure to buy this STAGE for" xml:space="preserve">
+		<value>Estás seguro que quieres comprar este ESCENARIO por </value>
+	</data>
+	<data name="Are you sure to leave? You have not saved your changes." xml:space="preserve">
+		<value>¿Estás seguro de salir? No has guardado tus cambios.</value>
+	</data>
+	<data name="Are you sure to unlock this World for" xml:space="preserve">
+		<value>Estás seguro que quieres desbloquear este MUNDO por </value>
+	</data>
+	<data name="Available on MOBILE version" xml:space="preserve">
+		<value>Disponible en la versión MÓBIL</value>
+	</data>
+	<data name="BACK" xml:space="preserve">
+		<value>Volver</value>
+	</data>
+	<data name="back arrow" xml:space="preserve">
+		<value>Flecha atrás</value>
+	</data>
+	<data name="BACK TO MAP" xml:space="preserve">
+		<value>Volver al menú</value>
+	</data>
+	<data name="Background" xml:space="preserve">
+		<value>Fondo</value>
+	</data>
+	<data name="bone" xml:space="preserve">
+		<value>hueso</value>
+	</data>
+	<data name="BOSS" xml:space="preserve">
+		<value>JEFE</value>
+	</data>
+	<data name="BRONCE" xml:space="preserve">
+		<value>BRONCE</value>
+	</data>
+	<data name="Build" xml:space="preserve">
+		<value>Construir</value>
+	</data>
+	<data name="BUILDER" xml:space="preserve">
+		<value>Corredor</value>
+	</data>
+	<data name="Buy" xml:space="preserve">
+		<value>Comprar</value>
+	</data>
+	<data name="CANCEL" xml:space="preserve">
+		<value>CANCELAR</value>
+	</data>
+	<data name="CANNOT CONNECT TO Server" xml:space="preserve">
+		<value>NO ES POSIBLE CONECTARSE AL SERVIDOR</value>
+	</data>
+	<data name="CATCH" xml:space="preserve">
+		<value>ATRAPA</value>
+	</data>
+	<data name="catchthief" xml:space="preserve">
+		<value>Atrapa al ladrón</value>
+	</data>
+	<data name="Challenge Created" xml:space="preserve">
+		<value>Desafío Creado!</value>
+	</data>
+	<data name="CHALLENGE EXPIRED" xml:space="preserve">
+		<value>DESAFÍO EXPIRADO</value>
+	</data>
+	<data name="CHALLENGES" xml:space="preserve">
+		<value>DESAFÍOS</value>
+	</data>
+	<data name="change direction" xml:space="preserve">
+		<value>Presiona ATRÁS, cambia de dirección</value>
+	</data>
+	<data name="Character" xml:space="preserve">
+		<value>Personaje</value>
+	</data>
+	<data name="CHARACTER SELECTION" xml:space="preserve">
+		<value>Agenda</value>
+	</data>
+	<data name="CheckPoint" xml:space="preserve">
+		<value>Punto de Control</value>
+	</data>
+	<data name="CHECKPOINT" xml:space="preserve">
+		<value>PUNTO DE CONTROL</value>
+	</data>
+	<data name="CHEST" xml:space="preserve">
+		<value>COFRE</value>
+	</data>
+	<data name="Chest Found!" xml:space="preserve">
+		<value>Cofre Encontrado!</value>
+	</data>
+	<data name="chesttoopen" xml:space="preserve">
+		<value>Tienes cofres para abrir. Quieres hacerlo ahora?</value>
+	</data>
+	<data name="Choose a map name" xml:space="preserve">
+		<value>Elige un nombre para el mapa</value>
+	</data>
+	<data name="Choose another USERNAME" xml:space="preserve">
+		<value>Elige otro nombre de usuario</value>
+	</data>
+	<data name="Claim" xml:space="preserve">
+		<value>Reclamar</value>
+	</data>
+	<data name="click" xml:space="preserve">
+		<value>click</value>
+	</data>
+	<data name="Coin" xml:space="preserve">
+		<value>Moneda</value>
+	</data>
+	<data name="coins" xml:space="preserve">
+		<value>monedas</value>
+	</data>
+	<data name="coins?" xml:space="preserve">
+		<value>monedas?</value>
+	</data>
+	<data name="coinst to beat" xml:space="preserve">
+		<value>Monedas a vencer</value>
+	</data>
+	<data name="Combo tip" xml:space="preserve">
+		<value>&lt;incr&gt;SUELTA EL BOTÓN DESLIZAR&lt;/incr&gt; antes de golpear al enemigo para empezar un combo</value>
+	</data>
+	<data name="Coming Soon" xml:space="preserve">
+		<value>Disponible pronto</value>
+	</data>
+	<data name="complaint book" xml:space="preserve">
+		<value>Libro de quejas</value>
+	</data>
+	<data name="Complete" xml:space="preserve">
+		<value>Completa</value>
+	</data>
+	<data name="CONNECT WITH FACEBOOK" xml:space="preserve">
+		<value>CONECTAR CON FACEBOOK</value>
+	</data>
+	<data name="connect yourself" xml:space="preserve">
+		<value>Quieres REGISTRARTE o LOGUEARTE para poder hacer esto?</value>
+	</data>
+	<data name="Create an Account" xml:space="preserve">
+		<value>Crea una Cuenta</value>
+	</data>
+	<data name="Create Challenge" xml:space="preserve">
+		<value>CREAR DESAFÍO</value>
+	</data>
+	<data name="Credits" xml:space="preserve">
+		<value>Créditos</value>
+	</data>
+	<data name="CUSTOMIZATIONS" xml:space="preserve">
+		<value>PERSONALIZACIÓN</value>
+	</data>
+	<data name="Dash" xml:space="preserve">
+		<value>Embestida</value>
+	</data>
+	<data name="DASH AGAIN" xml:space="preserve">
+		<value>&lt;incr&gt;EMBESTIDA&lt;/incr&gt; otra vez</value>
+	</data>
+	<data name="Decoration" xml:space="preserve">
+		<value>Decoración</value>
+	</data>
+	<data name="DELETE PROGRESS" xml:space="preserve">
+		<value>BORRAR PROGRESO</value>
+	</data>
+	<data name="Direct challenge" xml:space="preserve">
+		<value>Desafío directo</value>
+	</data>
+	<data name="DIRECT CHALLENGE" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Disclamer" xml:space="preserve">
+		<value>Queremos mejorar día a día. Cuéntanos que te gustó o no. Si agregarías algo para mejorar el juego.
+Y recuerda que si te gusta el juego tu voto nos ayuda a seguir mejorándolo.</value>
+	</data>
+	<data name="Dismiss" xml:space="preserve">
+		<value>Desechar</value>
+	</data>
+	<data name="Do you want to leave this screen?" xml:space="preserve">
+		<value>Deseas salir de esta pantalla?</value>
+	</data>
+	<data name="DONE" xml:space="preserve">
+		<value>Listo</value>
+	</data>
+	<data name="Don't forget to Like Us" xml:space="preserve">
+		<value>No te olvides de darnos "Me gusta"</value>
+	</data>
+	<data name="dont hold" xml:space="preserve">
+		<value>No mantener</value>
+	</data>
+	<data name="Double coins" xml:space="preserve">
+		<value>Duplicar monedas</value>
+	</data>
+	<data name="Double Jump" xml:space="preserve">
+		<value>Salto Doble</value>
+	</data>
+	<data name="down arrow" xml:space="preserve">
+		<value>Presiona ABAJO</value>
+	</data>
+	<data name="down arrow in the air" xml:space="preserve">
+		<value>Presiona ABAJO en el aire</value>
+	</data>
+	<data name="Downloading Maps..." xml:space="preserve">
+		<value>Descargando Mapas...</value>
+	</data>
+	<data name="Electric Shoot" xml:space="preserve">
+		<value>Disparo Eléctrico</value>
+	</data>
+	<data name="Enter text..." xml:space="preserve">
+		<value>Escriba aquí...</value>
+	</data>
+	<data name="EQUIP" xml:space="preserve">
+		<value>EQUIPAR</value>
+	</data>
+	<data name="EXIT" xml:space="preserve">
+		<value>Salir</value>
+	</data>
+	<data name="FARAH CHEST" xml:space="preserve">
+		<value>COFRE de FARAH</value>
+	</data>
+	<data name="Flywear" xml:space="preserve">
+		<value>Accesorio de vuelo</value>
+	</data>
+	<data name="Footwear" xml:space="preserve">
+		<value>Accesorio de pies</value>
+	</data>
+	<data name="forward arrow" xml:space="preserve">
+		<value>Flecha adelante</value>
+	</data>
+	<data name="FORWARD UP" xml:space="preserve">
+		<value>ADELANTE + ARRIBA</value>
+	</data>
+	<data name="Found on" xml:space="preserve">
+		<value>Encontrado en</value>
+	</data>
+	<data name="GET" xml:space="preserve">
+		<value>OBTENER</value>
+	</data>
+	<data name="GO!" xml:space="preserve">
+		<value>VAMOS!</value>
+	</data>
+	<data name="GOLD" xml:space="preserve">
+		<value>DORADO</value>
+	</data>
+	<data name="GRADUATE BUILDERS" xml:space="preserve">
+		<value>CONSTRUCTORES GRADUADOS</value>
+	</data>
+	<data name="Hair" xml:space="preserve">
+		<value>Pelo</value>
+	</data>
+	<data name="Handwear" xml:space="preserve">
+		<value>Accesorio de manos</value>
+	</data>
+	<data name="Hello" xml:space="preserve">
+		<value>Hola</value>
+	</data>
+	<data name="HINT" xml:space="preserve">
+		<value>PISTA</value>
+	</data>
+	<data name="hold" xml:space="preserve">
+		<value>Mantén</value>
+	</data>
+	<data name="HOLD DOWN" xml:space="preserve">
+		<value>MANTÉN &lt;BOUNCE&gt;ABAJO</value>
+	</data>
+	<data name="HOLD FORWARD" xml:space="preserve">
+		<value>MANTÉN &lt;BOUNCE&gt;ADELANTE</value>
+	</data>
+	<data name="HOLD JUMP" xml:space="preserve">
+		<value>MANTÉN &lt;BOUNCE&gt;SALTO</value>
+	</data>
+	<data name="HOLD UP" xml:space="preserve">
+		<value>MANTÉN &lt;BOUNCE&gt;ARRIBA</value>
+	</data>
+	<data name="in the air" xml:space="preserve">
+		<value>En el aire</value>
+	</data>
+	<data name="Inagurate" xml:space="preserve">
+		<value>Inaugurar mundo</value>
+	</data>
+	<data name="Input map name" xml:space="preserve">
+		<value>Nombre al mapa</value>
+	</data>
+	<data name="Invulneravility" xml:space="preserve">
+		<value>Invulnerabilidad</value>
+	</data>
+	<data name="Join" xml:space="preserve">
+		<value>UNIRSE</value>
+	</data>
+	<data name="Jump" xml:space="preserve">
+		<value>Salto</value>
+	</data>
+	<data name="KILL" xml:space="preserve">
+		<value>MATAR</value>
+	</data>
+	<data name="killghost" xml:space="preserve">
+		<value>Encuentra un poder para poder matar al fantasma</value>
+	</data>
+	<data name="LANGUAGE" xml:space="preserve">
+		<value>IDIOMA</value>
+	</data>
+	<data name="Level" xml:space="preserve">
+		<value>Nivel</value>
+	</data>
+	<data name="LEVEL COMPLETE" xml:space="preserve">
+		<value>NIVEL COMPLETO</value>
+	</data>
+	<data name="Level0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Levels" xml:space="preserve">
+		<value>Niveles</value>
+	</data>
+	<data name="Loading" xml:space="preserve">
+		<value>Cargando</value>
+	</data>
+	<data name="LOG IN" xml:space="preserve">
+		<value>Ingresar</value>
+	</data>
+	<data name="Log In first" xml:space="preserve">
+		<value>Ingresa primero</value>
+	</data>
+	<data name="Log Out" xml:space="preserve">
+		<value>Cerrar sesión</value>
+	</data>
+	<data name="Magnet" xml:space="preserve">
+		<value>Magneto</value>
+	</data>
+	<data name="Map Saved" xml:space="preserve">
+		<value>Mapa Grabado</value>
+	</data>
+	<data name="Maps" xml:space="preserve">
+		<value>Mapas</value>
+	</data>
+	<data name="MINI-BOSS" xml:space="preserve">
+		<value>MINI-JEFE</value>
+	</data>
+	<data name="Month" xml:space="preserve">
+		<value>Mes</value>
+	</data>
+	<data name="mud" xml:space="preserve">
+		<value>barro</value>
+	</data>
+	<data name="multiplayer ready" xml:space="preserve">
+		<value>Ahora estás listo para jugar multijugador!</value>
+	</data>
+	<data name="Music" xml:space="preserve">
+		<value>Música</value>
+	</data>
+	<data name="New" xml:space="preserve">
+		<value>Nuevos</value>
+	</data>
+	<data name="New WORLD purchased" xml:space="preserve">
+		<value>Nuevo MUNDO obtenido</value>
+	</data>
+	<data name="New Worlds" xml:space="preserve">
+		<value>Nuevos Mundos</value>
+	</data>
+	<data name="NEXT" xml:space="preserve">
+		<value>SIGUIENTE</value>
+	</data>
+	<data name="NEXT LEVEL" xml:space="preserve">
+		<value>SIGUIENTE NIVEL</value>
+	</data>
+	<data name="NO" xml:space="preserve">
+		<value>No</value>
+	</data>
+	<data name="No replays found" xml:space="preserve">
+		<value>No se encontraron repeteciones</value>
+	</data>
+	<data name="none" xml:space="preserve">
+		<value>Nada</value>
+	</data>
+	<data name="Not enought gold" xml:space="preserve">
+		<value>No hay suficientes monedas</value>
+	</data>
+	<data name="Obstacles" xml:space="preserve">
+		<value>Obstáculo</value>
+	</data>
+	<data name="Ok" xml:space="preserve">
+		<value>Listo</value>
+	</data>
+	<data name="Open Chest" xml:space="preserve">
+		<value>Abrir Cofre</value>
+	</data>
+	<data name="Opponent" xml:space="preserve">
+		<value>Oponente</value>
+	</data>
+	<data name="Ops.. Something went wrong. Try again later" xml:space="preserve">
+		<value>Uy.. Algo salió mal. Prueba de nuevo más tarde</value>
+	</data>
+	<data name="Other" xml:space="preserve">
+		<value>Otro</value>
+	</data>
+	<data name="PASSWORD" xml:space="preserve">
+		<value>CONTRASEÑA</value>
+	</data>
+	<data name="Password must be between 6 and 20 characters" xml:space="preserve">
+		<value>El password debe tener entre 6 y 20 caracteres</value>
+	</data>
+	<data name="Platform" xml:space="preserve">
+		<value>Plataforma</value>
+	</data>
+	<data name="Platform0" xml:space="preserve">
+		<value>Plataforma</value>
+	</data>
+	<data name="PLAY" xml:space="preserve">
+		<value>JUGAR</value>
+	</data>
+	<data name="Play World" xml:space="preserve">
+		<value>Jugar Mundo</value>
+	</data>
+	<data name="Player" xml:space="preserve">
+		<value>Jugador</value>
+	</data>
+	<data name="PLAYGROUND NAME" xml:space="preserve">
+		<value>Nombre del entretenimiento</value>
+	</data>
+	<data name="Please wait.." xml:space="preserve">
+		<value>Por favor espere..</value>
+	</data>
+	<data name="positions" xml:space="preserve">
+		<value>Posiciones</value>
+	</data>
+	<data name="PowerUp" xml:space="preserve">
+		<value>Modificador</value>
+	</data>
+	<data name="press" xml:space="preserve">
+		<value>Presiona</value>
+	</data>
+	<data name="PRESS BACK" xml:space="preserve">
+		<value>PRESIONA &lt;BOUNCE&gt;ATRÁS</value>
+	</data>
+	<data name="press button" xml:space="preserve">
+		<value>Presiona el botón</value>
+	</data>
+	<data name="press button to join" xml:space="preserve">
+		<value>Presiona un botón del joystick para unirte</value>
+	</data>
+	<data name="PRESS DOWN" xml:space="preserve">
+		<value>PRESIONA &lt;BOUNCE&gt;ABAJO</value>
+	</data>
+	<data name="PRESS FORWARD" xml:space="preserve">
+		<value>PRESIONA &lt;BOUNCE&gt;ADELANTE</value>
+	</data>
+	<data name="PRESS FORWARD+UP" xml:space="preserve">
+		<value>PRESIONA ADELANTE+ARRIBA</value>
+	</data>
+	<data name="PROFILE" xml:space="preserve">
+		<value>PERFIL</value>
+	</data>
+	<data name="Public challenge with 2 rooms" xml:space="preserve">
+		<value>Desafío público con 2 lugares</value>
+	</data>
+	<data name="Public challenge with 4 rooms" xml:space="preserve">
+		<value>Desafío público con 4 lugares</value>
+	</data>
+	<data name="Random Reward" xml:space="preserve">
+		<value>Recompenza Aleatoria</value>
+	</data>
+	<data name="rank" xml:space="preserve">
+		<value>Subes de rango!</value>
+	</data>
+	<data name="RANK THIS MAP" xml:space="preserve">
+		<value>CALIFICA ESTE MAPA</value>
+	</data>
+	<data name="rate us" xml:space="preserve">
+		<value>Te gusta el juego?</value>
+	</data>
+	<data name="RC1" xml:space="preserve">
+		<value>Un día</value>
+	</data>
+	<data name="RC7" xml:space="preserve">
+		<value>Una semana</value>
+	</data>
+	<data name="READY" xml:space="preserve">
+		<value>LISTO</value>
+	</data>
+	<data name="Refresh" xml:space="preserve">
+		<value>Recargar</value>
+	</data>
+	<data name="REGISTER" xml:space="preserve">
+		<value>Registrarse</value>
+	</data>
+	<data name="Register or Login to Play" xml:space="preserve">
+		<value>Regístrate o Inicia sesión para jugar en linea</value>
+	</data>
+	<data name="Restart" xml:space="preserve">
+		<value>Resetear</value>
+	</data>
+	<data name="ROBOT CHEST" xml:space="preserve">
+		<value>COFRE ROBOT</value>
+	</data>
+	<data name="Rooms" xml:space="preserve">
+		<value>Puestos</value>
+	</data>
+	<data name="Rope" xml:space="preserve">
+		<value>Soga</value>
+	</data>
+	<data name="SAVE" xml:space="preserve">
+		<value>GRABAR</value>
+	</data>
+	<data name="Secret Area" xml:space="preserve">
+		<value>Área Secreta</value>
+	</data>
+	<data name="Secret Area Found" xml:space="preserve">
+		<value>Área Secreta Encontrada</value>
+	</data>
+	<data name="secret-level" xml:space="preserve">
+		<value>Alguien me dijo que hay un &lt;rainb&gt;ÁREA ESCONDIDA&lt;/rainb&gt; cerca.</value>
+	</data>
+	<data name="SELECT" xml:space="preserve">
+		<value>ELEGIR</value>
+	</data>
+	<data name="Select a profile picture" xml:space="preserve">
+		<value>Elige una imagen de perfil</value>
+	</data>
+	<data name="Send" xml:space="preserve">
+		<value>Enviar</value>
+	</data>
+	<data name="Shot" xml:space="preserve">
+		<value>Disparo</value>
+	</data>
+	<data name="SILVER" xml:space="preserve">
+		<value>HIELO</value>
+	</data>
+	<data name="Skin" xml:space="preserve">
+		<value>Traje</value>
+	</data>
+	<data name="Skin0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Slide" xml:space="preserve">
+		<value>Deslice hacia abajo</value>
+	</data>
+	<data name="slide down" xml:space="preserve">
+		<value>Deslice hacia abajo</value>
+	</data>
+	<data name="Speed" xml:space="preserve">
+		<value>Velocidad</value>
+	</data>
+	<data name="Speed Boost" xml:space="preserve">
+		<value>Impulso</value>
+	</data>
+	<data name="Stage" xml:space="preserve">
+		<value>Escenario</value>
+	</data>
+	<data name="STOP" xml:space="preserve">
+		<value>PARAR</value>
+	</data>
+	<data name="Surf tip" xml:space="preserve">
+		<value>Sí te deslizas hacia abajo sobre una pendiente ganarás velocidad y serás &lt;incr&gt;INVULNERABLE&lt;/incr&gt; mientras no te muevas</value>
+	</data>
+	<data name="sw1t1-1" xml:space="preserve">
+		<value>Hola Socio! Hoy vamos a inaugurar nuestro propio negocio!</value>
+	</data>
+	<data name="sw1t1-2" xml:space="preserve">
+		<value>Parques para Corredores! Y aquí es donde comienza todo.</value>
+	</data>
+	<data name="sw1t1-3" xml:space="preserve">
+		<value>Pero primero: vamos a buscar nuevos elementos para poder construir.</value>
+	</data>
+	<data name="sw1t2-1" xml:space="preserve">
+		<value>Es hora de elegir un nombre y abrir nuestras puertas.</value>
+	</data>
+	<data name="tap" xml:space="preserve">
+		<value>toca</value>
+	</data>
+	<data name="Test and Upload your map?" xml:space="preserve">
+		<value>Deseas compartir tu mapa? y así ganar monedas</value>
+	</data>
+	<data name="Thanks for your feedback" xml:space="preserve">
+		<value>Gracias por tu opinión</value>
+	</data>
+	<data name="time to beat" xml:space="preserve">
+		<value>Tiempo a vencer</value>
+	</data>
+	<data name="tip1" xml:space="preserve">
+		<value>Comparte tus mapas &lt;sprite=9&gt;, es un buen modo de ganar monedas</value>
+	</data>
+	<data name="tip2" xml:space="preserve">
+		<value>No olvides jugar niveles creados por otros usuarios en el menú &lt;sprite=3&gt;</value>
+	</data>
+	<data name="tip3" xml:space="preserve">
+		<value>Cuándo saltes manten presionado el botón para saltar más alto</value>
+	</data>
+	<data name="tip4" xml:space="preserve">
+		<value>Cansado de tu corredor? Puedes obtener nuevo equipo en los COFRES</value>
+	</data>
+	<data name="tip5" xml:space="preserve">
+		<value>Cuando construyas tus propios mapas no olvides guardarlos &lt;sprite=5&gt;</value>
+	</data>
+	<data name="tip6" xml:space="preserve">
+		<value>Si te gusta el juego no olvides de dejar tu ME GUSTA</value>
+	</data>
+	<data name="Top alltime worlds" xml:space="preserve">
+		<value>Mejores mundos de todos los tiempos</value>
+	</data>
+	<data name="Top monthly worlds" xml:space="preserve">
+		<value>Mejores mundos del mes</value>
+	</data>
+	<data name="Touch To Delete" xml:space="preserve">
+		<value>Presiona para borrar</value>
+	</data>
+	<data name="TOURNAMENT" xml:space="preserve">
+		<value>TORNEO</value>
+	</data>
+	<data name="Try again?" xml:space="preserve">
+		<value>Inténtalo de nuevo?</value>
+	</data>
+	<data name="Turn Around" xml:space="preserve">
+		<value>Dar la vuelta</value>
+	</data>
+	<data name="TYPE" xml:space="preserve">
+		<value>ESTILO</value>
+	</data>
+	<data name="up arrow" xml:space="preserve">
+		<value>Presiona ARRIBA</value>
+	</data>
+	<data name="up arrow in the air" xml:space="preserve">
+		<value>Mantén ARRIBA en el aire</value>
+	</data>
+	<data name="Update this app please" xml:space="preserve">
+		<value>Actualice esta aplicación por favor</value>
+	</data>
+	<data name="Upload" xml:space="preserve">
+		<value>Subir Mapa</value>
+	</data>
+	<data name="Uploading " xml:space="preserve">
+		<value>Subiendo </value>
+	</data>
+	<data name="USE" xml:space="preserve">
+		<value>USAR</value>
+	</data>
+	<data name="USERNAME" xml:space="preserve">
+		<value>NOMBRE DE USUARIO</value>
+	</data>
+	<data name="Username must be between 6 and 20 characters" xml:space="preserve">
+		<value>El nombre de usuario debe tener entre 6 y 20 caracteres</value>
+	</data>
+	<data name="Victory" xml:space="preserve">
+		<value>Victoria!</value>
+	</data>
+	<data name="VISIT USERS" xml:space="preserve">
+		<value>Mundos Personalizados</value>
+	</data>
+	<data name="w1" xml:space="preserve">
+		<value>Primeros Pasos</value>
+	</data>
+	<data name="w1m1-1" xml:space="preserve">
+		<value>&lt;incr&gt;toca&lt;/incr&gt; el botón derecho para &lt;bounce&gt;SALTAR&lt;/bounce&gt;</value>
+	</data>
+	<data name="w1m1-2" xml:space="preserve">
+		<value>puedes SALTAR MAS ALTO tocando el botón de &lt;bounce&gt;SALTO&lt;/bounce&gt; por más tiempo.</value>
+	</data>
+	<data name="w1m12-1" xml:space="preserve">
+		<value>Mueve la plataforma desde el borde para girarla</value>
+	</data>
+	<data name="w1m17-1" xml:space="preserve">
+		<value>Mantén presionada la pantalla para saltar más alto desde las camas elásticas</value>
+	</data>
+	<data name="w1m2-1" xml:space="preserve">
+		<value>Hoy aprenderás el arte de construir caminos</value>
+	</data>
+	<data name="w1m2-10" xml:space="preserve">
+		<value>Nunca la alcanzaremos....</value>
+	</data>
+	<data name="w1m2-11" xml:space="preserve">
+		<value>Pero no hay que preocuparse! Podemos intentar poner ALGO cerca de la salida.</value>
+	</data>
+	<data name="w1m2-12" xml:space="preserve">
+		<value>Usa el MENÚ DE HERRAMIENTAS crear una plataforma</value>
+	</data>
+	<data name="w1m2-13" xml:space="preserve">
+		<value>Abre el libro PLATAFORMAS &lt;sprite=7&gt; en el MENÚ DE HERRAMIENTAS</value>
+	</data>
+	<data name="w1m2-14" xml:space="preserve">
+		<value>Si! Ahora sólo es cuestión de tiempo abandonar este lugar</value>
+	</data>
+	<data name="w1m2-15" xml:space="preserve">
+		<value>Mueve la plataforma a una mejor posición arrastrándola, y presiona &lt;sprite=10&gt; para alcanzar la salida.</value>
+	</data>
+	<data name="w1m2-16" xml:space="preserve">
+		<value>Arrastra la plataforma a una mejor posición y presiona &lt;sprite=10&gt;/&lt;sprite=6&gt; hasta que alcances la SALIDA.</value>
+	</data>
+	<data name="w1m2-2" xml:space="preserve">
+		<value>Comencemos con algo simple</value>
+	</data>
+	<data name="w1m2-3" xml:space="preserve">
+		<value>Pero primero! necesitamos ver las cosas con perspectiva. Usa ambos dedos para ALEJAR LA VISTA al MÁXIMO &lt;sprite=11&gt;</value>
+	</data>
+	<data name="w1m2-4" xml:space="preserve">
+		<value>Usa ambos dedos para AMPLIAR LA VISTA al MÁXIMO &lt;sprite=11&gt;</value>
+	</data>
+	<data name="w1m2-5" xml:space="preserve">
+		<value>Veamos que hay más adelante, entonces, mueve la cámara hacia la DERECHA</value>
+	</data>
+	<data name="w1m2-6" xml:space="preserve">
+		<value>Mueve la cámara a la DERECHA</value>
+	</data>
+	<data name="w1m2-7" xml:space="preserve">
+		<value>Puedo ver la salida! Tratemos de alcanzarla!</value>
+	</data>
+	<data name="w1m2-8" xml:space="preserve">
+		<value>Presiona el botón &lt;sprite=10&gt; y salgamos de aquí.</value>
+	</data>
+	<data name="w1m2-9" xml:space="preserve">
+		<value>Presiona el botón &lt;sprite=10&gt;</value>
+	</data>
+	<data name="w1m4-1" xml:space="preserve">
+		<value>Dirijete a la salida rápido. No dejes que los otros corredores agarren el &lt;rainb&gt;Cofre&lt;/rainb&gt; primero.</value>
+	</data>
+	<data name="w1m4-2" xml:space="preserve">
+		<value>Trata de deslizar el dedo hacia abajo mientras estás en el aire</value>
+	</data>
+	<data name="w1m6-1" xml:space="preserve">
+		<value>Persiona atrás para dar la vuelta</value>
+	</data>
+	<data name="w1m9-1" xml:space="preserve">
+		<value>Mantén presionado el botón para saltar más alto desde las paredes</value>
+	</data>
+	<data name="w2" xml:space="preserve">
+		<value>Qué más hay?</value>
+	</data>
+	<data name="w2m4-1" xml:space="preserve">
+		<value>&lt;incr&gt;TOCAR&lt;/incr&gt; (no mantener) &lt;bounce&gt;EMBESTIDA&lt;/bounce&gt; golpea un enemigo y luego &lt;bounce&gt;EMBISTE&lt;/bounce&gt; o &lt;bounce&gt;SALTA&lt;/bounce&gt; </value>
+	</data>
+	<data name="Waiting For Players.." xml:space="preserve">
+		<value>Esperando jugadores..</value>
+	</data>
+	<data name="Weather" xml:space="preserve">
+		<value>Ambiente</value>
+	</data>
+	<data name="WELCOME" xml:space="preserve">
+		<value>BIENVENIDO</value>
+	</data>
+	<data name="WELL DONE!" xml:space="preserve">
+		<value>BIEN HECHO!</value>
+	</data>
+	<data name="wheel down" xml:space="preserve">
+		<value>Rueda del ratón abajo</value>
+	</data>
+	<data name="World" xml:space="preserve">
+		<value>Mundo</value>
+	</data>
+	<data name="WORLD COMPLETE" xml:space="preserve">
+		<value>MUNDO COMPLETADO</value>
+	</data>
+	<data name="World unlocked" xml:space="preserve">
+		<value>Mundo % desbloqueado</value>
+	</data>
+	<data name="World0" xml:space="preserve">
+		<value />
+	</data>
+	<data name="Worlds" xml:space="preserve">
+		<value>Campaña</value>
+	</data>
+	<data name="Would you tell us why?" xml:space="preserve">
+		<value>Nos dirías por qué?</value>
+	</data>
+	<data name="wrong name or password" xml:space="preserve">
+		<value>NOMBRE DE USUARIO O CONTRASEÑA INCORRECTOS</value>
+	</data>
+	<data name="xw1m1-1" xml:space="preserve">
+		<value>Recuerda: Presiona &lt;incr&gt;X&lt;/incr&gt; para &lt;bounce&gt;SALTAR&lt;/bounce&gt;</value>
+	</data>
+	<data name="xw1m1-2" xml:space="preserve">
+		<value>puedes SALTAR MAS ALTO manteniendo &lt;bounce&gt;SALTO&lt;/bounce&gt; por más tiempo.</value>
+	</data>
+	<data name="xw1m17-1" xml:space="preserve">
+		<value>Mantén &lt;bounce&gt;SALTO&lt;/bounce&gt; para saltar más alto desde las camas elásticas</value>
+	</data>
+	<data name="xw1m2-3" xml:space="preserve">
+		<value>Pero primero! Necesitamos ver las cosas en perspectiva. Usa la rueda del mouse para ALEJAR LA CÁMARA&lt;sprite=12&gt;</value>
+	</data>
+	<data name="xw1m2-4" xml:space="preserve">
+		<value>Usa la rueda del mouse para ALEJAR LA CÁMARA &lt;sprite=12&gt;</value>
+	</data>
+	<data name="xw1m4-2" xml:space="preserve">
+		<value>Trata de usar el botón secundario del mouse mientras estés el aire&lt;sprite=14&gt;</value>
+	</data>
+	<data name="xw1m9-1" xml:space="preserve">
+		<value>Mantén &lt;bounce&gt;SALTO&lt;/bounce&gt; para saltar más alto desde las paredes&lt;sprite=13&gt;</value>
+	</data>
+	<data name="YES" xml:space="preserve">
+		<value>SI</value>
+	</data>
+	<data name="YOU" xml:space="preserve">
+		<value>TU</value>
+	</data>
+	<data name="You Havent save your changes. Do you want to continue?" xml:space="preserve">
+		<value>No haz grabado tus cambios. Quieres continuar?</value>
+	</data>
+	<data name="You now own a new STAGE" xml:space="preserve">
+		<value>Ahora tienes un nuevo escenario</value>
+	</data>
+</root>

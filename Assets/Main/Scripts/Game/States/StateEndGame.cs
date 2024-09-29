@@ -34,6 +34,8 @@ public class StateEndGame : StateGame
             EventManager.TriggerEvent(EventName.MAIN_TEXT, EventManager.Instance.GetEventData().SetString("Chapter " + stats.chapter + " complete!"));
             if (stats.chapter < 20)
             {
+                EventManagerGlobal.TriggerEvent(QudoCustomEvents.ACHIEVEMENT, EventManagerGlobal.Instance.GetEventData().SetString("book" + stats.book + "chapter" + stats.chapter).SetString2(""));
+
                 stats.chapter++;
                 int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
                 if (stats.chapter > currentChapter)

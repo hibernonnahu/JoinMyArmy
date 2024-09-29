@@ -11,9 +11,12 @@ public class EventHistoryText : EventText
         public float time;
         public string text;
         public string character;
+        public string audio;
     }
     private List<LateText> queue2 = new List<LateText>();
+    public RawImage background;
     public Image avatar;
+    public AudioSource audiosource;
     // Start is called before the first frame update
     public override void Start()
     {
@@ -38,33 +41,50 @@ public class EventHistoryText : EventText
             }
             text.color = arg0.vec4;
             TEXT_DELAY = arg0.floatData;
+            background.gameObject.SetActive(true);
+            PlayAudio(arg0.stringData3);
             base.PlayText(arg0);
         }
         else if(queue2.Count<5)
         {
             var late = new LateText();
             late.character = arg0.stringData2;
+            late.audio = arg0.stringData3;
             late.text = arg0.stringData;
             late.time = arg0.floatData;
             late.color = arg0.vec4;
             queue2.Add(late);
         }
     }
+
+    private void PlayAudio(string audio)
+    {
+        if (audio != "")
+        {
+            audiosource.clip = Resources.Load<AudioClip>("Voice/" + audio);
+            audiosource.Stop();
+
+            audiosource.Play();
+        }
+    }
+
     protected override void RemoveFirst()
     {
         if (queue2.Count == 0)
         {
             base.RemoveFirst();
             avatar.color = Color.clear;
+            background.gameObject.SetActive(false);
         }
         else
         {
             text.text = "";
+            background.gameObject.SetActive(false);
             queue.Clear();
             var q = queue2[0];
             queue2.RemoveAt(0);
             var ed = new EventData();
-            ed.SetString(q.text).SetString2(q.character).SetFloat(q.time).SetVec4(q.color);
+            ed.SetString(q.text).SetString2(q.character).SetString3(q.audio).SetFloat(q.time).SetVec4(q.color);
             PlayText(ed);
         }
 

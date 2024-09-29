@@ -1744,6 +1744,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &5369228726009219326
 GameObject:
   m_ObjectHideFlags: 0
@@ -3454,7 +3455,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: d32d654fd4d13d545958beee2af6c10f, type: 2}
+  - {fileID: 2100000, guid: 52af9a2b2c25d4c44a542a9d89946d8c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3734,6 +3735,7 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 10000
   speed: 6
   strength: 15

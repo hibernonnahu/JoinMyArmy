@@ -348,6 +348,10 @@ public class CharacterManager : MonoBehaviour
             }
             waveList.RemoveAt(0);
             currentWave++;
+#if UNITY_EDITOR
+
+            Debug.Log("nextwave " + CurrentWave);
+#endif
             EventManager.TriggerEvent(EventName.NEXT_WAVE + CurrentWave);
             EventManager.TriggerEvent(EventName.ENEMIES_REMAIN, EventManager.Instance.GetEventData().SetInt(teamList[1].Count));
             if (waveList.Count > 0)

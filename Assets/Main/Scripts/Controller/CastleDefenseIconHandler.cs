@@ -36,7 +36,7 @@ public class CastleDefenseIconHandler : MonoBehaviour
         {
             LeanTween.scale(warning, Vector3.zero, WARNING_TIME).setEaseOutQuad();
         });
-            EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString("Help me!").SetString2(characterName).SetVec4(Utils.GetCharacterTextColor(characterName)).SetFloat(1));
+            EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString("Help me!").SetString2(characterName).SetString3(characterName+"_help").SetVec4(Utils.GetCharacterTextColor(characterName)).SetFloat(1));
         
     }
 
@@ -112,5 +112,11 @@ public class CastleDefenseIconHandler : MonoBehaviour
         LeanTween.cancel(gameObject);
         EventManager.StopListening(EventName.HIDE_RECLUIT_ICON, OnHide);
 
+    }
+
+    internal void Disable()
+    {
+        gameObject.SetActive(false);
+        enemy.HealthBarController.ShowBarAgain(0);
     }
 }

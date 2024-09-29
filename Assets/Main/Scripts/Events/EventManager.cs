@@ -11,6 +11,12 @@ public class EventData
         actionData = a;
         return this;
     }
+    public long longData = -1;
+    public EventData SetLong(long f)
+    {
+        longData = f;
+        return this;
+    }
     public float floatData = -1;
     public EventData SetFloat(float f)
     {
@@ -69,6 +75,12 @@ public class EventData
     public EventData SetString2(string s)
     {
         stringData2 = s;
+        return this;
+    }
+    public string stringData3;
+    public EventData SetString3(string s)
+    {
+        stringData3 = s;
         return this;
     }
     public Transform transformData;

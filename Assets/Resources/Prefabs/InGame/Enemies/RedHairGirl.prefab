@@ -184,6 +184,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1006195251737617438
 GameObject:
   m_ObjectHideFlags: 0
@@ -1883,16 +1884,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5746187489643150772}
-  m_LocalRotation: {x: 0.07847705, y: -0.000840565, z: -0.012524516, w: 0.9968369}
-  m_LocalPosition: {x: -4.4, y: -40, z: -7.4}
-  m_LocalScale: {x: 40.826538, y: 31.882332, z: 50.99176}
+  m_LocalRotation: {x: 0.07878535, y: 0.025957203, z: -0.010410329, w: 0.99649924}
+  m_LocalPosition: {x: -3.591445, y: -31.642359, z: -4.6243796}
+  m_LocalScale: {x: 31.954527, y: 24.953985, z: 39.910748}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4411872577399669734}
   - {fileID: 5837564374009592521}
   m_Father: {fileID: 293685428646269761}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 9.000122, y: 359.78876, z: 358.5437}
+  m_LocalEulerAnglesHint: {x: 9.065, y: 362.908, z: 359.033}
 --- !u!114 &4863859844087656985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,6 +2301,7 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 100
   speed: 3
   strength: 1
@@ -2473,7 +2475,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5b06af013809a804fbec338e4fdb3469, type: 2}
+  - {fileID: 2100000, guid: 378394a3ea8e8964895881dd3073dce9, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2570,7 +2572,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7470922582998487823}
   m_LocalRotation: {x: -0.7309014, y: 0.0071301353, z: 0.023667581, w: 0.6820353}
-  m_LocalPosition: {x: -0.6, y: -4.5, z: 4.4}
+  m_LocalPosition: {x: -0.38, y: -4.5, z: 4.4}
   m_LocalScale: {x: 8.931457, y: 12.022348, z: 12.984743}
   m_ConstrainProportionsScale: 0
   m_Children:
