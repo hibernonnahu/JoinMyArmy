@@ -12,13 +12,23 @@ public class MusicManager : MonoBehaviour
     private string defaultMusic;
     private float defaultMusicVol;
     private string lastClip;
+    float vol = 0.5f;
+    float globalVol = 5;
     // Use this for initialization
     void Awake()
     {
         audioSource = GetComponent<AudioSource>();
         audioSource.loop = true;
+        EventManager.StartListening("musicvol", OnMusicVol);
         DontDestroyOnLoad(gameObject);
     }
+
+    private void OnMusicVol(EventData arg0)
+    {
+        globalVol = arg0.floatData;
+        audioSource.volume = vol * globalVol;
+    }
+
     public void StopMusic()
     {
         onUpdate = () =>
@@ -64,8 +74,14 @@ public class MusicManager : MonoBehaviour
         AudioClip audio = null;
         clips.TryGetValue(musicName, out audio);
         audioSource.clip = audio;
-        audioSource.volume = vol;
+        this.vol = vol;
+        audioSource.volume = vol*globalVol;
         audioSource.Play();
+    }
+    private void OnDestroy()
+    {
+        EventManager.StopListening("musicvol", OnMusicVol);
+
     }
 
 }

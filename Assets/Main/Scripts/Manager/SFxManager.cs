@@ -15,6 +15,7 @@ public class SFxManager: MonoBehaviour {
     public List<DictionaryFill> dictionaryFill;
     public Dictionary<string, AudioClip> dictionary=new Dictionary<string, AudioClip>();
     public Dictionary<string, float> dictionaryVol=new Dictionary<string, float>();
+    private float globalVol = 1;
 	// Use this for initialization
 	void Awake () {
         audioSource = GetComponents<AudioSource>();
@@ -25,7 +26,17 @@ public class SFxManager: MonoBehaviour {
         }
         EventManager.StartListening(EventName.PLAY_FX, PlayFx);
 	}
-	public void PlayFx(string n)
+    public void Start()
+    {
+        EventManager.StartListening("fxvol", OnFxVolume);
+    }
+
+    private void OnFxVolume(EventData arg0)
+    {
+        globalVol = arg0.floatData;
+    }
+    
+    public void PlayFx(string n)
     {
         PlayFx(EventManager.Instance.GetEventData().SetString(n));
     }
@@ -42,7 +53,7 @@ public class SFxManager: MonoBehaviour {
             print("audio " + n + " not found");
         }
         audioSource[currentIndex].clip = audio;
-        audioSource[currentIndex].volume = vol;
+        audioSource[currentIndex].volume = vol*globalVol;
         audioSource[currentIndex].Play();
         currentIndex++;
         if (currentIndex >= audioSource.Length)
@@ -53,5 +64,7 @@ public class SFxManager: MonoBehaviour {
     private void OnDestroy()
     {
         EventManager.StopListening(EventName.PLAY_FX, PlayFx);
+        EventManager.StopListening("fxvol", OnFxVolume);
+
     }
 }

@@ -725,6 +725,14 @@ PrefabInstance:
       propertyPath: m_Text
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2282200319493620189, guid: 15b3f3c24f68215498288dd0555d072f, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
+    - target: {fileID: 2282200319493620191, guid: 15b3f3c24f68215498288dd0555d072f, type: 3}
+      propertyPath: m_Name
+      value: Text (Legacy)--
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15b3f3c24f68215498288dd0555d072f, type: 3}
 --- !u!224 &209708337 stripped
@@ -1289,6 +1297,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 852978369}
     m_Modifications:
+    - target: {fileID: 6074412052616600578, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 6074412052616600580, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
+      propertyPath: m_Name
+      value: coins Text legacy--
+      objectReference: {fileID: 0}
     - target: {fileID: 6074412053898051157, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1392,6 +1408,14 @@ PrefabInstance:
     - target: {fileID: 6074412053898051158, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6074412054584845850, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 6074412054584845852, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
+      propertyPath: m_Name
+      value: WALLET TEXT--
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 69e649c1783697c449cc4aca72f06780, type: 3}
@@ -1683,6 +1707,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1286935887}
     m_Modifications:
+    - target: {fileID: 1408058455, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: TextCost--
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408058457, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468593522301, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: Text item--
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676124468593522302, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468911106147, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468911106150, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: Text Level--
+      objectReference: {fileID: 0}
     - target: {fileID: 7676124469428214650, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
       propertyPath: skillName
       value: Defense
@@ -2701,6 +2749,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1286935887}
     m_Modifications:
+    - target: {fileID: 1408058455, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: TextCost--
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408058457, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468593522301, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: Text item--
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676124468593522302, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468911106147, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468911106150, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: Text Level--
+      objectReference: {fileID: 0}
     - target: {fileID: 7676124469428214650, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
       propertyPath: skillName
       value: Health
@@ -3403,7 +3475,7 @@ GameObject:
   - component: {fileID: 952284811}
   - component: {fileID: 952284810}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text (Legacy)--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3450,7 +3522,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6fff9293143885c44bba85c6482370ee, type: 3}
+    m_Font: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
     m_FontSize: 51
     m_FontStyle: 0
     m_BestFit: 1
@@ -4042,6 +4114,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1923054796}
     m_Modifications:
+    - target: {fileID: 605871300679784456, guid: 7b27f5a4eeed4a24dbc30a0644b9503c, type: 3}
+      propertyPath: m_Name
+      value: coins Text--
+      objectReference: {fileID: 0}
     - target: {fileID: 2329095806448721423, guid: 7b27f5a4eeed4a24dbc30a0644b9503c, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -4126,6 +4202,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3901385665908269697, guid: 7b27f5a4eeed4a24dbc30a0644b9503c, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
     - target: {fileID: 7615478873520175334, guid: 7b27f5a4eeed4a24dbc30a0644b9503c, type: 3}
       propertyPath: m_Name
       value: CoinsTemp UI
@@ -4275,7 +4355,7 @@ GameObject:
   - component: {fileID: 1334365965}
   - component: {fileID: 1334365964}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text (Legacy)--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4322,7 +4402,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6fff9293143885c44bba85c6482370ee, type: 3}
+    m_Font: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
     m_FontSize: 51
     m_FontStyle: 0
     m_BestFit: 1
@@ -4609,6 +4689,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: MiniPopupContainer
       objectReference: {fileID: 0}
+    - target: {fileID: 5596824599348111737, guid: f644d9d0e59878342a6d6b845512e0d2, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
+    - target: {fileID: 5596824599348111742, guid: f644d9d0e59878342a6d6b845512e0d2, type: 3}
+      propertyPath: m_Name
+      value: Text (Legacy)--
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f644d9d0e59878342a6d6b845512e0d2, type: 3}
 --- !u!224 &1361181610 stripped
@@ -4768,6 +4856,50 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1480124466}
   m_CullTransparentMesh: 1
+--- !u!1 &1626191560
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1626191562}
+  - component: {fileID: 1626191561}
+  m_Layer: 0
+  m_Name: OnInit
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1626191561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626191560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2e823d0836809841af530acd297e4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1626191562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1626191560}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 257.89404, y: 726.95447, z: 10.058562}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1647679790
 GameObject:
   m_ObjectHideFlags: 0
@@ -4781,7 +4913,7 @@ GameObject:
   - component: {fileID: 1647679793}
   - component: {fileID: 1647679792}
   m_Layer: 5
-  m_Name: Level text
+  m_Name: Level text--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4805,7 +4937,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 16.069946, y: 579.01953}
-  m_SizeDelta: {x: 625.81, y: 207.6}
+  m_SizeDelta: {x: 700, y: 207.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1647679792
 MonoBehaviour:
@@ -4843,7 +4975,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6fff9293143885c44bba85c6482370ee, type: 3}
+    m_Font: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
     m_FontSize: 62
     m_FontStyle: 0
     m_BestFit: 1
@@ -5043,7 +5175,7 @@ GameObject:
   - component: {fileID: 1769968927}
   - component: {fileID: 1769968926}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text (Legacy)--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5090,7 +5222,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6fff9293143885c44bba85c6482370ee, type: 3}
+    m_Font: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
     m_FontSize: 51
     m_FontStyle: 0
     m_BestFit: 1
@@ -5199,7 +5331,7 @@ GameObject:
   - component: {fileID: 1920733178}
   - component: {fileID: 1920733177}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text (Legacy)--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5246,7 +5378,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6fff9293143885c44bba85c6482370ee, type: 3}
+    m_Font: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
     m_FontSize: 51
     m_FontStyle: 0
     m_BestFit: 1
@@ -5470,7 +5602,7 @@ GameObject:
   - component: {fileID: 2004712738}
   - component: {fileID: 2004712737}
   m_Layer: 5
-  m_Name: Text (Legacy)
+  m_Name: Text (Legacy)--
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5517,7 +5649,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_FontData:
-    m_Font: {fileID: 12800000, guid: 6fff9293143885c44bba85c6482370ee, type: 3}
+    m_Font: {fileID: 12800000, guid: 654f13abaaf54e4429188045696cd7d8, type: 3}
     m_FontSize: 51
     m_FontStyle: 0
     m_BestFit: 1
@@ -5670,6 +5802,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1286935887}
     m_Modifications:
+    - target: {fileID: 1408058455, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: TextCost--
+      objectReference: {fileID: 0}
+    - target: {fileID: 1408058457, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468593522301, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: Text item--
+      objectReference: {fileID: 0}
+    - target: {fileID: 7676124468593522302, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468911106147, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: ca11133ff5eef3543bf486eb1e6f2547, type: 3}
+    - target: {fileID: 7676124468911106150, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
+      propertyPath: m_Name
+      value: Text Level--
+      objectReference: {fileID: 0}
     - target: {fileID: 7676124469428214654, guid: a3b07032fb0592b4cbbec2ed5446a496, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5

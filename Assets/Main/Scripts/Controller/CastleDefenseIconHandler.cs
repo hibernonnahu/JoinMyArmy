@@ -16,7 +16,11 @@ public class CastleDefenseIconHandler : MonoBehaviour
     private Transform cameraRefPoint;
     private float originalYPosition = -1;
     private string characterName;
-   
+    private bool wasHit = false;
+    public bool GetWasHit()
+    {
+        return wasHit;
+    }
     void Awake()
     {
         originalWarningSize = warning.transform.localScale;
@@ -30,6 +34,7 @@ public class CastleDefenseIconHandler : MonoBehaviour
 
     private void OnHit()
     {
+        wasHit = true;
         warningSound.Play();
         LeanTween.cancel(warning);
         LeanTween.scale(warning, originalWarningSize, WARNING_TIME).setEaseInOutBack().setOnComplete(() =>

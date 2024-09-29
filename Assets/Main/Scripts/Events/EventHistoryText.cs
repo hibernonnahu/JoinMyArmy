@@ -17,6 +17,7 @@ public class EventHistoryText : EventText
     public RawImage background;
     public Image avatar;
     public AudioSource audiosource;
+    float globalVol = 1;
     // Start is called before the first frame update
     public override void Start()
     {
@@ -24,8 +25,16 @@ public class EventHistoryText : EventText
         base.Start();
        
         avatar = GetComponentInChildren<Image>();
+        EventManager.StartListening("voicevol", OnVoiceVol);
 
     }
+
+    private void OnVoiceVol(EventData arg0)
+    {
+        globalVol = arg0.floatData;
+        audiosource.volume = globalVol;
+    }
+
     protected override void PlayText(EventData arg0)
     {
         if (text.text == "")
@@ -89,5 +98,8 @@ public class EventHistoryText : EventText
         }
 
     }
-
+    private void OnDestroy()
+    {
+        EventManager.StopListening("voicevol", OnVoiceVol);
+    }
 }
