@@ -4939,4 +4939,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c353cef23ccbabb4395de909412728a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CAMERA_DISTANCE_SQR: 1200
+  CAMERA_DISTANCE_SQR: 400

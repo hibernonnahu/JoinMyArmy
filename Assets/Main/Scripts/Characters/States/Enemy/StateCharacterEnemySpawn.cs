@@ -47,8 +47,10 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
 
             foreach (var spawnEnemy in spawnEnemies)
             {
-                if (spawnEnemy.IsDead)
+                if (!spawnEnemy.IsDead)
                 {
+                    spawnEnemy.Kill();
+                }
                     spawnEnemy.team = enemy.team;
 
                     spawnEnemy.transform.position = enemy.transform.position + UnityEngine.Random.Range(-SPAWN_OFFSET, SPAWN_OFFSET) * Vector3.right + UnityEngine.Random.Range(-SPAWN_OFFSET, SPAWN_OFFSET) * Vector3.forward;
@@ -80,7 +82,7 @@ public class StateCharacterEnemySpawn : StateCharacterEnemy
                     enemy.CharacterManager.AddCharacterEnemy(spawnEnemy, enemy.CharacterMain);
                     spawnEnemy.enabled = true;
 
-                }
+                
             }
             enemy.GeneralParticleHandler.wallHit.Stop();
 

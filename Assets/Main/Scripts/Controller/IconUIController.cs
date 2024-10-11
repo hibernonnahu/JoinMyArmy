@@ -6,13 +6,16 @@ using UnityEngine.UI;
 
 public class IconUIController : MonoBehaviour
 {
+    public bool doNotDisable = false;
+    public bool canSwap = true;
+    public bool canMoveToTrash = true;
     public GameObject container;
     public RectTransform currentBar;
     public Image coldDown;
-    private CharacterEnemy characterEnemy;
-    public CharacterEnemy CharacterEnemy { set => characterEnemy = value; get { return characterEnemy; } }
+    private Character character;
+    public Character Character { set => character = value; get { return character; } }
     private RecluitController recluitController;
-    public RecluitController RecluitController { set { recluitController = value; } }
+    public RecluitController RecluitController { set { recluitController = value; }get { return recluitController; } }
 
     public Button button;
     public RectTransform rectTransform;
@@ -25,13 +28,16 @@ public class IconUIController : MonoBehaviour
     private int indexPosition;
     private bool canBeDragged = true;
 
-    public int IndexPosition { get { return indexPosition; } }
+    public virtual int IndexPosition { get { return indexPosition; } }
     private bool drag = false;
     public int tutorialID = 2;
     public bool tutorialOnClick = false;
     private Image redDot;
-
-
+    private Func<bool> extraRequirement = () => { return true; };
+    public void AddExtraRequirement(Func<bool> e)
+    {
+        extraRequirement = e;
+    }
     internal void Init(RecluitController recluitController, int indexPosition)
     {
         this.recluitController = recluitController;
@@ -101,12 +107,12 @@ public class IconUIController : MonoBehaviour
     }
     public void OnClick()
     {
-        if (currentTime <= 0)
+        if (currentTime <= 0&&extraRequirement())
         {
             if(tutorialOnClick)
             EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(tutorialID));
 
-            currentTime = totalTime = characterEnemy.UseMainSkill();
+            currentTime = totalTime = character.UseMainSkill();
             SaveDot();
             if (currentTime > 0)
             {
@@ -134,9 +140,9 @@ public class IconUIController : MonoBehaviour
             coldDown.fillAmount = 0;
             currentTime = -1;
             button.interactable = true;
-            if (characterEnemy != null && characterEnemy.autoCast)
+            if (character != null )
             {
-                OnClick();
+                //OnClick();
             }
             else
             {
@@ -152,8 +158,11 @@ public class IconUIController : MonoBehaviour
             transform.SetParent(null, true);
             transform.SetParent(parent, true);
             button.interactable = false;
-            LeanTween.cancel(recluitController.trash.gameObject, true);
-            LeanTween.scale(recluitController.trash.gameObject, Vector3.one, 0.1f);
+            if (canMoveToTrash)
+            {
+                LeanTween.cancel(recluitController.trash.gameObject, true);
+                LeanTween.scale(recluitController.trash.gameObject, Vector3.one, 0.1f);
+            }
 
             drag = true;
         }
@@ -201,18 +210,18 @@ public class IconUIController : MonoBehaviour
 
     private void SaveDot()
     {
-        if (characterEnemy.UseCastRedDotUI)
+        if (character.UseCastRedDotUI)
         {
-            int code = SaveData.GetInstance().GetValue("redDot" + characterEnemy.id, 0);
+            int code = SaveData.GetInstance().GetValue("redDot" + character.id, 0);
             code++;
-            SaveData.GetInstance().Save(SaveDataKey.RED_DOT + characterEnemy.id, code);
+            SaveData.GetInstance().Save(SaveDataKey.RED_DOT + character.id, code);
         }
     }
     public void CheckDot()
     {
-        if (characterEnemy != null && characterEnemy.UseCastRedDotUI)
+        if (character != null && character.UseCastRedDotUI)
         {
-            int code = SaveData.GetInstance().GetValue("redDot" + characterEnemy.id, 0);
+            int code = SaveData.GetInstance().GetValue("redDot" + character.id, 0);
             if (code < 2)
             {
                

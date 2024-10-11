@@ -37,7 +37,7 @@ public class StateEndGame : StateGame
                 EventManagerGlobal.TriggerEvent(QudoCustomEvents.ACHIEVEMENT, EventManagerGlobal.Instance.GetEventData().SetString("book" + stats.book + "chapter" + stats.chapter).SetString2(""));
 
                 stats.chapter++;
-                int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
+                int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().GetInitialChapter());
                 if (stats.chapter > currentChapter)
                 {
                     CurrentPlaySingleton.GetInstance().animateTransition = true;
@@ -50,7 +50,11 @@ public class StateEndGame : StateGame
             }
             stats.SaveGamePlay(characterMain);
             stats.Reset();
-            SaveData.GetInstance().SaveMetric(SaveDataKey.ARMY, CurrentPlaySingleton.GetInstance().GetArmyString());
+            for (int i = 0; i < 3; i++)
+            {
+                SaveData.GetInstance().SaveMetric(SaveDataKey.ARMY+i, CurrentPlaySingleton.GetInstance().GetArmyString(i));
+            }
+            
 
             ChangeState(typeof(StateGameChapterFinish));
 

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class CharacterMain : Character
 {
+    public EnemyType canRecluit;
+    public float mana = 100;
     [Header("Main ExternalElements")]
     public FloatingJoystick floatingJoystick;
     public RecluitController recluitController;
@@ -26,9 +28,11 @@ public class CharacterMain : Character
         set { coinsMultiplier = value; }
         get { return coinsMultiplier; }
     }
-    private int maxRecluits = 8;
+    public int maxRecluits = 8;
 
     public StateMachine<StateCharacter> StateMachine { get { return stateMachine; } }
+
+   
 
     protected override void Awake()
     {
@@ -54,7 +58,10 @@ public class CharacterMain : Character
     {
         Init();
         recluitController.SetMaxRecluits(maxRecluits + skillController.ExtraRecluit);
-
+        foreach (var item in GetComponents<ICharacterSpecialPower>())
+        {
+            item.Init(this);
+        }
     }
 
     public override void Init()
@@ -71,7 +78,7 @@ public class CharacterMain : Character
         stateMachine.AddState(new StateCharacterMainDead(stateMachine, this));
         stateMachine.AddState(new StateCharacterVulnerable(stateMachine, this));
         stateMachine.AddState(new StateCharacterMainIdle(stateMachine, this));
-
+        IdleState = typeof(StateCharacterMainInGame);
         CurrentPlaySingleton.GetInstance().LoadGamePlay(this);
 
         UpdateStatsOnLevel(level, currentHealth != 0, false);
@@ -86,11 +93,23 @@ public class CharacterMain : Character
         stateMachine.CurrentState.UpdateMovement(floatingJoystick.Horizontal, floatingJoystick.Vertical);
         base.Update();//updates stateMachine
     }
-
+    internal override float UseMainSkill()
+    {
+        return stateMachine.CurrentState.OnCastMainPower();
+    }
     internal void CastRecluit(CharacterEnemy enemy)
     {
-        FxHandler.enemyRecluit.transform.position = enemy.transform.position;
+        FxHandler.enemyRecluit.transform.position = enemy.transform.position+Vector3.up* FxHandler.enemyRecluit.transform.localPosition.y;
+
         FxHandler.enemyRecluit.Play();
+        if (FxHandler.enemyRecluitStayOn != null)
+        {
+            FxHandler.enemyRecluitStayOn.transform.SetParent(enemy.transform);
+            FxHandler.enemyRecluitStayOn.transform.position = Vector3.up * 4;
+            FxHandler.enemyRecluitStayOn.transform.localPosition = Vector3.up * FxHandler.enemyRecluitStayOn.transform.localPosition.y;
+            FxHandler.enemyRecluitStayOn.Stop();
+            FxHandler.enemyRecluitStayOn.Play();
+        }
         FxHandler.startEnemyRecluit.Play();
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("recluit" + UnityEngine.Random.Range(1, 4)));
         EventManager.TriggerEvent(EventName.PLAY_FX, EventManager.Instance.GetEventData().SetString("recluitmagic"));

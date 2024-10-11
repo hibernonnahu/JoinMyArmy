@@ -109,8 +109,9 @@ MonoBehaviour:
   healWhenKill: 50
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 142
-  speed: 20
+  speed: 12
   strength: 10
   defense: 3
   enemyType: 1

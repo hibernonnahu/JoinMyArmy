@@ -12,18 +12,22 @@ public class EventHistoryText : EventText
         public string text;
         public string character;
         public string audio;
+        public bool think;
     }
     private List<LateText> queue2 = new List<LateText>();
     public RawImage background;
     public Image avatar;
     public AudioSource audiosource;
     float globalVol = 1;
+    private FontStyle normalFontStyle;
+    public FontStyle thinkFontStyle;
+    
     // Start is called before the first frame update
     public override void Start()
     {
         code = EventName.STORY_TEXT;
         base.Start();
-       
+        normalFontStyle = text.fontStyle;
         avatar = GetComponentInChildren<Image>();
         EventManager.StartListening("voicevol", OnVoiceVol);
 
@@ -50,6 +54,15 @@ public class EventHistoryText : EventText
             }
             text.color = arg0.vec4;
             TEXT_DELAY = arg0.floatData;
+            if (arg0.boolData)
+            {
+                text.fontStyle = thinkFontStyle;
+            }
+            else
+            {
+                text.fontStyle = normalFontStyle;
+
+            }
             background.gameObject.SetActive(true);
             PlayAudio(arg0.stringData3);
             base.PlayText(arg0);
@@ -59,6 +72,7 @@ public class EventHistoryText : EventText
             var late = new LateText();
             late.character = arg0.stringData2;
             late.audio = arg0.stringData3;
+            late.think = arg0.boolData;
             late.text = arg0.stringData;
             late.time = arg0.floatData;
             late.color = arg0.vec4;
@@ -93,7 +107,7 @@ public class EventHistoryText : EventText
             var q = queue2[0];
             queue2.RemoveAt(0);
             var ed = new EventData();
-            ed.SetString(q.text).SetString2(q.character).SetString3(q.audio).SetFloat(q.time).SetVec4(q.color);
+            ed.SetString(q.text).SetString2(q.character).SetString3(q.audio).SetBool(q.think).SetFloat(q.time).SetVec4(q.color);
             PlayText(ed);
         }
 

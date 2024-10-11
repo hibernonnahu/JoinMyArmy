@@ -6,6 +6,7 @@ public class StateCharacterMainInGame : StateCharacter
 {
     protected ICharacterAttackController attackHandler;
     protected CharacterMain characterMain;
+    private CameraHandler cameraHandler;
     public StateCharacterMainInGame(StateMachine<StateCharacter> stateMachine, CharacterMain character) : base(stateMachine, character)
     {
         attackHandler = character.GetComponent<ICharacterAttackController>();
@@ -18,6 +19,8 @@ public class StateCharacterMainInGame : StateCharacter
     {
         character.IdleState = typeof(StateCharacterMainInGame);
         attackHandler.GoAlert();
+        cameraHandler = GameObject.FindObjectOfType<CameraHandler>();
+        cameraHandler.FollowGameObject(character.model.gameObject, false);
     }
     public override void Sleep()
     {
@@ -29,6 +32,8 @@ public class StateCharacterMainInGame : StateCharacter
         if (x ==0&&y==0)
         {
             character.SetAnimation("idle",0);
+           
+
             character.Rigidbody.drag = 50;
             character.Rigidbody.velocity = Vector3.zero;
             characterMain.IsMoving = false;
@@ -47,7 +52,7 @@ public class StateCharacterMainInGame : StateCharacter
                     direction = character.lastEnemyTarget.transform.position - character.transform.position;
                 }
                 character.model.transform.forward = direction;
-                character.SetAnimation("walk");
+                character.SetAnimation("walk",0,0);
             }
         }
     }

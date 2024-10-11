@@ -15,10 +15,11 @@ public class EnemyStateAddForceRecluit : EnemyStateAddCanBeRecluit, IEnemySimple
   
     public override void Init(CharacterEnemy characterEnemy)
     {
+        characterEnemy.RecluitStateType = typeof(StateCharacterEnemyFollowLeader);
         characterEnemy.CharacterMain = FindObjectOfType<CharacterMain>();
         characterEnemy.FormationGrad = formationGrad;
-        characterEnemy.IdleState = typeof(StateCharacterEnemyFollowLeader);
-        characterEnemy.NextState = typeof(StateCharacterEnemyFollowLeader);
+        characterEnemy.IdleState = characterEnemy.RecluitStateType;
+        characterEnemy.NextState = characterEnemy.RecluitStateType;
         characterEnemy.VulnerableTime = 1;
         characterEnemy.StateMachine.ChangeState<StateCharacterEnemyVulnerable>();
         base.Init(characterEnemy);

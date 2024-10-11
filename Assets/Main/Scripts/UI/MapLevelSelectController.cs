@@ -18,7 +18,7 @@ public class MapLevelSelectController : MonoBehaviour
     public Image image;
     public GameObject commingSoon;
     public int id;
-
+    public int book = 1;
 
 
     // Start is called before the first frame update
@@ -27,12 +27,13 @@ public class MapLevelSelectController : MonoBehaviour
         image.sprite = Resources.Load<Sprite>("LevelThumbNail/" + id);
 
         levelText.text = "Chapter " + id;
-        commingSoon.SetActive(id > GameConfig.GetInstance().maxChapterEnable[CurrentPlaySingleton.GetInstance().book - 1]);
-        button.gameObject.SetActive(id <= GameConfig.GetInstance().maxChapterEnable[CurrentPlaySingleton.GetInstance().book - 1]);
+        commingSoon.SetActive(id > GameConfig.GetInstance().maxChapterEnable[book - 1]);
+        button.gameObject.SetActive(id <= GameConfig.GetInstance().maxChapterEnable[book - 1]);
     }
 
     public void OnClick()
     {
+        CurrentPlaySingleton.GetInstance().book = book;
         CurrentPlaySingleton.GetInstance().chapter = id;
         CurrentPlaySingleton.GetInstance().level = 1;
         SaveData.GetInstance().SaveMetric(SaveDataKey.GAME_TYPE, gameTypeEnum.ToString());

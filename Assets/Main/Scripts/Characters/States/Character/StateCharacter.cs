@@ -31,4 +31,9 @@ public class StateCharacter : State<StateCharacter>
     {
         
     }
+
+    internal virtual float OnCastMainPower()
+    {
+       return character.OnCastMainPower();
+    }
 }

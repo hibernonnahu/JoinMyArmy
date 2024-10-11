@@ -39,6 +39,14 @@ public class EnemyStateAddAttackSpawn : EnemyStateAddAttack
         }
         return this;
     }
+    public override void ExecuteWhenRecluted()
+    {
+        for (int i = 0; i < spawnEnemies.Length; i++)
+        {
+            if (!spawnEnemies[i].IsDead)
+                spawnEnemies[i].Kill();
+        }
+    }
     public override float Execute()
     {
         characterEnemy.StateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemySpawn));

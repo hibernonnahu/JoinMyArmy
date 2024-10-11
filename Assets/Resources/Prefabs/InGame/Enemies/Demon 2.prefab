@@ -9563,11 +9563,12 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 100
   speed: 3
   strength: 1
   defense: 1
-  enemyType: 1
+  enemyType: 3
   xp: 1
   coins: 1
   extraAlertRange: 0
@@ -9578,6 +9579,7 @@ MonoBehaviour:
   stearingRotationOffset: 0
   triggerOnDeath: 
   followDistance: 0.5
+  useCastRedDotUI: 0
 --- !u!114 &6859496078760912047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10322,6 +10324,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6980279217489141615
 GameObject:
   m_ObjectHideFlags: 0

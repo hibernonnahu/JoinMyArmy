@@ -105,6 +105,7 @@ MonoBehaviour:
   barOffset: 0
   useBarText: 0
   generalParticleYOffset: 0
+  generalParticleScale: 1
   id: 1
   level: 1
   team: 0
@@ -118,6 +119,7 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 100
   speed: 3
   strength: 1
@@ -129,8 +131,11 @@ MonoBehaviour:
   belongToWave: 0
   isBoss: 0
   debug: 0
+  autoCast: 0
+  stearingRotationOffset: 0
   triggerOnDeath: 
   followDistance: 0.5
+  useCastRedDotUI: 0
 --- !u!114 &6859496078760912047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +161,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCastMainPower: 0
+  redDotUITip: 0
   uIColdDown: 0
   weight: 1
   removeWhenRecluted: 0
@@ -171,6 +177,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e3ec16df487c6c41a54cc1b6473a9fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialB: {fileID: 0}
+  helpAttack: 1
   formationGrad: 180
 --- !u!114 &-6093566160521968052
 MonoBehaviour:
@@ -185,11 +193,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isCastMainPower: 0
+  redDotUITip: 0
   uIColdDown: 30
   weight: 0
   removeWhenRecluted: 0
   animationName: taunt
   soundName: 
+  soundDelay: 0
   animationSpeed: 1
 --- !u!1001 &3922559526350492266
 PrefabInstance:
@@ -198,20 +208,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 683132909884589767}
     m_Modifications:
-    - target: {fileID: 2095582323255578896, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
+    - target: {fileID: 3294853371015226888, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
+      propertyPath: MaxStretching
+      value: 0.042
       objectReference: {fileID: 0}
-    - target: {fileID: 2095582323255578896, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001831505432466964, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_CastShadows
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001831505432466964, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_ReceiveShadows
+    - target: {fileID: 9001831505234510670, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
+      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9001831505443969686, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
@@ -221,18 +223,6 @@ PrefabInstance:
     - target: {fileID: 9001831505444456118, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001831505444456118, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001831505444456118, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 9001831505444456118, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1.4
       objectReference: {fileID: 0}
     - target: {fileID: 9001831505444456118, guid: bba7208b17aa28a478386ac057bd1fa0, type: 3}
       propertyPath: m_LocalPosition.x

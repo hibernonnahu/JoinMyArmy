@@ -44,7 +44,7 @@ public class CharacterManager : MonoBehaviour
     }
     public void ForceEnemiesID(int team, List<int> enemiesID)
     {
-        this.teamEnemiesID[team] =enemiesID;
+        this.teamEnemiesID[team] = enemiesID;
     }
     private void ParseTeamEnemiesIDs(int[] teamEnemiesID)
     {
@@ -330,7 +330,7 @@ public class CharacterManager : MonoBehaviour
                 return false;
             }
         }
-       return true;
+        return true;
     }
 
     public void SpawnNextWave()
@@ -382,7 +382,7 @@ public class CharacterManager : MonoBehaviour
     }
 
 
-    public void GoMainTeam(CharacterEnemy characterEnemy, bool direct = false, int forcePosition = -1)
+    public void GoMainTeam(CharacterEnemy characterEnemy, bool direct = false, int forcePosition = -1, bool recluit = true)
     {
         teamList[0].Add(characterEnemy);
         SaveData.GetInstance().Save(SaveDataKey.RECLUIT + characterEnemy.id, 1);
@@ -390,7 +390,8 @@ public class CharacterManager : MonoBehaviour
         characterEnemy.UpdateStatsOnLevel(characterEnemy.level, true, false);
         characterEnemy.Revive();
         characterEnemy.SetLayer(16, 15, new int[] { 9 });
-        characterMain.recluitController.Recluit(characterEnemy, direct, forcePosition);
+        if (recluit)
+            characterMain.recluitController.Recluit(characterEnemy, direct, forcePosition);
     }
 
     private int GetEnemyLevel(int id)

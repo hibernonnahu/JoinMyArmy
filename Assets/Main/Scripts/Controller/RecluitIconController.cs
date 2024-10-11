@@ -39,9 +39,13 @@ public class RecluitIconController : MonoBehaviour
         if (Camera.main != null)
             cameraRefPoint = Camera.main.transform.GetChild(0);
         EventManager.StartListening(EventName.HIDE_RECLUIT_ICON, OnHide);
+        EventManager.StartListening(EventName.FADE_IN_RECLUIT_ICON, OnFadeIn);
+        EventManager.StartListening(EventName.FADE_OUT_RECLUIT_ICON, OnFadeOut);
         EventManager.StartListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
         EventManager.StartListening(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, OnEnableCollider);
     }
+
+   
 
     private void OnEnableCollider(EventData arg0)
     {
@@ -117,6 +121,7 @@ public class RecluitIconController : MonoBehaviour
         onUpdate = UpdatePosition;
         LeanTween.scale(this.gameObject, Vector3.one * ICON_SIZE, FADE_TIME).setEaseInExpo().setOnComplete(Pulse);
     }
+
 
     private void Reset()
     {
@@ -208,6 +213,7 @@ public class RecluitIconController : MonoBehaviour
                 if (updateFreeSpace)
                     enemy.CharacterMain.recluitController.UpdateFreeSpace();
                 enemy.CharacterMain.recluitController.MakeUIAnimation(transform.position);
+                enemy.CharacterManager.RemoveCharacter(enemy);
                 enemy.CharacterMain.CastRecluit(enemy);
 
                 gameObject.SetActive(false);
@@ -299,6 +305,29 @@ public class RecluitIconController : MonoBehaviour
         EventManager.StopListening(EventName.HIDE_RECLUIT_ICON, OnHide);
         EventManager.StopListening(EventName.ENABLE_ICON_CONTROLLER, OnEnableClick);
         EventManager.StopListening(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, OnEnableCollider);
+        EventManager.StopListening(EventName.FADE_IN_RECLUIT_ICON, OnFadeIn);
+        EventManager.StopListening(EventName.FADE_OUT_RECLUIT_ICON, OnFadeOut);
 
+    }
+
+    private void OnFadeIn(EventData arg0)
+    {
+        if (enemy != null && enemy.team != 0 && enemy.gameObject.active && !enemy.IsDead)
+        {
+            Debug.Log("type " + ((int)enemy.enemyType));
+            Debug.Log("name " + enemy.name+" "+ (((int)enemy.enemyType) == arg0.intData));
+        }
+        if (enemy!=null &&enemy.team!=0&& enemy.gameObject.active&&!enemy.IsDead&&((int)enemy.enemyType) == arg0.intData)
+        {
+            Debug.Log("act");
+            gameObject.SetActive(true);
+            FadeIn();
+        }
+    }
+    private void OnFadeOut(EventData arg0)
+    {
+        
+            FadeOut();
+        
     }
 }

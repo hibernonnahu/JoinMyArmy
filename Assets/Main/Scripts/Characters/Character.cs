@@ -6,8 +6,16 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Character : MonoBehaviour
 {
+    public enum EnemyType
+    {
+        human, beast, dead, demon, hero
+    }
+    public EnemyType enemyType;
+    public bool isBoss = false;
     protected SkillController skillController;
     public SkillController SkillController { get { return skillController; } set { skillController = value; } }
+    public bool useCastRedDotUI = false;
+    public bool UseCastRedDotUI { get { return useCastRedDotUI; } }
     [Header("ExternalElements")]
     public Animator animator;
     protected ChatIconController chatIconHandler;
@@ -15,7 +23,8 @@ public class Character : MonoBehaviour
     private HealthBarController healthBarController;
     public HealthBarController HealthBarController { get { return healthBarController; } }
 
-
+    protected Func<float> onCastMainPower = () => { return -1; };
+    public Func<float> OnCastMainPower { get { return onCastMainPower; } }
 
     public GameObject model;
     public TextShortController textShortHandler;
@@ -48,6 +57,7 @@ public class Character : MonoBehaviour
 
     [Header("Temps")]
     public Character lastEnemyTarget;
+    public Character lastFollowTarget;
     public Vector3 destiny;
 
     public bool invulnerable = false;
@@ -56,9 +66,14 @@ public class Character : MonoBehaviour
     private float vulnerableTime;
     public float VulnerableTime { get { return vulnerableTime; } set { vulnerableTime = value; } }
     private Type nextState;
-    public Type NextState { get => nextState; set => nextState = value; }
-    private Type idleState;
-    public Type IdleState { get => idleState; set => idleState = value; }
+    public Type NextState { get => nextState; 
+        set => nextState = value; }
+    protected Type idleState;
+    public Type IdleState
+    {
+        get => idleState;
+        set => idleState = value;
+    }
     private bool isDead = false;
     public bool IsDead { get => isDead; set => isDead = value; }
     private bool isKnocked = false;
@@ -66,6 +81,7 @@ public class Character : MonoBehaviour
     public Action onVulnerableEnd = () => { };
     internal void SetAnimation(string name, float crossTime = 0, int layer = 0)
     {
+
         animator.CrossFade(name, crossTime, layer);
     }
 
@@ -155,6 +171,10 @@ public class Character : MonoBehaviour
     {
         stateMachine.Update();
     }
+    internal virtual float UseMainSkill()
+    {
+        return 0;
+    }
     public virtual float GetHit(Character attacker, float multiplier = 1, bool getDissy = false)//returns damage percent
     {
         if (attacker.team != team || CurrentPlaySingleton.GetInstance().dificulty > 0)
@@ -209,7 +229,8 @@ public class Character : MonoBehaviour
     }
     public static float GetBaseDefense(int defense, int level)
     {
-        return defense + level * 0.1f;
+        float def = defense + level * 0.1f;
+        return def;
     }
     private float GetDefense()
     {
@@ -229,7 +250,11 @@ public class Character : MonoBehaviour
         }
         return result;
     }
+    internal void SetCastMainPower(ICharacterSpecialPower component)
+    {
+        onCastMainPower = component.Execute;
 
+    }
     public virtual void Heal(float heal, bool showText = true)
     {
         if (heal > 0)
@@ -291,14 +316,14 @@ public class Character : MonoBehaviour
         {
             return false;
         }
-        if(characterManager!=null)
-        foreach (var enemyId in characterManager.teamEnemiesID[0])
-        {
-            if (enemyId == team)
+        if (characterManager != null)
+            foreach (var enemyId in characterManager.teamEnemiesID[0])
             {
-                return true;
+                if (enemyId == team)
+                {
+                    return true;
+                }
             }
-        }
         return false;
     }
 

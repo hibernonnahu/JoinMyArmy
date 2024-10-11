@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ButtonUpgradeStatsUI : MonoBehaviour
 {
+    public int book = 1;
     public Text levelText;
     public Text priceText;
     public Text nameText;
@@ -65,7 +66,7 @@ public class ButtonUpgradeStatsUI : MonoBehaviour
             price = costCap;
         }
 
-        int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
+        int currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + book, CurrentPlaySingleton.GetInstance().GetInitialChapter(book));
         button.interactable = SaveData.GetInstance().coins >= price && level < currentChapter;
         if (!button.interactable)
         {

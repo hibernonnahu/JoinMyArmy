@@ -182,7 +182,12 @@ public class StoryManager : MonoBehaviour
         CharacterStory character = GetCharacter(int.Parse(current[1]));
         Vector3 direction = CustomMath.XZNormalize(character.transform.position - main.transform.position);
         LeanTween.cancel(main.model);
-        LeanTween.rotate(main.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, LOOK_ROTATION_SPEED);
+        if (current.Count == 2)
+            LeanTween.rotate(main.model, Quaternion.LookRotation(direction, Vector3.up).eulerAngles, LOOK_ROTATION_SPEED);
+        else
+        {
+            main.model.transform.forward = direction;
+        }
 
         CallStory();
     }
@@ -309,7 +314,13 @@ public class StoryManager : MonoBehaviour
     }
     private void CharacterAnimation()//1-animation
     {
-        FindObjectOfType<CharacterMain>().SetAnimation(current[1], 0.01f);
+        float blendAnimation = 0.01f;
+        if (current.Count > 2)
+        {
+            blendAnimation = float.Parse(current[2]) / 10f;
+        }
+        // Debug.Log("CharacterAnimation " + blendAnimation);
+        FindObjectOfType<CharacterMain>().SetAnimation(current[1], blendAnimation);
         CallStory();
     }
     private void RemoveColliders()//1-id 
@@ -378,6 +389,7 @@ public class StoryManager : MonoBehaviour
     {
         CharacterManager characterManager = FindObjectOfType<CharacterManager>();
         lastCharacterEnemy = GameObject.Instantiate<CharacterEnemy>(characterManager.Loader.GetCharacter(int.Parse(current[1])));
+        lastCharacterEnemy.CharacterMain = FindObjectOfType<CharacterMain>();
         lastCharacterEnemy.transform.position = Vector3.right * float.Parse(current[2]) + Vector3.forward * float.Parse(current[3]);
         lastCharacterEnemy.model.transform.rotation = Quaternion.Euler(0, float.Parse(current[4]), 0);
         lastCharacterEnemy.team = int.Parse(current[5]);
@@ -452,8 +464,80 @@ public class StoryManager : MonoBehaviour
     }
     private void DisableWorldIconCollder()
     {
-      
+
         EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(false));
+
+        CallStory();
+    }
+    private void HintForceRecluitSucu()//1 CharacterId //2 tutorial id 3-force swap
+    {
+        if (SaveData.GetInstance().GetValue("tutorial" + current[2]) == 0)
+        {
+            EventManager.TriggerEvent(EventName.FADE_IN_RECLUIT_ICON);
+
+
+            RecluitController rc = FindObjectOfType<RecluitController>();
+            var recluitIcons = FindObjectsOfType<RecluitIconController>(true);
+            int enemyId = int.Parse(current[1]);
+           
+            {
+
+                RecluitIconController worldIconTemp = null;
+
+                foreach (var item in recluitIcons)
+                {
+                    if (item.GetId() == enemyId && item.gameObject.active)
+                    {
+                        worldIconTemp = item;
+                        break;
+                    }
+                }
+                if (worldIconTemp != null)
+                {
+
+
+                    var hspui = gameObject.AddComponent<HintDragUI>();
+                    int tutorialID = int.Parse(current[2]);
+                    hspui.SetID(tutorialID);
+                    hspui.DisableSwap();
+
+                    int enemyID = int.Parse(current[1]);
+                    LeanTween.delayedCall(gameObject, 0.5f, () =>
+                    {
+                        int minIndex = -1;
+                        for (int i = 0; i < rc.iconUI.Length; i++)
+                        {
+                            rc.iconUI[i].tutorialID = tutorialID;
+
+                            if (rc.iconUI[i].Character != null && !rc.iconUI[i].Character.isBoss && rc.iconUI[i].Character.CurrentHealth > 1 && (minIndex == -1 || rc.iconUI[i].Character.CurrentHealth < rc.iconUI[minIndex].Character.CurrentHealth))
+                            {
+                                minIndex = i;
+                            }
+                        }
+
+                        if (minIndex != -1)
+                        {
+                            worldIconTemp.DisableButtonOnly();
+                            worldIconTemp.GetComponent<Collider>().enabled = true;
+                            var uiPos = Camera.main.WorldToViewportPoint(worldIconTemp.transform.position);
+                            Vector2 destiny = uiPos.x * rc.canvas.rect.width * Vector3.right * rc.canvas.localScale.x + uiPos.y * rc.canvas.rect.height * Vector3.up * rc.canvas.localScale.y;
+                            EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[minIndex].transform).SetFloat(destiny.y).SetFloat2(destiny.x));
+                        }
+
+                    });
+                }
+            }
+        }
+        else
+        {
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER);
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(true));
+
+            Debug.Log("invoke tutoriale");
+            LeanTween.delayedCall(gameObject, 2f, TutorialEnd);
+
+        }
+
 
         CallStory();
     }
@@ -509,7 +593,7 @@ public class StoryManager : MonoBehaviour
                         {
                             rc.iconUI[i].tutorialID = tutorialID;
 
-                            if (rc.iconUI[i].CharacterEnemy != null && !rc.iconUI[i].CharacterEnemy.isBoss && rc.iconUI[i].CharacterEnemy.CurrentHealth > 1 && (minIndex == -1 || rc.iconUI[i].CharacterEnemy.CurrentHealth < rc.iconUI[minIndex].CharacterEnemy.CurrentHealth))
+                            if (rc.iconUI[i].Character != null && !rc.iconUI[i].Character.isBoss && rc.iconUI[i].Character.CurrentHealth > 1 && (minIndex == -1 || rc.iconUI[i].Character.CurrentHealth < rc.iconUI[minIndex].Character.CurrentHealth))
                             {
                                 minIndex = i;
                             }
@@ -531,6 +615,7 @@ public class StoryManager : MonoBehaviour
         else
         {
             EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER);
+            EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(true));
 
             Debug.Log("invoke tutoriale");
             LeanTween.delayedCall(gameObject, 2f, TutorialEnd);
@@ -549,17 +634,28 @@ public class StoryManager : MonoBehaviour
     private void StoryText()
     {
         string audio = "";
+        bool think = false;
         if (current.Count > 4)
+        {
             audio = current[4];
-       
-        EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString(current[2]).SetString2(current[1]).SetString3(audio).SetVec4(Utils.GetCharacterTextColor(current[1])).SetFloat(float.Parse( current[3])));
+            if (current.Count > 5)
+            {
+                think = true;
+            }
+        }
+
+        EventManager.TriggerEvent(EventName.STORY_TEXT, EventManager.Instance.GetEventData().SetString(current[2]).SetString2(current[1]).SetString3(audio).SetBool(think).SetVec4(Utils.GetCharacterTextColor(current[1])).SetFloat(float.Parse(current[3])));
 
         CallStory();
     }
     private void TriggerEvent()//1-eventname 2-booldata
     {
-
-        EventManager.TriggerEvent(current[1], EventManager.Instance.GetEventData().SetBool(current[2] == "1"));
+        int v = 0;
+        if (current.Count > 3)
+        {
+            v = int.Parse(current[3]);
+        }
+        EventManager.TriggerEvent(current[1], EventManager.Instance.GetEventData().SetBool(current[2] == "1").SetInt(v));
         CallStory();
     }
     private void HintSinglePress()//1 CharacterId //2 tutorial id
@@ -592,7 +688,7 @@ public class StoryManager : MonoBehaviour
             {
                 for (int i = 0; i < rc.iconUI.Length; i++)
                 {
-                    if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)
+                    if (rc.iconUI[i].Character != null && rc.iconUI[i].Character.id == enemyID && rc.iconUI[i].button.interactable)
                     {
                         rc.iconUI[i].tutorialID = tutorialID;
                         EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[i].transform).SetFloat(rc.iconUI[7].transform.position.y).SetFloat2(rc.iconUI[i].transform.position.x));
@@ -615,18 +711,25 @@ public class StoryManager : MonoBehaviour
             LeanTween.delayedCall(gameObject, 0.5f, () =>
             {
                 bool found = false;
-                if(rc!=null)
-                for (int i = 0; i < rc.iconUI.Length; i++)
-                {
-                    if (rc.iconUI[i].CharacterEnemy != null && rc.iconUI[i].CharacterEnemy.id == enemyID && rc.iconUI[i].button.interactable)
+                if (rc != null)
+                    for (int i = 0; i < rc.iconUI.Length; i++)
                     {
-                        rc.iconUI[i].tutorialID = tutorialID;
-                        rc.iconUI[i].tutorialOnClick = true;
-                        EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetFloat(rc.Enemies[i].transform.position.x).SetFloat2(rc.Enemies[i].transform.position.z).SetTransform(rc.iconUI[i].transform));
-                        found = true;
-                        break;
+                        if (rc.iconUI[i].Character != null && rc.iconUI[i].Character.id == enemyID && rc.iconUI[i].button.interactable)
+                        {
+                            rc.iconUI[i].tutorialID = tutorialID;
+                            rc.iconUI[i].tutorialOnClick = true;
+                            if (rc.Enemies[i] == null)
+                            {
+                                EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetTransform(rc.iconUI[i].transform).SetBool(false));
+                            }
+                            else
+                            {
+                                EventManager.TriggerEvent(EventName.TUTORIAL_START, EventManager.Instance.GetEventData().SetInt(tutorialID).SetFloat(rc.Enemies[i].transform.position.x).SetFloat2(rc.Enemies[i].transform.position.z).SetTransform(rc.iconUI[i].transform).SetBool(true));
+                            }
+                            found = true;
+                            break;
+                        }
                     }
-                }
                 if (!found)
                 {
                     GameObject.FindWithTag("tutorial text").GetComponent<Text>().text = "";

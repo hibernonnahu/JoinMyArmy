@@ -48,7 +48,7 @@ public class StateAttackHandlerAttack : StateAttackHandler
         {
             if (counter < 0)
             {
-                if ((characterMain.transform.position - characterMain.lastEnemyTarget.transform.position).sqrMagnitude < characterMain.attackDistanceSqr)
+                if (characterMain.lastEnemyTarget != null && (characterMain.transform.position - characterMain.lastEnemyTarget.transform.position).sqrMagnitude < characterMain.attackDistanceSqr)
                 {
                     if (characterMain.FxHandler.swordHit != null)
                     {
@@ -56,7 +56,7 @@ public class StateAttackHandlerAttack : StateAttackHandler
                         characterMain.FxHandler.swordHit.Stop();
                         characterMain.FxHandler.swordHit.Play();
                     }
-                        hitEffectController.CreateEffect(characterMain.transform.position, characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain), Vector3.zero, 0.1f);
+                    hitEffectController.CreateEffect(characterMain.transform.position, characterMain.lastEnemyTarget, characterMain.lastEnemyTarget.GetHit(characterMain), Vector3.zero, 0.1f);
                 }
                 hit = true;
 

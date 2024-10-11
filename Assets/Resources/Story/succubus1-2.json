@@ -1,0 +1,38 @@
+{
+  "story": [
+
+    "TriggerEvent",
+    "fadeInRecluitIcon",
+    "1",
+    "0",
+    "&",
+    "SetDelay",
+    "1",
+    "&",
+    "HintForceRecluitSucu",
+    "26",
+    "117",
+    "1",
+    "&",
+
+    "Wait4Trigger",
+    "recluitIconArrive",
+    "&",
+    "TutorialText",
+    "Use HEALING skill",
+    "&",
+    "HintSinglePressUI",
+    "26",
+    "118",
+    "&",
+    "Wait4Trigger",
+    "StoryTrigger",
+    "&",
+    "StoryText",
+    "Succubus",
+    "Oh not through the spider caves again!",
+    "4",
+    "Camille_Voice_10"
+
+  ]
+}

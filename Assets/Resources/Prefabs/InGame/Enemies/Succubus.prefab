@@ -152,16 +152,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1891548039266738176}
-  m_LocalRotation: {x: -0.1789995, y: -0.72611266, z: -0.6481599, w: 0.1435561}
-  m_LocalPosition: {x: -0.006, y: -0.061, z: 0.003}
-  m_LocalScale: {x: 0.03126695, y: 0.03126696, z: 0.0115551}
+  m_LocalRotation: {x: -0.3843191, y: -0.6760493, z: -0.62695795, w: -0.046688844}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.000001, y: 0.03, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1895081406956062260}
   - {fileID: 1897065235458772754}
   m_Father: {fileID: 5369228726009451782}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -83.057, y: 528.75903, z: 37.659}
+  m_LocalEulerAnglesHint: {x: -54.274, y: 471.025, z: 98.029}
 --- !u!114 &2005809050732622946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,7 +183,7 @@ MonoBehaviour:
   localProceduralPoints: []
   PositionSpeed: 35
   RotationSpeed: 20
-  MaxStretching: 1
+  MaxStretching: 0.01
   Sensitivity: 0.5
   Springiness: 0
   AngleLimit: 90
@@ -1528,7 +1528,7 @@ Transform:
   - {fileID: 5369228726009451832}
   m_Father: {fileID: 5369228726009451824}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 355.3077, y: 0.4607962, z: 354.43863}
 --- !u!1 &5369228726009219292
 GameObject:
   m_ObjectHideFlags: 0
@@ -1797,7 +1797,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c2e9d5c6ece2e7149ad08d1e0567391d, type: 2}
+  - {fileID: 2100000, guid: 9f43f4112af6f3b4b8227b9b7c3ca8d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3455,7 +3455,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 52af9a2b2c25d4c44a542a9d89946d8c, type: 2}
+  - {fileID: 2100000, guid: d32d654fd4d13d545958beee2af6c10f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3740,7 +3740,7 @@ MonoBehaviour:
   speed: 6
   strength: 15
   defense: 1000
-  enemyType: 2
+  enemyType: 3
   xp: 1
   coins: 1
   extraAlertRange: 0

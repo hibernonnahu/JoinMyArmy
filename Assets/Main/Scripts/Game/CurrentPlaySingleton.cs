@@ -5,17 +5,15 @@ using UnityEngine;
 
 public class CurrentPlaySingleton
 {
-#if UNITY_EDITOR
-    public int initialChapter = 6;
-#else
-    public int initialChapter = 1;
 
-#endif
+    public int[] initialChapter ;
+
     public int book = 1;
     public int chapter = 1;
     public int level = 1;
 
-    private List<int> party;
+    private List<int>[] party;
+    public int currentCharacterId = 0;
     private int[] characterMainStats;
     private SkillController skillController;
     static CurrentPlaySingleton instance;
@@ -28,6 +26,7 @@ public class CurrentPlaySingleton
     {
         if (instance == null)
         {
+
             instance = new CurrentPlaySingleton();
             var loader = GameObject.FindAnyObjectByType<LevelJsonLoader>();
             if (loader)
@@ -35,17 +34,32 @@ public class CurrentPlaySingleton
                 instance.book = loader.book;
                 instance.chapter = loader.chapter;
                 instance.level = loader.level;
+               
+            }
+            instance.initialChapter = new int[3];
+            instance.party = new List<int>[3];
+            for (int i = 0; i < 3; i++)
+            {
+                instance.party[i] = new List<int>();
+                instance.initialChapter[i] = 1;
             }
         }
         return instance;
     }
-
-    internal string GetArmyString()
+    public int GetInitialChapter()
+    {
+        return instance.initialChapter[book-1];
+    }
+    public int GetInitialChapter(int book)
+    {
+        return instance.initialChapter[book-1];
+    }
+    internal string GetArmyString(int index)
     {
         string code = "";
         if (party != null)
         {
-            foreach (var item in party)
+            foreach (var item in party[index])
             {
                 code += item + "_";
             }
@@ -65,11 +79,11 @@ public class CurrentPlaySingleton
         if (GameType() == "Campaign"|| forceSave)
         {
             string[] split = code.Split("_");
-            party = new List<int>();
+            party[currentCharacterId] = new List<int>();
             foreach (var item in split)
             {
                 if (item != "")
-                    party.Add(int.Parse(item));
+                    party[currentCharacterId].Add(int.Parse(item));
             }
         }
     }
@@ -91,7 +105,7 @@ public class CurrentPlaySingleton
 
     private void SaveParty()
     {
-        party = new List<int>();
+        party[currentCharacterId] = new List<int>();
         var rc = GameObject.FindObjectOfType<CharacterMain>().recluitController;
         if (rc)
         {
@@ -100,9 +114,9 @@ public class CurrentPlaySingleton
             {
                 if (currentTeam[i] != null)
                 {
-                    party.Add(currentTeam[i].id);
-                    party.Add(Mathf.RoundToInt(currentTeam[i].CurrentHealth));
-                    party.Add(i);
+                    party[currentCharacterId].Add(currentTeam[i].id);
+                    party[currentCharacterId].Add(Mathf.RoundToInt(currentTeam[i].CurrentHealth));
+                    party[currentCharacterId].Add(i);
                 }
             }
         }
@@ -139,6 +153,7 @@ public class CurrentPlaySingleton
     {
         if (GameType() == "Campaign")
         {
+            currentCharacterId = characterMain.id;
             LoadMainCharacter(characterMain);
             LoadParty(characterMain);
         }
@@ -183,9 +198,9 @@ public class CurrentPlaySingleton
 
         if (party != null)
         {
-            for (int i = 0; i < party.Count; i += 3)
+            for (int i = 0; i < party[currentCharacterId].Count; i += 3)
             {
-                CharacterEnemy prefab = loader.GetCharacter(party[i]);
+                CharacterEnemy prefab = loader.GetCharacter(party[currentCharacterId][i]);
                 LoadEnemy(prefab, characterMain, i);
             }
         }
@@ -193,15 +208,17 @@ public class CurrentPlaySingleton
 
     private void LoadEnemy(CharacterEnemy prefab, CharacterMain characterMain, int i)//0-id 1-currentHealth 2-UIposition 
     {
+        currentCharacterId = characterMain.id;
         var characterManager = GameObject.FindObjectOfType<CharacterManager>();
         CharacterEnemy enemy = GameObject.Instantiate<CharacterEnemy>(prefab, (Vector3.right * (characterMain.transform.position.x + 0.4f * i) + Vector3.forward * characterMain.transform.position.z), Quaternion.identity);
         enemy.name += "Old";
         enemy.CharacterMain = characterMain;
         enemy.CharacterManager = characterManager;
         enemy.enabled = true;
+        enemy.RecluitInit();
         enemy.UpdateStatesToFollow();
-        characterManager.GoMainTeam(enemy, true, party[i + 2]);
-        enemy.CurrentHealth = party[i + 1];
+        characterManager.GoMainTeam(enemy, true, party[currentCharacterId][i + 2]);
+        enemy.CurrentHealth = party[currentCharacterId][i + 1];
         enemy.HealthBarController.UpdateBar();
         enemy.model.transform.forward = Vector3.forward;
     }

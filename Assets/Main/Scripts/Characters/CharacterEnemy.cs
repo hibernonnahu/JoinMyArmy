@@ -7,17 +7,15 @@ public class CharacterEnemy : Character
 {
     protected new StateMachine<StateCharacterEnemy> stateMachine;
     public StateMachine<StateCharacterEnemy> StateMachine { get => stateMachine; }
-    public enum EnemyType
-    {
-        human, beast, dead
-    }
+    private Type recluitStateType;
+    public Type RecluitStateType { get => recluitStateType; set => recluitStateType = value; }
     [Header("Enemy Attributes")]
-    public EnemyType enemyType;
+   
     public int xp = 1;
     public int coins = 1;
     public int extraAlertRange = 0;
     public int belongToWave = 0;
-    public bool isBoss = false;
+   
 
 
     [Header("Other")]
@@ -51,23 +49,39 @@ public class CharacterEnemy : Character
         get { return characterMain; }
         set { characterMain = value; }
     }
-    public bool useCastRedDotUI = false;
-    public bool UseCastRedDotUI { get { return useCastRedDotUI; } }
-    private Func<float> onCastMainPower = () => { return -1; };
-    public Func<float> OnCastMainPower { get { return onCastMainPower; } }
 
     private EnemyStateAddDefaultInit enemyStateAddInit;
+    public EnemyStateAddDefaultInit EnemyStateAddInit { get { return enemyStateAddInit; } }
 
     private EnemyStateAddCanBeRecluit enemyStateAddCanBeRecluit;
-    public EnemyStateAddCanBeRecluit EnemyStateAddCanBeRecluit { set { enemyStateAddCanBeRecluit = value; } }
+    public EnemyStateAddCanBeRecluit EnemyStateAddCanBeRecluit { set { enemyStateAddCanBeRecluit = value; } get { return enemyStateAddCanBeRecluit; } }
+    private bool recluitInit = false;
     protected override void Awake()
     {
         base.Awake();
         Init();
     }
+    private void Start()
+    {
+        RecluitInit();
+    }
+
+    public void RecluitInit()
+    {
+        if (!recluitInit)
+        {
+            if (Utils.CanBeRecluited(characterMain.canRecluit, this.enemyType))
+                foreach (var item in GetComponents<IEnemySimpleAdd>())
+                {
+                    item.Init(this);
+                }
+            recluitInit = true;
+        }
+    }
+
     public override void Init()
     {
-        
+
         model.transform.forward = Vector3.back;
 
         base.Init();
@@ -79,10 +93,7 @@ public class CharacterEnemy : Character
 
         stateMachine.AddState(new StateCharacterEnemyDead(stateMachine, this));
         StateMachine.AddState(new StateCharacterEnemyVulnerable(StateMachine, this));
-        foreach (var item in GetComponents<IEnemySimpleAdd>())
-        {
-            item.Init(this);
-        }
+        
 
 
     }
@@ -151,8 +162,8 @@ public class CharacterEnemy : Character
     {
         HealthBarController.UpdateBarColor(this);
         UpdateColor();
-        NextState = typeof(StateCharacterEnemyFollowLeader);
-        IdleState = typeof(StateCharacterEnemyFollowLeader);
+        NextState = recluitStateType;
+        IdleState = recluitStateType;
         VulnerableTime = 1;
         StateMachine.CurrentState.ChangeState(typeof(StateCharacterEnemyVulnerable));
         enemyStateAddInit.OnRecluit();
@@ -200,7 +211,7 @@ public class CharacterEnemy : Character
         useCastRedDotUI = !autoCast && component.UseRedDotUI();
     }
 
-    internal float UseMainSkill()
+    internal override float UseMainSkill()
     {
         return stateMachine.CurrentState.OnCastMainPower();
     }

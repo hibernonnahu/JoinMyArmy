@@ -4494,6 +4494,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 5002565669242291393}
   currentBar: {fileID: 2805749545541625421}
   coldDown: {fileID: 2099343394387463}
@@ -21404,6 +21407,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 1631010473865604677}
   currentBar: {fileID: 7629536259158615664}
   coldDown: {fileID: 9104858599035052541}
@@ -21692,6 +21698,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: baedb1a5170ad94408a8f8b11fe6a484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 0
+  isBoss: 0
+  useCastRedDotUI: 0
   animator: {fileID: 3204984450031177553}
   model: {fileID: 3253863132058839815}
   textShortHandler: {fileID: 0}
@@ -21712,18 +21721,22 @@ MonoBehaviour:
   criticalMultiplier: 1.2
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
+  lastFollowTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
   invulnerable: 0
   baseHealth: 93
   speed: 12
   strength: 10
   defense: 1
+  canRecluit: 1
+  mana: 100
   floatingJoystick: {fileID: 6077722273046649005}
   recluitController: {fileID: 92947928977455140}
   barUI: {fileID: 6988922139415226398}
   damageControllerUI: {fileID: 6950627552380435573}
   coinsUIController: {fileID: 4580996968128466718}
   scrollViewSkillUI: {fileID: 1624023168331930759}
+  maxRecluits: 8
 --- !u!54 &2682561680331825298
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -21755,6 +21768,7 @@ MonoBehaviour:
   slash: {fileID: 5581179553386621912}
   swordHit: {fileID: 7379909136679748624}
   enemyRecluit: {fileID: 8342951079399135}
+  enemyRecluitStayOn: {fileID: 0}
   startEnemyRecluit: {fileID: 385418609291425547}
   levelUp: {fileID: 6728804164737409290}
 --- !u!114 &885491936049793920
@@ -22516,6 +22530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 1203006663329782562}
   currentBar: {fileID: 3688420156855675320}
   coldDown: {fileID: 7602526388439653489}
@@ -22795,14 +22812,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3253867057705233229}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0.0079072565, z: 0.10934785}
+  m_LocalRotation: {x: 0.0016150096, y: 0.030890321, z: 0.0014278967, w: 0.9995205}
+  m_LocalPosition: {x: 0.04311309, y: 0.0047347946, z: 0.10872964}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3260098907825916211}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.18, y: 3.541, z: 0.169}
 --- !u!137 &3227177473786605471
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -24536,16 +24553,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3255376074829314423}
-  m_LocalRotation: {x: 0.000000007450302, y: -0.41086683, z: -0.0000000046572306, w: 0.91169536}
-  m_LocalPosition: {x: 3.5, y: -7.7, z: -1.5}
-  m_LocalScale: {x: 12.40536, y: 12.40536, z: 12.40536}
+  m_LocalRotation: {x: 0.00076769677, y: -0.38630834, z: 0.0017035151, w: 0.9223678}
+  m_LocalPosition: {x: 2.9, y: -7.7, z: -1.9}
+  m_LocalScale: {x: 17.628017, y: 12.40536, z: 12.40536}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3260381423644514977}
   - {fileID: 3260342782549227199}
   m_Father: {fileID: 3260236363971770147}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: -48.519, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.157, y: -45.45, z: 0.146}
 --- !u!1 &3340076359759625993
 GameObject:
   m_ObjectHideFlags: 0
@@ -25288,6 +25305,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 6640305473089085583}
   currentBar: {fileID: 4115917760325047195}
   coldDown: {fileID: 7547730748749347798}
@@ -26275,6 +26295,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 3611433244887045802}
   currentBar: {fileID: 2186405267717659602}
   coldDown: {fileID: 7189001031007196674}
@@ -26855,6 +26878,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 1568003016248919257}
   currentBar: {fileID: 513155376200167341}
   coldDown: {fileID: 3868239409426561880}
@@ -27142,16 +27168,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4816493969033724586}
-  m_LocalRotation: {x: 0.000000014901316, y: 0.22531319, z: -0.0000000027946283, w: 0.97428644}
-  m_LocalPosition: {x: -3.9, y: -7.5, z: -1.5}
-  m_LocalScale: {x: 12.40536, y: 12.40536, z: 12.40536}
+  m_LocalRotation: {x: 0.00069420045, y: 0.18207964, z: -0.0030017074, w: 0.983279}
+  m_LocalPosition: {x: -2.3, y: -7.5, z: -1.6}
+  m_LocalScale: {x: 17.62802, y: 12.40536, z: 12.40536}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7208960783677088425}
   - {fileID: 1904141839024735076}
   m_Father: {fileID: 3260236363971770147}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 26.043, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.141, y: 20.982, z: -0.324}
 --- !u!1 &5002565669242291393
 GameObject:
   m_ObjectHideFlags: 0
@@ -30415,6 +30441,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 5626849467261657438}
   currentBar: {fileID: 5170929485206296735}
   coldDown: {fileID: 9161743497626622670}
@@ -47109,6 +47138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 2424965741330780443}
   currentBar: {fileID: 7465609054861042714}
   coldDown: {fileID: 3765327620995858778}
@@ -47358,6 +47390,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d96244091206a42a0dba297982469a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doNotDisable: 0
+  canSwap: 1
+  canMoveToTrash: 1
   container: {fileID: 7235824805427581782}
   currentBar: {fileID: 4811774454800875305}
   coldDown: {fileID: 1729091630779771809}

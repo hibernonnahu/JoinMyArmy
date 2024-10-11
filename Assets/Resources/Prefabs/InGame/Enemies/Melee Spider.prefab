@@ -72,20 +72,23 @@ MonoBehaviour:
   healWhenKill: 0
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 10
   speed: 6
   strength: 11
   defense: 0
-  enemyType: 0
+  enemyType: 1
   xp: 3
   coins: 2
   extraAlertRange: 0
   belongToWave: 0
   isBoss: 0
   debug: 0
+  autoCast: 0
   stearingRotationOffset: 0
   triggerOnDeath: 
   followDistance: 1
+  useCastRedDotUI: 0
 --- !u!54 &2941814218169843088
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -135,6 +138,7 @@ MonoBehaviour:
   particleHit: {fileID: 0}
   swing: {fileID: 0}
   hit: {fileID: 0}
+  forceIdleAfterSeconds: 5
 --- !u!114 &1635379171047876808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   materialB: {fileID: 2100000, guid: 282f5458f82accf43a25a7e4dc34f108, type: 2}
+  helpAttack: 1
 --- !u!1 &5987132981062529556
 GameObject:
   m_ObjectHideFlags: 0

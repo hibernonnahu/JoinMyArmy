@@ -11,9 +11,12 @@ public class EventName
     public static string EXIT_OPEN = "exitOpen";
     public static string FADE_IN_COMPLETE = "fadeInComplete";
     public static string FADE_OUT_COMPLETE = "fadeOutComplete";
+    public static string FADE_IN_RECLUIT_ICON = "fadeInRecluitIcon";
+    public static string FADE_OUT_RECLUIT_ICON = "fadeOutRecluitIcon";
     public static string HIDE_TEXT = "hideText";
     public static string HIDE_GAMEOBJECT = "hideGameobject";
     public static string HIDE_CHARACTER_UI = "hideCharacterUI";
+    public static string HIDE_OPTIONS_UI = "hideOptionsUI";
     public static string HIDE_CHARACTER_JOYSTICK = "hideCharacterJoystick";
     public static string HIDE_RECLUIT_ICON = "hideRecluitIcon";
     public static string MAIN_TEXT = "mainText";

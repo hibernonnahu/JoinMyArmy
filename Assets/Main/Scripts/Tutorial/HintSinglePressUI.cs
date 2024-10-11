@@ -20,6 +20,7 @@ public class HintSinglePressUI : MonoBehaviour
     protected float camPosZ;
     public Action onTriggerStart = () => { };
     public Action onTriggerEnd = () => { };
+    protected bool followCam = true;
 
     protected void Start()
     {
@@ -38,21 +39,23 @@ public class HintSinglePressUI : MonoBehaviour
             started = true;
             background.transform.position = Vector3.zero;
             handSprite.SetActive(true);
-            handSprite.transform.position =  arg0.transformData.position;
-           
+            handSprite.transform.position = arg0.transformData.position;
+            followCam = arg0.boolData;
+            Debug.Log("follow cam" + followCam);
+
             point.transform.SetParent(handSprite.transform.parent);
             handSprite.transform.SetParent(point.transform.parent);
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 1);
             point.transform.position = handSprite.transform.position;
-            LeanTween.scale(point, Vector3.one * 1.5f,0.9f).setDelay(0.5f).setIgnoreTimeScale(true).setRepeat(REPEAT);
+            LeanTween.scale(point, Vector3.one * 1.5f, 0.9f).setDelay(0.5f).setIgnoreTimeScale(true).setRepeat(REPEAT);
             LeanTween.moveY(handSprite, arg0.transformData.position.y + Screen.height * 0.02f, 0.3f).setRepeat(REPEAT).setIgnoreTimeScale(true).setOnComplete(() =>
              {
                  handSprite.SetActive(false);
              });
-           
+
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
             EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(true));
-
+          
             camPosX = arg0.floatData;
             camPosZ = arg0.floatData2;
         }
@@ -63,7 +66,7 @@ public class HintSinglePressUI : MonoBehaviour
         {
             onTriggerEnd();
 
-           
+
             LeanTween.cancel(point);
             point.SetActive(false);
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(false));
@@ -79,7 +82,12 @@ public class HintSinglePressUI : MonoBehaviour
             LeanTween.cancel(handSprite);
             handSprite.transform.position -= Vector3.right * 99999;
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
-            FindObjectOfType<CameraHandler>().GoToPositionOnNoScaleTime(camPosX, camPosZ);
+            if (followCam)
+                FindObjectOfType<CameraHandler>().GoToPositionOnNoScaleTime(camPosX, camPosZ);
+            else
+            {
+                Time.timeScale = 1;
+            }
             Destroy(this);
         }
     }

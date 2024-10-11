@@ -6,7 +6,7 @@ public class MainMenuController : MonoBehaviour
     public Image fadeImage;
     private void Start()
     {
-        LeanTween.color(fadeImage.rectTransform, Color.clear, 1f);
+        LeanTween.color(fadeImage.rectTransform, Color.clear, 1f).setIgnoreTimeScale(true);
         GetComponent<CollectTimeOffController>().Init();
     }
 }

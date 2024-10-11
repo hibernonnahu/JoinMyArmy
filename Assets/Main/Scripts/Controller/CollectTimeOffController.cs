@@ -33,7 +33,7 @@ public class CollectTimeOffController : MonoBehaviour
                     minutesSinceLastConexion = 1440;
 
                 }
-                coinsTemp = (int)(minutesSinceLastConexion * SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter));
+                coinsTemp = (int)(minutesSinceLastConexion * SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + 1, CurrentPlaySingleton.GetInstance().GetInitialChapter(1)));
                 coinsTemp = (int)(coinsTemp * COINS_MULTIPLIER);
                 miniPopup = GameObject.FindObjectOfType<MiniPopup>();
                 miniPopup.text.text = "Welcome back! have " + coinsTemp.ToString() + " coins!";

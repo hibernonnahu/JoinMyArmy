@@ -25,7 +25,11 @@ public class SaveData
         //TODO do this only if is a new player
         for (int i = 1; i < 5; i++)
         {
-            instance.AddEnemyLocalLevel(12);
+            instance.AddEnemyLocalLevel(12);//spider
+        }
+        for (int i = 1; i < 5; i++)
+        {
+            instance.AddEnemyLocalLevel(7);//peasant
         }
         instance.coins = 100;
     }
@@ -167,8 +171,8 @@ public class SaveData
         enemyLocalLevel = sdp.enemyLocalLevel;
         other = sdp.other;
         metric = sdp.metric;
-        if (metric.ContainsKey(SaveDataKey.ARMY))
-            CurrentPlaySingleton.GetInstance().UpdateArmy(metric[SaveDataKey.ARMY], forceSave);
+        if (metric.ContainsKey(SaveDataKey.ARMY + CurrentPlaySingleton.GetInstance().currentCharacterId))
+            CurrentPlaySingleton.GetInstance().UpdateArmy(metric[SaveDataKey.ARMY + CurrentPlaySingleton.GetInstance().currentCharacterId], forceSave);
     }
     public string[] GetAllMetricKeys()
     {

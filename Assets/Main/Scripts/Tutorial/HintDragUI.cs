@@ -48,6 +48,9 @@ public class HintDragUI : MonoBehaviour
             SaveData.GetInstance().Save(SaveDataKey.TUTORIAL + id, 2);
             FindObjectOfType<RecluitController>().canSwap = true;
             EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(true));
+            EventManager.TriggerEvent(EventName.HIDE_OPTIONS_UI, EventManager.Instance.GetEventData().SetBool(false));
+            EventManager.TriggerEvent(EventName.HIDE_CHARACTER_UI, EventManager.Instance.GetEventData().SetBool(false));
+
             Destroy(this);
         }
     }
@@ -87,6 +90,8 @@ public class HintDragUI : MonoBehaviour
             point.transform.SetParent(parent);
             point.transform.position = arg0.floatData * Vector3.up + arg0.floatData2 * Vector3.right;
             LeanTween.scale(point, Vector3.zero, 0.9f).setIgnoreTimeScale(true).setRepeat(REPEAT);
+            EventManager.TriggerEvent(EventName.HIDE_OPTIONS_UI, EventManager.Instance.GetEventData().SetBool(true));
+
 
             Time.timeScale = 0;
         }

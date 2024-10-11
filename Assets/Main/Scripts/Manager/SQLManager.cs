@@ -37,12 +37,12 @@ public class SQLManager : MonoBehaviour
             timesPlayed++;
             PlayerPrefs.SetInt("timesPlayed", timesPlayed);
             Debug.Log("timesPlayed " + timesPlayed);
-#if !UNITY_EDITOR
+
 
         newUser = false;
-#else
+
             Debug.Log("id " + id);
-#endif
+
             if (!forceMenu&&(newUser || (id == -1 && !localSave) || timesPlayed == 1))
             {
 

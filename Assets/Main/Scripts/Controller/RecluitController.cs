@@ -36,10 +36,14 @@ public class RecluitController : MonoBehaviour
         for (int i = 0; i < images.Length; i++)
         {
             iconUI[i] = images[i].GetComponent<IconUIController>();
-            iconUI[i].Init(this, i);
 
-            images[i].gameObject.SetActive(false);
+            iconUI[i].Init(this, i);
+            if (!iconUI[i].doNotDisable)
+            {
+                images[i].gameObject.SetActive(false);
+            }
             images[i].transform.SetParent(transform.parent);
+
         }
         GameObject.FindWithTag("background ui").transform.SetParent(transform.parent);
         trash.transform.localScale = Vector3.zero;
@@ -139,7 +143,7 @@ public class RecluitController : MonoBehaviour
             }
             );
     }
-    
+
     public void Recluit(CharacterEnemy enemy, bool direct = false, int forcePosition = -1)
     {
         if (forcePosition != -1)
@@ -151,7 +155,7 @@ public class RecluitController : MonoBehaviour
         enemies[freeSpace] = enemy;
         enemy.FormationGrad = positions[freeSpace];
         images[freeSpace].gameObject.SetActive(true);
-        iconUI[freeSpace].CharacterEnemy = enemy;
+        iconUI[freeSpace].Character = enemy;
         images[freeSpace].sprite = enemy.RecluitIconHandler.Sprite;
         images[freeSpace].color = Color.white;
         enemy.HealthBarController.UseBarUI(iconUI[freeSpace]);
@@ -184,21 +188,22 @@ public class RecluitController : MonoBehaviour
     internal void OnEndDrag(IconUIController iconUIController)
     {
         bool fail = true;
-        for (int i = 0; i < iconUI.Length; i++)
-        {
-
-            if (canSwap && iconUIController != iconUI[i] && (iconUI[i].transform.localPosition - iconUIController.transform.localPosition).sqrMagnitude < SWAP_SQR_DISTANCE)
+        if (iconUIController.canSwap)
+            for (int i = 0; i < iconUI.Length; i++)
             {
-                EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
-                Swap(i, iconUIController.IndexPosition);
-                fail = false;
-                break;
+
+                if (canSwap && iconUIController != iconUI[i] && (iconUI[i].transform.localPosition - iconUIController.transform.localPosition).sqrMagnitude < SWAP_SQR_DISTANCE)
+                {
+                    EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
+                    Swap(i, iconUIController.IndexPosition);
+                    fail = false;
+                    break;
+                }
             }
-        }
         LeanTween.cancel(trash.gameObject, true);
         if (fail)
         {
-            if (trashEnable && (trash.transform.position - iconUIController.transform.position).sqrMagnitude < SWAP_SQR_DISTANCE)
+            if (trashEnable && iconUIController.canMoveToTrash && (trash.transform.position - iconUIController.transform.position).sqrMagnitude < SWAP_SQR_DISTANCE)
             {
                 EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(3));
                 EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(101));
@@ -231,9 +236,15 @@ public class RecluitController : MonoBehaviour
                 {
                     int tempFreeSpace = iconUIController.IndexPosition;
 
-                    enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
-                    Remove(enemies[iconUIController.IndexPosition]);
+                    if (enemies[iconUIController.IndexPosition] != null)
+                    {
+                        enemies[iconUIController.IndexPosition].StateMachine.CurrentState.GetHit(enemies[iconUIController.IndexPosition].CurrentHealth, null);
+                        Remove(enemies[iconUIController.IndexPosition]);
+                    }
+                   
+                    iconUIController.ReturnToOriginalPosition();
                     freeSpace = tempFreeSpace;
+                    
                     var controller = hit.collider.gameObject.GetComponent<RecluitIconController>();
                     controller.ForceEnable();
                     controller.Recluit(false);
@@ -266,9 +277,15 @@ public class RecluitController : MonoBehaviour
             if (item != null)
             {
                 if (hide)
+                {
                     item.transform.position = Vector3.down * 100;
+                    item.StateMachine.ChangeState<StateCharacterEnemyIdle>();
+                }
                 else
+                {
                     item.transform.position = character.transform.position;
+                    item.StateMachine.ChangeState(item.IdleState);
+                }
             }
         }
     }
@@ -308,7 +325,7 @@ public class RecluitController : MonoBehaviour
         {
             iconUI[iconUIController1Position].SetCoolDownUI(iconUI[iconUIControllerDragedPosition].CurrentTime, iconUI[iconUIControllerDragedPosition].TotalTime);
             iconUI[iconUIControllerDragedPosition].ReturnToOriginalPosition(true, true);
-            iconUI[iconUIControllerDragedPosition].CharacterEnemy = null;
+            iconUI[iconUIControllerDragedPosition].Character = null;
         }
         Recluit(enemy2, true, iconUIController1Position);
         iconUI[iconUIController1Position].ReturnToOriginalPosition(true);

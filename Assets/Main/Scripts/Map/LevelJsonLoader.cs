@@ -248,6 +248,7 @@ public class LevelJsonLoader : MonoBehaviour
             {
                 CharacterEnemy go = Instantiate<CharacterEnemy>(prefab, (Vector3.right * charactersInfo[i] + Vector3.forward * charactersInfo[i + 1]), Quaternion.identity);
                 CharacterEnemy enemy = go.GetComponent<CharacterEnemy>();
+                enemy.CharacterMain = characterMain;
                 enemy.SetLevel(charactersInfo[i + 3] + extraEnemyLevel);
                 enemy.team = charactersInfo[i + 4];
                 enemy.behaviour = charactersInfo[i + 5];

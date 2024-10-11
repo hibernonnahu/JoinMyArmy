@@ -29,6 +29,8 @@ public class Popup : MonoBehaviour
 
     public void JustClose()
     {
+       
+
         LeanTween.moveY(rectTransform, 0, TIME).setEaseOutCirc().setIgnoreTimeScale(true);
     }
     public void OnClose(EventData arg0)
@@ -55,6 +57,7 @@ public class Popup : MonoBehaviour
     // Start is called before the first frame update
     public void Open()
     {
+       
         foreach (var item in enableOnUse)
         {
             item.SetActive(true);
@@ -65,6 +68,8 @@ public class Popup : MonoBehaviour
     }
     public virtual void Close()
     {
+       
+
         foreach (var item in enableOnUse)
         {
             item.SetActive(false);

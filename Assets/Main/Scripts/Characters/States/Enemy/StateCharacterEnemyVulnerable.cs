@@ -28,6 +28,7 @@ public class StateCharacterEnemyVulnerable : StateCharacterEnemy
         enemy.VulnerableTime -= Time.deltaTime;
         if (enemy.VulnerableTime<0)
         {
+           
             ChangeState(enemy.NextState);
         }
     }

@@ -73,11 +73,12 @@ MonoBehaviour:
   healWhenKill: 10
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 15
   speed: 7
   strength: 0
   defense: 1
-  enemyType: 0
+  enemyType: 1
   xp: 5
   coins: 3
   extraAlertRange: 0

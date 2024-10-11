@@ -10,6 +10,7 @@ public class CameraHandler : MonoBehaviour
     private const float CINEMATIC_TRANSITION_TIME = 1.5f;
 
     public float defaultSize = 25;
+    public float zoomSize = 10;
     public float offsetSize = 5;
     public float speedSize = 5;
     private float currentOffsetSize = 0;

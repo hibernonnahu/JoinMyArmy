@@ -23,7 +23,8 @@ public class HintSinglePressUINoDrag : HintSinglePressUI
             background.transform.SetParent(parent);
 
             background.transform.position = Vector3.up * Screen.height;
-
+            followCam = arg0.boolData;
+            Debug.Log("follow cam" + followCam);
             LeanTween.cancel(handSprite);
             handSprite.SetActive(true);
             ExtraActionOnStart(arg0);
@@ -50,6 +51,8 @@ public class HintSinglePressUINoDrag : HintSinglePressUI
             });
             Time.timeScale = 0;
             EventManager.TriggerEvent(EventName.HIDE_TEXT, EventManager.Instance.GetEventData().SetBool(true));
+            EventManager.TriggerEvent(EventName.HIDE_OPTIONS_UI, EventManager.Instance.GetEventData().SetBool(true));
+
         }
     }
 

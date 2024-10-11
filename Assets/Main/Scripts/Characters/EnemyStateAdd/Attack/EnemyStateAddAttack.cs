@@ -54,4 +54,9 @@ public abstract class EnemyStateAddAttack : MonoBehaviour, IEnemyStateAddAttack
     {
         return redDotUITip;
     }
+
+    public virtual void ExecuteWhenRecluted()
+    {
+        
+    }
 }

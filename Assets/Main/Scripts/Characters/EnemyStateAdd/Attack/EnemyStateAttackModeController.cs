@@ -38,6 +38,7 @@ public class EnemyStateAttackModeController
                 types.Add(component);
                
             }
+            component.ExecuteWhenRecluted();
             if (component.IsCastMainPower())
             {
                 enemy.SetCastMainPower(component);

@@ -8,11 +8,13 @@ public class FxManager : MonoBehaviour
     public ParticleSystem slash;
     public ParticleSystem swordHit;
     public ParticleSystem enemyRecluit;
+    public ParticleSystem enemyRecluitStayOn;
     public ParticleSystem startEnemyRecluit;
     public ParticleSystem levelUp;
 
     public void Start()
     {
+        
         swordHit.gameObject.transform.SetParent(null);
     }
 }

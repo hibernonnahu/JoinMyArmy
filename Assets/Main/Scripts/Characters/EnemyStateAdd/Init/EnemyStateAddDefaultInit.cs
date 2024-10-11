@@ -6,6 +6,7 @@ using UnityEngine;
 public abstract class EnemyStateAddDefaultInit : MonoBehaviour
 {
     protected EnemyStateAttackModeController enemyStateAttackModeHandler;
+    public EnemyStateAttackModeController EnemyStateAttackModeHandler { get { return enemyStateAttackModeHandler; } }
     virtual internal void Init(CharacterEnemy characterEnemy)
     {
        

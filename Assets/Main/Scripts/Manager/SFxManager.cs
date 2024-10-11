@@ -19,13 +19,27 @@ public class SFxManager: MonoBehaviour {
 	// Use this for initialization
 	void Awake () {
         audioSource = GetComponents<AudioSource>();
-        foreach (var item in dictionaryFill)
-        {
-            dictionary.Add(item.key, item.audio);
-            dictionaryVol.Add(item.key, item.volume);
-        }
+        FillDictionary(dictionaryFill);
         EventManager.StartListening(EventName.PLAY_FX, PlayFx);
 	}
+
+    public void FillDictionary(List<DictionaryFill> dictionaryFill)
+    {
+        foreach (var item in dictionaryFill)
+        {
+            if (!dictionary.ContainsKey(item.key))
+            {
+                dictionary.Add(item.key, item.audio);
+                dictionaryVol.Add(item.key, item.volume);
+            }
+            else
+            {
+                dictionary[item.key] = item.audio;
+                dictionaryVol[item.key] = item.volume;
+            }
+        }
+    }
+
     public void Start()
     {
         EventManager.StartListening("fxvol", OnFxVolume);

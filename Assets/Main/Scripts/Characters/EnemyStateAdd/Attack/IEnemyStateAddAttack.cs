@@ -7,5 +7,6 @@ public interface  IEnemyStateAddAttack
     float GetWeight();
     bool IsCastMainPower();
     bool RemoveWhenRecluted();
+    void ExecuteWhenRecluted();
     bool UseRedDotUI();
 }

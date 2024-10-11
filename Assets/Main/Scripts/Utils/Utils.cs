@@ -107,6 +107,10 @@ public class Utils
         return count;
     }
 
+    internal static bool CanBeRecluited(Character.EnemyType canRecluit, Character.EnemyType enemyType)
+    {
+        return canRecluit == enemyType;
+    }
 
     internal static int AddBinaryNumber(int insert, int into)
     {

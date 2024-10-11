@@ -1,0 +1,34 @@
+{
+  "story": [
+
+    "HideArmy",
+    "&",
+    "BlockCharacter",
+    "&",
+    "LookDirection",
+    "17",
+    "50",
+    "40",
+    "&",
+    "SetDelay",
+    "1",
+    "&",
+    "StoryText",
+    "Guard",
+    "Demon! you're comming with us!",
+    "5",
+    "Victor_Voice_14",
+    "&",
+    "SetDelay",
+    "2",
+    "&",
+    "Fade",
+    "1",
+    "&",
+    "SetDelay",
+    "3",
+    "&",
+    "LevelEnd"
+
+  ]
+}

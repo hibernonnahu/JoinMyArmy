@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5260ab20802a5f54aa38ee9e727a9386, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 1
+  isBoss: 0
+  useCastRedDotUI: 0
   animator: {fileID: 7280021433372087906}
   model: {fileID: 7280021433379382734}
   textShortHandler: {fileID: 0}
@@ -55,6 +58,7 @@ MonoBehaviour:
   barOffset: 0
   useBarText: 0
   generalParticleYOffset: 0
+  generalParticleScale: 1
   id: 1
   level: 1
   team: 1
@@ -68,17 +72,17 @@ MonoBehaviour:
   healWhenKill: 3
   lastEnemyTarget: {fileID: 0}
   destiny: {x: 0, y: 0, z: 0}
+  invulnerable: 0
   baseHealth: 1
   speed: 0
   strength: 1
   defense: 0
-  enemyType: 0
   xp: 2
   coins: 1
   extraAlertRange: 0
   belongToWave: 0
-  isBoss: 0
   debug: 0
+  autoCast: 0
   stearingRotationOffset: 0
   triggerOnDeath: 
   followDistance: 1

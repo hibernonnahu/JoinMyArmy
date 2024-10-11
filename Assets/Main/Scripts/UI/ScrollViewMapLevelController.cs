@@ -8,6 +8,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
 {
     public MapLevelSelectController buttonPrefab;
     public string resourcesFolder = "";
+    public int book = 1;
     private GridLayoutGroup gridLayoutGroup;
     private RectTransform rect;
     float cellSpace;
@@ -25,8 +26,8 @@ public class ScrollViewMapLevelController : MonoBehaviour
         rect = transform.GetComponent<RectTransform>();
         gridLayoutGroup = GetComponent<GridLayoutGroup>();
         var prefabs = Resources.LoadAll<Sprite>(resourcesFolder);
-        currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + CurrentPlaySingleton.GetInstance().book, CurrentPlaySingleton.GetInstance().initialChapter);
-        int max = GameConfig.GetInstance().maxChapterEnable[CurrentPlaySingleton.GetInstance().book-1];
+        currentChapter = SaveData.GetInstance().GetValue(SaveDataKey.CURRENT_BOOK_CHAPTER + book, CurrentPlaySingleton.GetInstance().GetInitialChapter(book));
+        int max = GameConfig.GetInstance().maxChapterEnable[book-1];
         if (currentChapter > max)
         {
             currentChapter = max;
@@ -42,6 +43,7 @@ public class ScrollViewMapLevelController : MonoBehaviour
         {
             var buttonResourcesCreator = Instantiate<MapLevelSelectController>(buttonPrefab);
             buttonResourcesCreator.image.sprite = item;
+            buttonResourcesCreator.book = book;
             buttonResourcesCreator.id = int.Parse(item.name);
             buttonResourcesCreator.transform.SetParent(transform);
             buttonResourcesCreator.transform.localScale = Vector3.one;
@@ -111,7 +113,6 @@ public class ScrollViewMapLevelController : MonoBehaviour
 
             lastValue = t;
         }
-
     }
 
     private void EnableScroll()
@@ -124,7 +125,6 @@ public class ScrollViewMapLevelController : MonoBehaviour
 
     private float GetDestinyPosition()
     {
-
         return Mathf.Round((rect.anchoredPosition.x - (cellSpace * 0.4f * multiplier)) / cellSpace) * cellSpace;
     }
 }

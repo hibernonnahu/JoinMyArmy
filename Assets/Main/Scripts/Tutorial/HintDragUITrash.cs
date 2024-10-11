@@ -24,6 +24,8 @@ public class HintDragUITrash : HintDragUI
             recluitController.trash.transform.SetParent(parent);
             recluitController.trash.transform.position = pos;
             EventManager.TriggerEvent(EventName.ENABLE_ICON_CONTROLLER_COLLIDER, EventManager.Instance.GetEventData().SetBool2(false));
+            EventManager.TriggerEvent(EventName.HIDE_OPTIONS_UI, EventManager.Instance.GetEventData().SetBool(true));
+
 
         }
     }
@@ -34,7 +36,7 @@ public class HintDragUITrash : HintDragUI
             int index = 0;
             for (int i = 0; i < recluitController.iconUI.Length; i++)
             {
-                if ( !recluitController.iconUI[i].CharacterEnemy.UseCastRedDotUI && recluitController.iconUI[i].CharacterEnemy.CurrentHealth > 1 && (recluitController.iconUI[i].CharacterEnemy.CurrentHealth < recluitController.iconUI[index].CharacterEnemy.CurrentHealth))
+                if ( !recluitController.iconUI[i].Character.UseCastRedDotUI && recluitController.iconUI[i].Character.CurrentHealth > 1 && (recluitController.iconUI[i].Character.CurrentHealth < recluitController.iconUI[index].Character.CurrentHealth))
                 {
                     index = i;
                 }

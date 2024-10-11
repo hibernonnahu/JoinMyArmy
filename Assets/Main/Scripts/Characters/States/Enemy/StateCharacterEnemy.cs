@@ -43,7 +43,7 @@ public class StateCharacterEnemy : State<StateCharacterEnemy>
         if (enemy.CurrentHealth <= 0)
         {
             enemy.CurrentHealth = 0;
-            if (enemy.CanBeRecluit && !enemy.CharacterMain.IsDead)
+            if (enemy.CanBeRecluit && !enemy.CharacterMain.IsDead&& enemy.EnemyStateAddCanBeRecluit!=null&& enemy.EnemyStateAddCanBeRecluit.knockToRecluit)
             {
                 if (enemy.RecluitIconHandler.KnockOut())
                 {

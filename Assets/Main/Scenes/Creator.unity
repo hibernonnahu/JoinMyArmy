@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37089851, g: 0.3783701, b: 0.3572253, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1188,6 +1188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultSize: 25
+  zoomSize: 10
   offsetSize: 5
   speedSize: 5
   cinematicBars: {fileID: 0}
@@ -1271,6 +1272,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
   m_SortingOrder: 0
@@ -1964,8 +1966,8 @@ MonoBehaviour:
   multiplier: 0.1
   isCreator: 1
   book: 1
-  chapter: 1
-  level: 1
+  chapter: 2
+  level: 9
   forceVariation: 0
   floor: {fileID: 1462155460}
   loadWithExtraLevel: 0
