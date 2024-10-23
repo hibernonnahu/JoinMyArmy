@@ -39,13 +39,14 @@ public class CameraHandler : MonoBehaviour
         {
             portraitOffset = -3.8f;
         }
-        LAYER_ALL = ~0;
-        LAYER_UI = ~(1 << 5);
+        camera = GetComponentInChildren<Camera>();
+        LAYER_ALL = camera.cullingMask;
+        LAYER_UI = ~(1 << 5 | 1 << 19);
+       
         originalBarSize = cinematicBars.localScale.x;
         cinematicBars.localScale = Vector3.one * originalBarSize * 1.5f;
         rigidbody = GetComponentInChildren<Rigidbody>();
         EventManager.StartListening(EventName.SHAKE_CAM_POS, OnShakeCam);
-        camera = GetComponentInChildren<Camera>();
         initialY = transform.position.y;
         initialRotation = transform.localRotation.eulerAngles.x;
         camera.cullingMask = LAYER_ALL;

@@ -5421,11 +5421,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5596824598228299128, guid: f644d9d0e59878342a6d6b845512e0d2, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 1080
+      value: 1920
       objectReference: {fileID: 0}
     - target: {fileID: 5596824598228299128, guid: f644d9d0e59878342a6d6b845512e0d2, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1920
+      value: 1080
       objectReference: {fileID: 0}
     - target: {fileID: 5596824598228299128, guid: f644d9d0e59878342a6d6b845512e0d2, type: 3}
       propertyPath: m_LocalPosition.x

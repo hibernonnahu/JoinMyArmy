@@ -8,11 +8,13 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Hero
-  m_Shader: {fileID: 4800000, guid: d92832bd0edea6c4d87948601146ec0c, type: 3}
-  m_ValidKeywords:
-  - L_F_O_ON
-  - L_F_RELGI_ON
+  m_Shader: {fileID: 4800000, guid: 05789950c0da0c446b4916a29a302145, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
   m_InvalidKeywords:
+  - L_F_RELGI_ON
+  - L_F_UOAL_ON
   - N_F_GLO_ON
   - N_F_O_ON
   - N_F_RELGI_ON
@@ -25,7 +27,9 @@ Material:
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
-  disabledShaderPasses: []
+  disabledShaderPasses:
+  - ALWAYS
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -139,7 +143,7 @@ Material:
     - _CustomLightDirectionIntensity: 0
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
-    - _DirectionalLightIntensity: 0
+    - _DirectionalLightIntensity: 0.13
     - _DoubleSided: 2
     - _DoubleSidedOutline: 1
     - _DstBlend: 0
@@ -155,7 +159,7 @@ Material:
     - _GlossTextureFollowLight: 0
     - _GlossTextureFollowObjectRotation: 0
     - _GlossTextureSoftness: 0
-    - _Glossiness: 0.14
+    - _Glossiness: 0.289
     - _GlossyReflections: 1
     - _HighlightColorPower: 0
     - _L_F_CLD: 0
@@ -165,7 +169,7 @@ Material:
     - _L_F_HPSS: 0
     - _L_F_MC: 0
     - _L_F_NM: 0
-    - _L_F_O: 1
+    - _L_F_O: 0
     - _L_F_PT: 0
     - _L_F_RL: 0
     - _L_F_SCT: 0
@@ -173,7 +177,7 @@ Material:
     - _L_F_SON: 0
     - _L_F_SS: 0
     - _L_F_ST: 0
-    - _L_F_UOAL: 0
+    - _L_F_UOAL: 1
     - _LightAffectOutlineColor: 0
     - _LightAffectRimLightColor: 0
     - _LightFalloffAffectShadowT: 0
@@ -188,7 +192,7 @@ Material:
     - _OcclusionStrength: 1
     - _Oper: 1
     - _OutlineExtrudeMethod: 0
-    - _OutlineWidth: 15.71
+    - _OutlineWidth: 17.01
     - _OutlineWidthAffectedByViewDistance: 0
     - _OutlineZPostionInCamera: 0
     - _OverallShadowColorPower: 1
@@ -215,7 +219,7 @@ Material:
     - _SelfLitPower: 2
     - _SelfShadowHardness: 0.088
     - _SelfShadowRealTimeShadowColorPower: 1
-    - _SelfShadowShadowTAtViewDirection: 1
+    - _SelfShadowShadowTAtViewDirection: 0
     - _SelfShadowThreshold: 0.417
     - _ShadowColorTexturePower: 0
     - _ShadowTColorPower: 1

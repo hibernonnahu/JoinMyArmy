@@ -1409,7 +1409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f78f4f7cf74459646814de06f20cbd76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  newUser: 1
+  newUser: 0
   alwaysNewGame: 0
   noStart: 0
   localSave: 1

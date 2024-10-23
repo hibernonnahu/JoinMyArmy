@@ -10,6 +10,10 @@ public class RecluitIconController : MonoBehaviour
 
     public float y_fixed_offset = 0;
     private CharacterEnemy enemy;
+    public CharacterEnemy Enemy
+    {
+        get { return enemy; }
+    }
     public GameObject mask;
     private Vector3 maskOriginalPosition;
     private bool disabled = false;

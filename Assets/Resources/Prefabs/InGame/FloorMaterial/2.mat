@@ -8,7 +8,9 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: 2
-  m_Shader: {fileID: 4800000, guid: 4e94c8e9577e2824a994935ec71e5a27, type: 3}
+  m_Shader: {fileID: 4800000, guid: dd7447a5307d5e947b4078c90d056e3c, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -17,11 +19,16 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ControlTex:
+        m_Texture: {fileID: 2800000, guid: 7817845d9ca8cb24e99d7450d4e565bd, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -43,6 +50,18 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 2800000, guid: 8c69264300e82804ba24c2b491433f3a, type: 3}
         m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex1:
+        m_Texture: {fileID: 2800000, guid: 56a3304c32fd2ad46a68fdbe9c352732, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex2:
+        m_Texture: {fileID: 2800000, guid: 937d42efde3a6b64c8ca5c63a0d6df98, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex3:
+        m_Texture: {fileID: 2800000, guid: adbc3fed85872544dac6b1f0daf59ae7, type: 3}
+        m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
@@ -82,4 +101,8 @@ Material:
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _Tiling1: {r: 30, g: 30, b: 0, a: 0}
+    - _Tiling2: {r: 50, g: 50, b: 0, a: 0}
+    - _Tiling3: {r: 20, g: 20, b: 0, a: 0}
+    - _TilingControl: {r: 2, g: 2, b: -1, a: -1}
   m_BuildTextureStacks: []

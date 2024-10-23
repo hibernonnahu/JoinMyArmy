@@ -86,7 +86,7 @@ public class SQLManager : MonoBehaviour
     {
         if (!localSave)
         {
-            using (UnityWebRequest www = UnityWebRequest.Post(mainURL + "/GenerateID.php", ""))
+            using (UnityWebRequest www = UnityWebRequest.PostWwwForm(mainURL + "/GenerateID.php", ""))
             {
                 yield return www.SendWebRequest();
 

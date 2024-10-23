@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class RecluitController : MonoBehaviour
 {
+    public bool canRecluitDead = true;
     public RectTransform canvas;
     private const float SWAP_SQR_DISTANCE = 6000;
     public Image trash;
@@ -246,12 +247,19 @@ public class RecluitController : MonoBehaviour
                     freeSpace = tempFreeSpace;
                     
                     var controller = hit.collider.gameObject.GetComponent<RecluitIconController>();
-                    controller.ForceEnable();
-                    controller.Recluit(false);
-                    SaveData.GetInstance().Save(SaveDataKey.RECLUIT_SWAP, SaveData.GetInstance().GetValue(SaveDataKey.RECLUIT_SWAP, 0) + 1);
+                    if (!canRecluitDead && controller.Enemy.IsDead)
+                    {
+                        iconUIController.ReturnToOriginalPosition();
+                        LeanTween.scale(trash.gameObject, Vector3.zero, 0.2f).setEaseOutElastic();
+                    }
+                    else
+                    {
+                        controller.ForceEnable();
+                        controller.Recluit(false);
+                        SaveData.GetInstance().Save(SaveDataKey.RECLUIT_SWAP, SaveData.GetInstance().GetValue(SaveDataKey.RECLUIT_SWAP, 0) + 1);
 
-                    EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(iconUI[0].tutorialID));
-
+                        EventManager.TriggerEvent(EventName.TUTORIAL_END, EventManager.Instance.GetEventData().SetInt(iconUI[0].tutorialID));
+                    }
                 }
                 else
                 {

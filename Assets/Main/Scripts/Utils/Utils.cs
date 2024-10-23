@@ -42,6 +42,7 @@ public class Utils
         container.transform.SetParent(rectTransform.transform);
         float scaleFactor = (transform.parent.GetComponent<RectTransform>().sizeDelta.x / 1080);
         container.sizeDelta = Vector2.right * 1080 + Vector2.up * 1920;
+        //container.sizeDelta = Vector2.right * 1920 + Vector2.up * 1080;
         container.anchoredPosition = Vector2.zero;
         container.transform.localScale = Vector3.one;
         container.gameObject.name = "container";
